@@ -4781,7 +4781,6 @@
           "type": "string"
         }
       },
-
       "Referral Code": {
         "name": "Referral Code",
         "in": "path",
