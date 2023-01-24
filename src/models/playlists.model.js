@@ -6,28 +6,7 @@ export default (mongoose) => {
         type: String,
         require: true,
       },
-      category: {
-        type: String,
-        require: true,
-        enum: {
-          values: ["Stock", "Crypto", "Money Management", "Trading Psychology"],
-          message:
-            "Category must be Stock, Crypto, Money Management, or Trading Psychology",
-        },
-      },
       description: String,
-      instructor: {
-        type: String,
-        require: true,
-      },
-      videoLevel: {
-        type: String,
-        require: true,
-        enum: {
-          values: ["Beginner", "Intermediate", "Advanced"],
-          message: "Level must be Beginner, Intermediate, or Advanced",
-        },
-      },
       image: {
         imageName: {
           type: String,
