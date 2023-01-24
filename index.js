@@ -77,8 +77,8 @@ app.listen(PORT, () => {
 });
 
 // General Routers
-// import authRouter from "./src/routes/auth.routes.js"; // Auth Router
-// authRouter(app); // Auth Router
+import authRouter from "./src/routes/auth.routes.js"; // Auth Router
+authRouter(app); // Auth Router
 // import coinmarketcapRouter from "./src/routes/coinmarketcap.routes.js"; // Coinmarketcap Router
 // coinmarketcapRouter(app); // Coinmarketcap Router
 // import liveClassRouter from "./src/routes/liveclass.routes.js"; // Live Class Router
