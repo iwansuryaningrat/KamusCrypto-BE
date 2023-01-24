@@ -7,6 +7,10 @@ export default (mongoose) => {
         require: true,
       },
       description: String,
+      instructor: {
+        type: String,
+        require: true,
+      },
       url: [
         {
           quality: {
