@@ -87,8 +87,8 @@ import messagesRouter from "./src/routes/messages.routes.js"; // Messages Router
 messagesRouter(app); // Messages Router
 // import notificationsRouter from "./src/routes/notifications.routes.js"; // Notifications Router
 // notificationsRouter(app); // Notifications Router
-// import plansRouter from "./src/routes/plans.routes.js"; // Plans Router
-// plansRouter(app); // Plans Router
+import plansRouter from "./src/routes/plans.routes.js"; // Plans Router
+plansRouter(app); // Plans Router
 // import playlistsRouter from "./src/routes/playlists.routes.js"; // Playlists Router
 // playlistsRouter(app); // Playlists Router
 // import servicesRouter from "./src/routes/services.routes.js"; // Services Router
@@ -113,8 +113,8 @@ import messagesAdminRouter from "./src/routes/admin/messages.routes.js"; // Mess
 messagesAdminRouter(app); // Messages Router
 // News Router
 // Playlists Router
-// import plansAdminRouter from "./src/routes/admin/plans.routes.js"; // Plans Router
-// plansAdminRouter(app); // Plans Router
+import plansAdminRouter from "./src/routes/admin/plans.routes.js"; // Plans Router
+plansAdminRouter(app); // Plans Router
 // import playlistsAdminRouter from "./src/routes/admin/playlists.routes.js"; // Playlists Router
 // playlistsAdminRouter(app); // Playlists Router
 // import referralAdminRouter from "./src/routes/admin/referral.routes.js"; // Referral Router
