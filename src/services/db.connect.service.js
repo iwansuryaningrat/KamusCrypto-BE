@@ -1,6 +1,6 @@
 import db from "../models/index.js";
 
-export default function connect() {
+const connect = () => {
   db.mongoose
     .connect(db.url, {
       useNewUrlParser: true,
@@ -13,6 +13,6 @@ export default function connect() {
       console.log(`Cannot connect to database!`, err);
       process.exit();
     });
-}
+};
 
-// export default connect;
+export default connect;
