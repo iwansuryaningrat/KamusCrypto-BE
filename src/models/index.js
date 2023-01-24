@@ -1,9 +1,12 @@
 import dbConfig from "../configs/db.config.js";
 import mongoose from "mongoose";
+
+import Certificate from "../models/certificate.model.js";
 import Liveclass from "../models/liveclass.model.js";
 import Messages from "../models/messages.model.js";
 import News from "../models/news.model.js";
 import Playlists from "../models/playlists.model.js";
+import PlaylistsTracking from "../models/playlistTracking.model.js";
 import Plans from "./plans.model.js";
 import Referrals from "./referral.model.js";
 import RepliedMessages from "../models/repliedMessages.model.js";
@@ -24,10 +27,12 @@ const db = {};
 
 db.mongoose = mongoose;
 db.url = dbConfig.url;
+db.certificate = Certificate(mongoose);
 db.liveclass = Liveclass(mongoose);
 db.messages = Messages(mongoose);
 db.news = News(mongoose);
 db.playlists = Playlists(mongoose);
+db.playlistsTracking = PlaylistsTracking(mongoose);
 db.plans = Plans(mongoose);
 db.referrals = Referrals(mongoose);
 db.repliedMessages = RepliedMessages(mongoose);
