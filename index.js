@@ -83,6 +83,8 @@ import coinmarketcapRouter from "./src/routes/coinmarketcap.routes.js"; // Coinm
 coinmarketcapRouter(app); // Coinmarketcap Router
 import liveClassRouter from "./src/routes/liveclass.routes.js"; // Live Class Router
 liveClassRouter(app); // Live Class Router
+// News Router
+// News Router
 import messagesRouter from "./src/routes/messages.routes.js"; // Messages Router
 messagesRouter(app); // Messages Router
 // import notificationsRouter from "./src/routes/notifications.routes.js"; // Notifications Router
