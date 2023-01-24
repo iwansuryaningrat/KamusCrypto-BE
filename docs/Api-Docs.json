@@ -1,12 +1,12 @@
 {
   "openapi": "3.0.2",
   "info": {
-    "title": "Cuanmax RESTful API",
+    "title": "Kamus Crypto RESTful API",
     "version": "1.1.2",
-    "description": "RESTful API for Cuanmax Application",
+    "description": "RESTful API for Kamus Crypto Application",
     "contact": {
       "name": "Iwan Suryaningrat",
-      "email": "iwansuryaningrat@cuanmax.id"
+      "email": "iwan.suryaningrat28@gmail.com"
     },
     "license": {
       "name": "APACHE 2.0",
@@ -15,12 +15,8 @@
   },
   "servers": [
     {
-      "description": "Cuanmax RESTful API Server for Production",
-      "url": "https://cuanmax-api.tech/v1"
-    },
-    {
-      "description": "Cuanmax RESTful API Server for Development",
-      "url": "https://dev.cuanmax-api.tech/v1"
+      "description": "Kamus Crypto RESTful API Server for Production",
+      "url": "https://api.kamuscrypto.id/v1"
     }
   ],
   "paths": {
