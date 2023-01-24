@@ -83,8 +83,8 @@ import coinmarketcapRouter from "./src/routes/coinmarketcap.routes.js"; // Coinm
 coinmarketcapRouter(app); // Coinmarketcap Router
 import liveClassRouter from "./src/routes/liveclass.routes.js"; // Live Class Router
 liveClassRouter(app); // Live Class Router
-// import messagesRouter from "./src/routes/messages.routes.js"; // Messages Router
-// messagesRouter(app); // Messages Router
+import messagesRouter from "./src/routes/messages.routes.js"; // Messages Router
+messagesRouter(app); // Messages Router
 // import notificationsRouter from "./src/routes/notifications.routes.js"; // Notifications Router
 // notificationsRouter(app); // Notifications Router
 // import plansRouter from "./src/routes/plans.routes.js"; // Plans Router
@@ -109,8 +109,8 @@ liveClassRouter(app); // Live Class Router
 // * Admin Routers
 import liveClassAdminRouter from "./src/routes/admin/liveclass.routes.js"; // Liveclass Router
 liveClassAdminRouter(app); // Liveclass Router
-// import messagesAdminRouter from "./src/routes/admin/messages.routes.js"; // Messages Router
-// messagesAdminRouter(app); // Messages Router
+import messagesAdminRouter from "./src/routes/admin/messages.routes.js"; // Messages Router
+messagesAdminRouter(app); // Messages Router
 // News Router
 // Playlists Router
 // import plansAdminRouter from "./src/routes/admin/plans.routes.js"; // Plans Router
