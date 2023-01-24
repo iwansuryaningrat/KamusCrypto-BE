@@ -37,6 +37,11 @@ export default (mongoose) => {
           },
         },
       ],
+      source: {
+        type: String,
+        require: true,
+        default: "-",
+      },
       status: {
         type: String,
         require: true,
