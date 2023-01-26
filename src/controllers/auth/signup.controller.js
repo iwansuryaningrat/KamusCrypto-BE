@@ -87,9 +87,18 @@ const signup = async (req, res) => {
         message: "User registered successfully! Please check your email.",
       });
     } else {
-      return res.status(500).send({
-        message: "Failed to send email.",
-      });
+      const deleteUser = Users.findByIdAndRemove(result._id)
+        .then((data) => {
+          return true;
+        })
+        .catch((err) => {
+          return false;
+        });
+      if (deleteUser) {
+        return res.status(500).send({
+          message: "Error sending email. Please try again.",
+        });
+      }
     }
   }
 };
