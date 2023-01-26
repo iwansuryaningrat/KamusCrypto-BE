@@ -137,8 +137,8 @@ usersAdminRouter(app); // Users Router
 // videosAdminRouter(app); // Videos Router
 // import vouchersAdminRouter from "./src/routes/admin/vouchers.routes.js"; // Vouchers Router
 // vouchersAdminRouter(app); // Vouchers Router
-// import watchlistAdminRouter from "./src/routes/admin/watchlist.routes.js"; // Watchlists Router
-// watchlistAdminRouter(app); // Watchlists Router
+import watchlistAdminRouter from "./src/routes/admin/watchlist.routes.js"; // Watchlists Router
+watchlistAdminRouter(app); // Watchlists Router
 
 // * Pro Users Routers
 // import playlistsProRouter from "./src/routes/pro_users/playlists.routes.js"; // Playlists Router
@@ -149,8 +149,8 @@ import usersProRouter from "./src/routes/pro_users/users.routes.js"; // Users Ro
 usersProRouter(app); // Users Router
 // import videosRouter from "./src/routes/pro_users/videos.routes.js"; // Videos Router
 // videosRouter(app); // Videos Router
-// import watchlistRouter from "./src/routes/pro_users/watchlist.routes.js"; // Watchlists Router
-// watchlistRouter(app); // Watchlists Router
+import watchlistRouter from "./src/routes/pro_users/watchlist.routes.js"; // Watchlists Router
+watchlistRouter(app); // Watchlists Router
 
 // * Basic Users Routers
 import usersRouter from "./src/routes/users/users.routes.js"; // Users Router
