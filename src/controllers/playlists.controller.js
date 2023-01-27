@@ -62,10 +62,7 @@ const findAll = async (req, res) => {
         return {
           id: item._id,
           name: item.name,
-          category: item.category,
           description: item.description,
-          instructor: item.instructor,
-          videoLevel: item.videoLevel,
           image: item.image,
           videoCount: item.videoCount,
         };
@@ -168,10 +165,7 @@ const findAllforPro = async (req, res) => {
         return {
           id: item._id,
           name: item.name,
-          category: item.category,
           description: item.description,
-          instructor: item.instructor,
-          videoLevel: item.videoLevel,
           image: item.image,
           videoCount: item.videoCount,
         };
@@ -206,10 +200,7 @@ const findAllforUsers = (req, res) => {
         return {
           id: item._id,
           name: item.name,
-          category: item.category,
           description: item.description,
-          instructor: item.instructor,
-          videoLevel: item.videoLevel,
           image: item.image,
           videoCount: item.videoCount,
         };
@@ -241,9 +232,9 @@ const create = (req, res) => {
     "host"
   )}/assets/images/${photoName}`;
 
-  const { name, category, description, instructor, videoLevel } = req.body;
+  const { name, description } = req.body;
 
-  if (!name || !description || !videoLevel) {
+  if (!name || !description) {
     return res.status(400).send({
       message: "Name, Description and Video Level are required",
     });
@@ -251,10 +242,7 @@ const create = (req, res) => {
 
   const playlist = new Playlists({
     name,
-    category,
     description,
-    instructor,
-    videoLevel,
     image: {
       imageName: photoName,
       imageLink: photoLink,
@@ -296,12 +284,10 @@ const findOne = (req, res) => {
       const data = {
         id: result._id,
         name: result.name,
-        category: result.category,
         description: result.description,
-        instructor: result.instructor,
-        videoLevel: result.videoLevel,
         image: result.image,
         videoCount: result.videoCount,
+        status: result.status,
       };
 
       res.send({
@@ -326,16 +312,13 @@ const update = (req, res) => {
     });
   }
 
-  const { name, category, description, instructor, videoLevel } = req.body;
+  const { name, description } = req.body;
 
   Playlists.findByIdAndUpdate(
     id,
     {
       name,
-      category,
       description,
-      instructor,
-      videoLevel,
     },
     { new: true }
   )
