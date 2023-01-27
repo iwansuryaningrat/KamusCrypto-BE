@@ -1,5 +1,5 @@
 import mailgun from "mailgun-js";
-import db from "../../models/index.js";
+import db from "../models/index.js";
 const Messages = db.messages;
 const RepliedMessages = db.repliedMessages;
 

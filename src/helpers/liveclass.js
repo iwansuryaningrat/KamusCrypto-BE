@@ -1,4 +1,4 @@
-import db from "../../models/index.js";
+import db from "../models/index.js";
 const Liveclass = db.liveclass;
 
 // Add User to Liveclass's Participant (Done)
