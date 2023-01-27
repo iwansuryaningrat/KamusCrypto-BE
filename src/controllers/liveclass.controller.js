@@ -1,7 +1,7 @@
 import db from "../models/index.js";
 const Liveclass = db.liveclass;
 
-import dataCounter from "./function/dataCounter.function.js";
+import dataCounter from "../helpers/dataCounter.js";
 
 // Find all liveclasses (Done)
 const findAll = async (req, res) => {
