@@ -1,9 +1,6 @@
 import db from "../models/index.js";
 const News = db.news;
-import {
-  getPagination,
-  getPagingData,
-} from "./function/pagination.function.js";
+import { getPagination, getPagingData } from "../helpers/pagination.js";
 
 // Create and Save a new News
 const create = (req, res) => {
