@@ -74,6 +74,8 @@ const findAll = async (req, res) => {
           _id,
           title,
           description,
+          instructor,
+          videoNumber,
           url,
           thumbnail,
           playlist,
@@ -90,6 +92,8 @@ const findAll = async (req, res) => {
           id: _id,
           title,
           description,
+          instructor,
+          videoNumber,
           url,
           thumbnail,
           playlist,
@@ -168,6 +172,8 @@ const findAllPro = async (req, res) => {
           _id,
           title,
           description,
+          instructor,
+          videoNumber,
           url,
           thumbnail,
           playlist,
@@ -183,6 +189,8 @@ const findAllPro = async (req, res) => {
           id: _id,
           title,
           description,
+          instructor,
+          videoNumber,
           url,
           thumbnail,
           playlist,
@@ -273,6 +281,8 @@ const findByPlaylist = async (req, res) => {
           _id,
           title,
           description,
+          instructor,
+          videoNumber,
           url,
           thumbnail,
           playlist,
@@ -289,6 +299,8 @@ const findByPlaylist = async (req, res) => {
           id: _id,
           title,
           description,
+          instructor,
+          videoNumber,
           url,
           thumbnail,
           playlist,
@@ -343,6 +355,8 @@ const findByPlaylistPro = (req, res) => {
           _id,
           title,
           description,
+          instructor,
+          videoNumber,
           url,
           thumbnail,
           playlist,
@@ -357,6 +371,8 @@ const findByPlaylistPro = (req, res) => {
           id: _id,
           title,
           description,
+          instructor,
+          videoNumber,
           url,
           thumbnail,
           playlist,
@@ -407,6 +423,8 @@ const findOne = (req, res) => {
         _id,
         title,
         description,
+        instructor,
+        videoNumber,
         url,
         thumbnail,
         playlist,
@@ -422,6 +440,8 @@ const findOne = (req, res) => {
         id: _id,
         title,
         description,
+        instructor,
+        videoNumber,
         url,
         thumbnail,
         playlist,
@@ -449,7 +469,16 @@ const findOne = (req, res) => {
 const update = async (req, res) => {
   const { id } = req.params;
 
-  const { title, description, url, tags, duration, status } = req.body;
+  const {
+    title,
+    description,
+    instructor,
+    videoNumber,
+    url,
+    tags,
+    duration,
+    status,
+  } = req.body;
 
   if (!id || !ObjectId.isValid(id)) {
     return res.status(400).send({
@@ -471,6 +500,8 @@ const update = async (req, res) => {
     {
       title,
       description,
+      instructor,
+      videoNumber,
       tags,
       duration,
       status,
@@ -530,6 +561,8 @@ const create = async (req, res) => {
     playlistId,
     title,
     description,
+    instructor,
+    videoNumber,
     url1080,
     url720,
     url480,
@@ -548,6 +581,8 @@ const create = async (req, res) => {
   if (
     !title ||
     !description ||
+    !instructor ||
+    !videoNumber ||
     !playlistId ||
     !url1080 ||
     !url720 ||
@@ -570,6 +605,8 @@ const create = async (req, res) => {
   const video = new Videos({
     title,
     description,
+    instructor,
+    videoNumber,
     url: [
       { quality: "1080p", url: url1080 },
       { quality: "720p", url: url720 },
