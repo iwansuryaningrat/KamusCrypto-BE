@@ -1,7 +1,7 @@
 import db from "../models/index.js";
 const Testimoni = db.testimoni;
 
-import dataCounter from "./function/dataCounter.function.js";
+import dataCounter from "../helpers/dataCounter.js";
 
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
