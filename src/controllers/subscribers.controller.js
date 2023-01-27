@@ -1,6 +1,6 @@
 import db from "../models/index.js";
 const Subscribers = db.subscribers;
-import dataCounter from "./function/dataCounter.function.js";
+import dataCounter from "../helpers/dataCounter.js";
 
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
