@@ -3,6 +3,7 @@ import connect from "./db.connect.service.js";
 connect();
 import db from "../models/index.js";
 const LiveclassTransactions = db.liveclassTransactions;
+
 const deleter = async () => {
   try {
     await LiveclassTransactions.deleteMany({});

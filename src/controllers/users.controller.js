@@ -3,8 +3,8 @@ const Users = db.users;
 const Referrals = db.referrals;
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import adminCheck from "./function/admincheck.function.js";
-import dataCounter from "./function/dataCounter.function.js";
+import adminCheck from "../helpers/admincheck.js";
+import dataCounter from "../helpers/dataCounter.js";
 
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;

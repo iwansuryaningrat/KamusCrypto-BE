@@ -2,8 +2,8 @@ import jwt from "jsonwebtoken";
 import db from "../models/index.js";
 const Messages = db.messages;
 
-import replyMessage from "./function/reply.function.js";
-import dataCounter from "./function/dataCounter.function.js";
+import replyMessage from "../helpers/reply.js";
+import dataCounter from "../helpers/dataCounter.js";
 
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;

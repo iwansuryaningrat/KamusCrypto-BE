@@ -1,4 +1,4 @@
-import db from "../../models/index.js";
+import db from "../models/index.js";
 const Liveclass = db.liveclass;
 const LiveclassTransactions = db.liveclassTransactions;
 const MembershipTransactions = db.membershipTransactions;

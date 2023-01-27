@@ -1,7 +1,7 @@
 import midtransClient from "midtrans-client";
 import "dotenv/config";
 
-import timeConvert from "../function/timeConverter.function.js";
+import timeConvert from "../../helpers/timeConverter.js";
 
 // Create Snap API instance
 const createTransaction = async (

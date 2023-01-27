@@ -83,16 +83,16 @@ import coinmarketcapRouter from "./src/routes/coinmarketcap.routes.js"; // Coinm
 coinmarketcapRouter(app); // Coinmarketcap Router
 import liveClassRouter from "./src/routes/liveclass.routes.js"; // Live Class Router
 liveClassRouter(app); // Live Class Router
-// News Router
-// News Router
+import newsRouter from "./src/routes/news.routes.js"; // News Router
+newsRouter(app); // News Router
 import messagesRouter from "./src/routes/messages.routes.js"; // Messages Router
 messagesRouter(app); // Messages Router
-// import notificationsRouter from "./src/routes/notifications.routes.js"; // Notifications Router
-// notificationsRouter(app); // Notifications Router
+import notificationsRouter from "./src/routes/notifications.routes.js"; // Notifications Router
+notificationsRouter(app); // Notifications Router
 import plansRouter from "./src/routes/plans.routes.js"; // Plans Router
 plansRouter(app); // Plans Router
-// import playlistsRouter from "./src/routes/playlists.routes.js"; // Playlists Router
-// playlistsRouter(app); // Playlists Router
+import playlistsRouter from "./src/routes/playlists.routes.js"; // Playlists Router
+playlistsRouter(app); // Playlists Router
 import servicesRouter from "./src/routes/services.routes.js"; // Services Router
 servicesRouter(app); // Services Router
 import subscribersRouter from "./src/routes/subscribers.routes.js"; // Subscribers Router
@@ -101,26 +101,26 @@ import teamsRouter from "./src/routes/teams.routes.js"; // Teams Router
 teamsRouter(app); // Teams Router
 import testimoniRouter from "./src/routes/testimoni.routes.js"; // Testimoni Router
 testimoniRouter(app); // Testimoni Router
-// import vouchersRouter from "./src/routes/vouchers.routes.js"; // Vouchers Router
-// vouchersRouter(app); // Vouchers Router
-// import transactionRouter from "./src/routes/transactions.routes.js"; // Transaction Router
-// transactionRouter(app); // Transaction Router
-// import apiDocsRouter from "./src/routes/api-docs.routes.js"; // API Docs Router
-// apiDocsRouter(app); // API Docs Router
+import vouchersRouter from "./src/routes/vouchers.routes.js"; // Vouchers Router
+vouchersRouter(app); // Vouchers Router
+import transactionRouter from "./src/routes/transactions.routes.js"; // Transaction Router
+transactionRouter(app); // Transaction Router
+import apiDocsRouter from "./src/routes/api-docs.routes.js"; // API Docs Router
+apiDocsRouter(app); // API Docs Router
 
 // * Admin Routers
 import liveClassAdminRouter from "./src/routes/admin/liveclass.routes.js"; // Liveclass Router
 liveClassAdminRouter(app); // Liveclass Router
 import messagesAdminRouter from "./src/routes/admin/messages.routes.js"; // Messages Router
 messagesAdminRouter(app); // Messages Router
-// News Router
-// Playlists Router
+import newsAdminRouter from "./src/routes/admin/news.routes.js"; // News Router
+newsAdminRouter(app); // News Router
 import plansAdminRouter from "./src/routes/admin/plans.routes.js"; // Plans Router
 plansAdminRouter(app); // Plans Router
-// import playlistsAdminRouter from "./src/routes/admin/playlists.routes.js"; // Playlists Router
-// playlistsAdminRouter(app); // Playlists Router
-// import referralAdminRouter from "./src/routes/admin/referral.routes.js"; // Referral Router
-// referralAdminRouter(app); // Referral Router
+import playlistsAdminRouter from "./src/routes/admin/playlists.routes.js"; // Playlists Router
+playlistsAdminRouter(app); // Playlists Router
+import referralAdminRouter from "./src/routes/admin/referral.routes.js"; // Referral Router
+referralAdminRouter(app); // Referral Router
 import servicesAdminRouter from "./src/routes/admin/services.routes.js"; // Services Router
 servicesAdminRouter(app); // Services Router
 import subscribersAdminRouter from "./src/routes/admin/subscribers.routes.js"; // Subscribers Router
@@ -129,26 +129,26 @@ import teamsRouterAdmin from "./src/routes/admin/teams.routes.js"; // Teams Rout
 teamsRouterAdmin(app); // Teams Router
 import testimoniAdminRouter from "./src/routes/admin/testimoni.routes.js"; // Testimoni Router
 testimoniAdminRouter(app); // Testimoni Router
-// import transactionAdminRouter from "./src/routes/admin/transactions.routes.js"; // Transactions Router
-// transactionAdminRouter(app); // Transactions Router
+import transactionAdminRouter from "./src/routes/admin/transactions.routes.js"; // Transactions Router
+transactionAdminRouter(app); // Transactions Router
 import usersAdminRouter from "./src/routes/admin/users.routes.js"; // Users Router
 usersAdminRouter(app); // Users Router
-// import videosAdminRouter from "./src/routes/admin/videos.routes.js"; // Videos Router
-// videosAdminRouter(app); // Videos Router
-// import vouchersAdminRouter from "./src/routes/admin/vouchers.routes.js"; // Vouchers Router
-// vouchersAdminRouter(app); // Vouchers Router
+import videosAdminRouter from "./src/routes/admin/videos.routes.js"; // Videos Router
+videosAdminRouter(app); // Videos Router
+import vouchersAdminRouter from "./src/routes/admin/vouchers.routes.js"; // Vouchers Router
+vouchersAdminRouter(app); // Vouchers Router
 import watchlistAdminRouter from "./src/routes/admin/watchlist.routes.js"; // Watchlists Router
 watchlistAdminRouter(app); // Watchlists Router
 
 // * Pro Users Routers
-// import playlistsProRouter from "./src/routes/pro_users/playlists.routes.js"; // Playlists Router
-// playlistsProRouter(app); // Playlists Router
-// import referralRouter from "./src/routes/pro_users/referral.routes.js"; // Referral Router
-// referralRouter(app); // Referral Router
+import playlistsProRouter from "./src/routes/pro_users/playlists.routes.js"; // Playlists Router
+playlistsProRouter(app); // Playlists Router
+import referralRouter from "./src/routes/pro_users/referral.routes.js"; // Referral Router
+referralRouter(app); // Referral Router
 import usersProRouter from "./src/routes/pro_users/users.routes.js"; // Users Router
 usersProRouter(app); // Users Router
-// import videosRouter from "./src/routes/pro_users/videos.routes.js"; // Videos Router
-// videosRouter(app); // Videos Router
+import videosRouter from "./src/routes/pro_users/videos.routes.js"; // Videos Router
+videosRouter(app); // Videos Router
 import watchlistRouter from "./src/routes/pro_users/watchlist.routes.js"; // Watchlists Router
 watchlistRouter(app); // Watchlists Router
 

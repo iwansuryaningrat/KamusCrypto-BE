@@ -1,6 +1,6 @@
 import db from "../models/index.js";
 const Watchlist = db.watchlist;
-import dataCounter from "./function/dataCounter.function.js";
+import dataCounter from "../helpers/dataCounter.js";
 
 // Find All data for admin
 const findAll = async (req, res) => {

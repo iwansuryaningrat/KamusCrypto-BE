@@ -1,4 +1,4 @@
-import db from "../../models/index.js";
+import db from "../models/index.js";
 const Playlists = db.playlists;
 
 // Increment Playlist video count

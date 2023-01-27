@@ -11,6 +11,10 @@ export default (mongoose) => {
         type: String,
         require: true,
       },
+      videoNumber: {
+        type: Number,
+        require: true,
+      },
       url: [
         {
           quality: {
