@@ -16,7 +16,7 @@ export default (mongoose) => {
       },
       tags: [{ type: String }],
       date: {
-        type: Date,
+        type: Number,
         require: true,
       },
       thumbnail: {

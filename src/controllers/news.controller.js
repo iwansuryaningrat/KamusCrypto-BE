@@ -4,8 +4,7 @@ import { getPagination, getPagingData } from "../helpers/pagination.js";
 
 // Create and Save a new News
 const create = (req, res) => {
-  const { title, author, category, tags, date, body, source, status } =
-    req.body;
+  const { title, author, category, tags, body, source, status } = req.body;
 
   // Validate request
   if (!title || !author || !date || !body || !source) {
@@ -13,6 +12,8 @@ const create = (req, res) => {
       message: "Content can not be empty!",
     });
   }
+
+  const date = new Date().getTime();
 
   // Create a News
   const news = new News({
@@ -159,8 +160,7 @@ const update = (req, res) => {
     });
   }
 
-  const { title, author, category, tags, date, body, source, status } =
-    req.body;
+  const { title, author, category, tags, body, source, status } = req.body;
 
   // Validate request
   if (!title || !author || !date || !body || !source) {
@@ -190,7 +190,6 @@ const update = (req, res) => {
     author,
     category,
     tags,
-    date,
     thumbnail: {
       photoName,
       photoLink,
