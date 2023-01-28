@@ -7,7 +7,7 @@ const create = (req, res) => {
   const { title, author, category, tags, body, source, status } = req.body;
 
   // Validate request
-  if (!title || !author || !date || !body || !source) {
+  if (!title || !author || !body || !source) {
     return res.status(400).send({
       message: "Content can not be empty!",
     });
