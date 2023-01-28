@@ -572,11 +572,13 @@ const create = async (req, res) => {
     status,
   } = req.body;
 
-  const protocol = req.protocol === "https" ? req.protocol : "https";
-  var thumbnailName = req.file.filename;
-  var thumbnailLink = `${protocol}://${req.get(
-    "host"
-  )}/assets/images/${thumbnailName}`;
+  // const protocol = req.protocol === "https" ? req.protocol : "https";
+  // var thumbnailName = req.file.filename;
+  // var thumbnailLink = `${protocol}://${req.get(
+  //   "host"
+  // )}/assets/images/${thumbnailName}`;
+  const thumbnailName = req.file.filename;
+  const thumbnailLink = `https://api.kamuscrypto.id/assets/images/${thumbnailName}`;
 
   if (
     !title ||
@@ -649,11 +651,13 @@ const create = async (req, res) => {
 
 // Update thumbnail
 const updateThumbnail = (req, res) => {
-  const protocol = req.protocol === "https" ? req.protocol : "https";
+  // const protocol = req.protocol === "https" ? req.protocol : "https";
+  // const thumbnailName = req.file.filename;
+  // const thumbnailLink = `${protocol}://${req.get(
+  //   "host"
+  // )}/assets/images/${thumbnailName}`;
   const thumbnailName = req.file.filename;
-  const thumbnailLink = `${protocol}://${req.get(
-    "host"
-  )}/assets/images/${thumbnailName}`;
+  const thumbnailLink = `https://api.kamuscrypto.id/assets/images/${photoName}`;
 
   const { id } = req.params;
 

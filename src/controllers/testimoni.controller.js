@@ -179,11 +179,13 @@ const create = (req, res) => {
     });
   }
 
-  const protocol = req.protocol === "https" ? req.protocol : "https";
+  // const protocol = req.protocol === "https" ? req.protocol : "https";
+  // const imageName = req.file.filename;
+  // const photosUrl = `${protocol}://${req.get(
+  //   "host"
+  // )}/assets/images/${imageName}`;
   const imageName = req.file.filename;
-  const photosUrl = `${protocol}://${req.get(
-    "host"
-  )}/assets/images/${imageName}`;
+  const photosUrl = `https://api.kamuscrypto.id/assets/images/${imageName}`;
 
   const newTestimoni = new Testimoni({
     name,
