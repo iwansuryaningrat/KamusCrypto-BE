@@ -1,6 +1,6 @@
 import {
   create,
-  findAllforUsers,
+  uploadImage,
   findAll,
   findOne,
   update,
@@ -15,6 +15,7 @@ const newsAdminRouter = (app) => {
   router.get("/", login, admin, findAll);
   router.get("/:id", login, admin, findOne);
   router.post("/", login, admin, create);
+  router.post("/:id/upload-image", login, admin, uploadImage);
   router.put("/:id", login, admin, update);
   router.put("/status/:id", login, admin, updateStatus);
   router.delete("/:id", login, admin, deleteOne);
