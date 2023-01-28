@@ -14,22 +14,6 @@ const create = (req, res) => {
     });
   }
 
-  // Validate image upload
-  if (!req.file) {
-    return res.status(400).send({
-      message: "Image can not be empty!",
-    });
-  }
-
-  // Handle thumbnail image upload
-  // const protocol = req.protocol === "https" ? req.protocol : "https";
-  // const photoName = req.file.filename;
-  // const photoLink = `${protocol}://${req.get(
-  //   "host"
-  // )}/assets/images/${photoName}`;
-  const photoName = req.file.filename;
-  const photoLink = `https://api.kamuscrypto.id/assets/images/${photoName}`;
-
   // Create a News
   const news = new News({
     title,
@@ -37,10 +21,6 @@ const create = (req, res) => {
     category,
     tags,
     date,
-    thumbnail: {
-      photoName,
-      photoLink,
-    },
     body,
     source,
     status,
@@ -57,6 +37,44 @@ const create = (req, res) => {
     .catch((err) => {
       return res.status(500).send({
         message: err.message || "Some error occurred while creating the News.",
+      });
+    });
+};
+
+// Upload image
+const uploadImage = (req, res) => {
+  if (!req.file) {
+    return res.status(400).send({
+      message: "Image can not be empty!",
+    });
+  }
+
+  const { id } = req.params;
+
+  // Handle thumbnail image upload
+  const photoName = req.file.filename;
+  const photoLink = `https://api.kamuscrypto.id/assets/images/${photoName}`;
+
+  News.findByIdAndUpdate(id, {
+    thumbnail: {
+      photoName,
+      photoLink,
+    },
+  })
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send({
+          message: `Cannot update News with id=${id}. Maybe News was not found!`,
+        });
+      } else {
+        return res.status(200).send({
+          message: "News was updated successfully.",
+        });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message: `Error updating News with id=${id}`,
       });
     });
 };
@@ -267,6 +285,7 @@ const deleteOne = (req, res) => {
 
 export {
   create,
+  uploadImage,
   findAllforUsers,
   findAll,
   findOne,
