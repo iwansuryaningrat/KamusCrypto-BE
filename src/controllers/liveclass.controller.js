@@ -338,11 +338,13 @@ const create = (req, res) => {
     });
   }
 
-  const protocol = req.protocol === "https" ? req.protocol : "https";
+  // const protocol = req.protocol === "https" ? req.protocol : "https";
+  // const photoName = req.file.filename;
+  // const photoLink = `${protocol}://${req.get(
+  //   "host"
+  // )}/assets/images/${photoName}`;
   const photoName = req.file.filename;
-  const photoLink = `${protocol}://${req.get(
-    "host"
-  )}/assets/images/${photoName}`;
+  const photoLink = `https://api.kamuscrypto.id/assets/images/${photoName}`;
 
   const theDate = new Date(date).toDateString();
 
@@ -384,11 +386,13 @@ const create = (req, res) => {
 
 // Update thumbnail (Done)
 const updateThumbnail = (req, res) => {
-  const protocol = req.protocol === "https" ? req.protocol : "https";
+  // const protocol = req.protocol === "https" ? req.protocol : "https";
+  // const photoName = req.file.filename;
+  // const photoLink = `${protocol}://${req.get(
+  //   "host"
+  // )}/assets/images/${photoName}`;
   const photoName = req.file.filename;
-  const photoLink = `${protocol}://${req.get(
-    "host"
-  )}/assets/images/${photoName}`;
+  const photoLink = `https://api.kamuscrypto.id/assets/images/${photoName}`;
 
   const { id } = req.params;
 
