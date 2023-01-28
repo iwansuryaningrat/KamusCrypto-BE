@@ -22,11 +22,13 @@ const create = (req, res) => {
   }
 
   // Handle thumbnail image upload
-  const protocol = req.protocol === "https" ? req.protocol : "https";
+  // const protocol = req.protocol === "https" ? req.protocol : "https";
+  // const photoName = req.file.filename;
+  // const photoLink = `${protocol}://${req.get(
+  //   "host"
+  // )}/assets/images/${photoName}`;
   const photoName = req.file.filename;
-  const photoLink = `${protocol}://${req.get(
-    "host"
-  )}/assets/images/${photoName}`;
+  const photoLink = `https://api.kamuscrypto.id/assets/images/${photoName}`;
 
   // Create a News
   const news = new News({
@@ -157,11 +159,13 @@ const update = (req, res) => {
   }
 
   // Handle thumbnail image upload
-  const protocol = req.protocol === "https" ? req.protocol : "https";
+  // const protocol = req.protocol === "https" ? req.protocol : "https";
+  // const photoName = req.file.filename;
+  // const photoLink = `${protocol}://${req.get(
+  //   "host"
+  // )}/assets/images/${photoName}`;
   const photoName = req.file.filename;
-  const photoLink = `${protocol}://${req.get(
-    "host"
-  )}/assets/images/${photoName}`;
+  const photoLink = `https://api.kamuscrypto.id/assets/images/${photoName}`;
 
   News.findByIdAndUpdate(id, {
     title,
