@@ -46,7 +46,7 @@ const findAll = async (req, res) => {
   await Teams.find(condition)
     .skip(skip)
     .limit(pageLimit)
-    .sort({ createdAt: -1 })
+    .sort({ createdAt: 1 })
     .then((result) => {
       // Check if there is any data
       if (result.length === 0) {
@@ -85,6 +85,7 @@ const findAll = async (req, res) => {
 // Fetch all teams data for users (DONE)
 const findAllforUsers = (req, res) => {
   Teams.find({ status: "Active" })
+    .sort({ createdAt: 1 })
     .then((result) => {
       // Check if there is any data
       if (result.length === 0) {
