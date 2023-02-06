@@ -6,7 +6,7 @@ const newsRouter = (app) => {
   router.get("/", findAllforUsers);
   router.get("/:id", findOne);
 
-  app.use("/news", router);
+  app.use("/v1/news", router);
 };
 
 export default newsRouter;
