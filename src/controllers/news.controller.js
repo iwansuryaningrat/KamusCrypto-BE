@@ -1,8 +1,10 @@
 import db from "../models/index.js";
 const News = db.news;
-import { getPagination, getPagingData } from "../helpers/pagination.js";
 
-// Create and Save a new News
+import dataCounter from "../helpers/dataCounter.js";
+import timeConvert from "../helpers/timeConverter.js";
+
+// Create and Save a new News (Done)
 const create = (req, res) => {
   const { title, author, category, tags, body, source, status } = req.body;
 
@@ -81,21 +83,75 @@ const uploadImage = (req, res) => {
 };
 
 // Find All News with status = "published" and sort by date in descending order (newest first) and limit to 10 items per page and return the total number of items in the database
-const findAllforUsers = (req, res) => {
-  const { page, size, title } = req.query;
-  const condition = title
-    ? {
-        title: { $regex: new RegExp(title), $options: "i" },
-        status: "Published",
-      }
-    : { status: "Published" };
+const findAllforUsers = async (req, res) => {
+  var { page, pageLimit } = req.query;
+  const condition = { status: "Published" };
 
-  const { limit, offset } = getPagination(page, size);
+  page ? (page = parseInt(page)) : (page = 1);
 
-  News.paginate(condition, { offset, limit })
+  pageLimit ? (pageLimit = parseInt(pageLimit)) : (pageLimit = 9);
+  const skip = pageLimit * (page - 1);
+  const dataCount = await dataCounter(News, pageLimit, condition);
+
+  const nextPage = parseInt(page) + 1;
+  const prevPage = parseInt(page) - 1;
+
+  const protocol = req.protocol === "https" ? req.protocol : "https";
+  const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
+  var nextLink =
+    nextPage > dataCount.pageCount
+      ? `${link}?page=${dataCount.pageCount}`
+      : `${link}?page=${nextPage}`;
+  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
+  var lastLink = `${link}?page=${dataCount.pageCount}`;
+  var firstLink = `${link}?page=1`;
+
+  const pageData = {
+    currentPage: parseInt(page),
+    pageCount: dataCount.pageCount,
+    dataPerPage: parseInt(pageLimit),
+    dataCount: dataCount.dataCount,
+    links: {
+      next: nextLink,
+      prev: prevLink,
+      last: lastLink,
+      first: firstLink,
+    },
+  };
+
+  await News.find(condition)
+    .populate({
+      path: "author",
+      select: "name",
+    })
+    .skip(skip)
+    .limit(pageLimit)
+    .sort({ date: -1 })
     .then((data) => {
-      const response = getPagingData(data, page, limit);
-      return res.status(200).send(response);
+      if (!data) {
+        return res.status(404).send({
+          message: `Not found News with status ${condition.status}`,
+        });
+      }
+
+      const result = data.map((item) => {
+        return {
+          id: item._id,
+          title: item.title,
+          author: item.author,
+          category: item.category,
+          tags: item.tags,
+          date: timeConvert(item.date),
+          source: item.source,
+          thumbnail: item.thumbnail,
+        };
+      });
+
+      return res.status(200).send({
+        message: "News retrieved successfully",
+        data: result,
+        page: pageData,
+      });
     })
     .catch((err) => {
       return res.status(500).send({
@@ -104,19 +160,83 @@ const findAllforUsers = (req, res) => {
     });
 };
 
-// Find All News sort by date in descending order (newest first) and limit to 10 items per page and return the total number of items in the database
-const findAll = (req, res) => {
-  const { page, size, title } = req.query;
-  const condition = title
-    ? { title: { $regex: new RegExp(title), $options: "i" } }
-    : {};
+// Find All News sort by date in descending order (newest first) and limit to 10 items per page and return the total number of items in the database (Done)
+const findAll = async (req, res) => {
+  var { page, pageLimit } = req.query;
 
-  const { limit, offset } = getPagination(page, size);
+  if (!page) {
+    page = 1;
+  } else {
+    page = parseInt(page);
+  }
 
-  News.paginate(condition, { offset, limit })
+  if (!pageLimit) {
+    pageLimit = 9;
+  } else {
+    pageLimit = parseInt(pageLimit);
+  }
+  const skip = pageLimit * (page - 1);
+  const dataCount = await dataCounter(News, pageLimit);
+
+  const nextPage = parseInt(page) + 1;
+  const prevPage = parseInt(page) - 1;
+
+  const protocol = req.protocol === "https" ? req.protocol : "https";
+  const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
+  var nextLink =
+    nextPage > dataCount.pageCount
+      ? `${link}?page=${dataCount.pageCount}`
+      : `${link}?page=${nextPage}`;
+  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
+  var lastLink = `${link}?page=${dataCount.pageCount}`;
+  var firstLink = `${link}?page=1`;
+
+  const pageData = {
+    currentPage: parseInt(page),
+    pageCount: dataCount.pageCount,
+    dataPerPage: parseInt(pageLimit),
+    dataCount: dataCount.dataCount,
+    links: {
+      next: nextLink,
+      prev: prevLink,
+      last: lastLink,
+      first: firstLink,
+    },
+  };
+
+  await News.find()
+    .populate({
+      path: "author",
+      select: "name",
+    })
+    .skip(skip)
+    .limit(pageLimit)
+    .sort({ date: -1 })
     .then((data) => {
-      const response = getPagingData(data, page, limit);
-      return res.status(200).send(response);
+      if (!data) {
+        return res.status(404).send({
+          message: `News not found`,
+        });
+      }
+
+      const result = data.map((item) => {
+        return {
+          id: item._id,
+          title: item.title,
+          author: item.author,
+          category: item.category,
+          tags: item.tags,
+          date: timeConvert(item.date),
+          source: item.source,
+          thumbnail: item.thumbnail,
+        };
+      });
+
+      return res.status(200).send({
+        message: "News retrieved successfully",
+        data: result,
+        page: pageData,
+      });
     })
     .catch((err) => {
       return res.status(500).send({
@@ -136,16 +256,36 @@ const findOne = (req, res) => {
   }
 
   News.findById(id)
+    .populate({
+      path: "author",
+      select: "name",
+    })
     .then((data) => {
       if (!data)
         return res.status(404).send({
           message: `Not found News with id ${id}.`,
         });
-      return res.status(200).send(data);
+
+      const result = {
+        id: data._id,
+        title: data.title,
+        author: data.author,
+        category: data.category,
+        tags: data.tags,
+        date: timeConvert(data.date),
+        body: data.body,
+        source: data.source,
+        thumbnail: data.thumbnail,
+      };
+
+      return res.status(200).send({
+        message: "News retrieved successfully",
+        data: result,
+      });
     })
     .catch((err) => {
       return res.status(500).send({
-        message: `Error retrieving News with id=${id}`,
+        message: err.message || `Error retrieving News with id=${id}`,
       });
     });
 };
