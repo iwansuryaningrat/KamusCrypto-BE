@@ -288,7 +288,7 @@ const update = (req, res) => {
     });
   }
 
-  Liveclass.findByIdAndupdate(id, req.body, { new: true })
+  Liveclass.findByIdAndUpdate(id, req.body, { new: true })
     .then((result) => {
       if (!result) {
         return res.status(404).send({
