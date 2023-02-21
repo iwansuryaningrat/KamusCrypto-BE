@@ -31,6 +31,11 @@ const deleter = async (Model) => {
   }
 };
 
+/**
+ * It deletes all the data in the Playlists collection and returns a string based on whether the data
+ * was deleted or not.
+ * @returns A promise.
+ */
 const deleteData = async () => {
   const isDeleted = await deleter(Playlists);
   if (isDeleted) {
