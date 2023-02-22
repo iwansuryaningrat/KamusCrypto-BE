@@ -1,10 +1,19 @@
+/* Importing the database connection and the news model. */
 import db from "../models/index.js";
 const News = db.news;
 
+/* Importing the dataCounter and timeConverter helper functions. */
 import dataCounter from "../helpers/dataCounter.js";
 import timeConvert from "../helpers/timeConverter.js";
 
 // Create and Save a new News (Done)
+/**
+ * It creates a new news article and saves it to the database
+ * @param req - The request object. This object represents the HTTP request and has properties for the
+ * request query string, parameters, body, HTTP headers, and so on.
+ * @param res - The response object.
+ * @returns The response is being returned.
+ */
 const create = (req, res) => {
   const { title, author, category, tags, body, source, status } = req.body;
 
@@ -45,6 +54,14 @@ const create = (req, res) => {
 };
 
 // Upload image
+/**
+ * If there is no file, return an error message, otherwise, find the news by id and update the
+ * thumbnail with the photo name and photo link.
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The image is being uploaded to the server and the image name and link are being saved to
+ * the database.
+ */
 const uploadImage = (req, res) => {
   if (!req.file) {
     return res.status(400).send({
@@ -83,6 +100,11 @@ const uploadImage = (req, res) => {
 };
 
 // Find All News with status = "published" and sort by date in descending order (newest first) and limit to 10 items per page and return the total number of items in the database
+/**
+ * It returns a list of news with pagination.
+ * @param req - The request object.
+ * @param res - the response object
+ */
 const findAllforUsers = async (req, res) => {
   var { page, pageLimit } = req.query;
   const condition = { status: "Published" };
@@ -161,6 +183,11 @@ const findAllforUsers = async (req, res) => {
 };
 
 // Find All News sort by date in descending order (newest first) and limit to 10 items per page and return the total number of items in the database (Done)
+/**
+ * It returns a list of news with pagination
+ * @param req - The request object.
+ * @param res - the response object
+ */
 const findAll = async (req, res) => {
   var { page, pageLimit } = req.query;
 
@@ -246,6 +273,21 @@ const findAll = async (req, res) => {
 };
 
 // Find a single News with an id
+/**
+ * It finds a news article by its id and returns the article with the author's name
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The result is an object with the following properties:
+ * id: data._id,
+ * title: data.title,
+ * author: data.author,
+ * category: data.category,
+ * tags: data.tags,
+ * date: timeConvert(data.date),
+ * body: data.body,
+ * source: data.source,
+ * thumbnail: data.thumbnail,
+ */
 const findOne = (req, res) => {
   const id = req.params.id;
 
@@ -291,6 +333,12 @@ const findOne = (req, res) => {
 };
 
 // Update a News by the id in the request
+/**
+ * The function is used to update the news data in the database.
+ * @param req - The request object.
+ * @param res - the response object
+ * @returns The response is a JSON object with the following properties:
+ */
 const update = (req, res) => {
   const id = req.params.id;
 
@@ -356,6 +404,13 @@ const update = (req, res) => {
 };
 
 // Update News status by the id in the request
+/**
+ * It updates the status of a news article
+ * @param req - The request object represents the HTTP request and has properties for the request query
+ * string, parameters, body, HTTP headers, and so on.
+ * @param res - The response object.
+ * @returns The updated News object.
+ */
 const updateStatus = (req, res) => {
   const id = req.params.id;
 
@@ -395,6 +450,13 @@ const updateStatus = (req, res) => {
 };
 
 // Delete a News with the specified id in the request
+/**
+ * It deletes a news item from the database based on the id of the news item.
+ * @param req - The request object represents the HTTP request and has properties for the request query
+ * string, parameters, body, HTTP headers, and so on.
+ * @param res - The response object.
+ * @returns the response object.
+ */
 const deleteOne = (req, res) => {
   const id = req.params.id;
 
