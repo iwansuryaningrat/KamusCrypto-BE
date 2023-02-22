@@ -1,3 +1,4 @@
+/* Importing the models from the index.js file in the models folder. */
 import db from "../models/index.js";
 const Liveclass = db.liveclass;
 const LiveclassTransactions = db.liveclassTransactions;
@@ -17,6 +18,14 @@ const Videos = db.videos;
 const Vouchers = db.vouchers;
 
 // Count Data
+/**
+ * It counts the number of documents in a collection and returns the number of documents, the number of
+ * documents per page, and the number of pages.
+ * @param Model - The model you want to query
+ * @param itemPerPage - the number of items per page
+ * @param condition - is the condition to filter the data
+ * @returns { dataCount, dataPerPage: itemPerPage, pageCount }
+ */
 const dataCounter = async (Model, itemPerPage, condition) => {
   let dataCount = 0;
   if (condition == undefined || condition == null || condition == {}) {
