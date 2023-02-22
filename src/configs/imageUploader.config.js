@@ -1,6 +1,7 @@
 import multer from "multer";
 
 // Image Uploader Setup
+/* Creating a storage object for multer to use. */
 const imageStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./assets/images");
@@ -13,6 +14,12 @@ const imageStorage = multer.diskStorage({
   },
 });
 
+/**
+ * If the file is a png, jpg, or jpeg, then the file is valid. Otherwise, it's not.
+ * @param req - The request object.
+ * @param file - The file that is being uploaded.
+ * @param cb - callback function
+ */
 const imageFileFilter = (req, file, cb) => {
   if (
     file.mimetype === "image/png" ||
@@ -26,5 +33,3 @@ const imageFileFilter = (req, file, cb) => {
 };
 
 export { imageStorage, imageFileFilter };
-
-// export default { imageStorage, imageFilter };
