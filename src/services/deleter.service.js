@@ -1,6 +1,8 @@
 // MongoDB Connection
 import connect from "./db.connect.service.js";
 connect();
+
+/* Importing the models from the index.js file in the models folder. */
 import db from "../models/index.js";
 const Certificate = db.certificate;
 const Liveclass = db.liveclass;
@@ -22,6 +24,11 @@ const Videos = db.videos;
 const Vouchers = db.vouchers;
 const Watchlist = db.watchlist;
 
+/**
+ * It deletes all documents from a given Mongoose model.
+ * @param Model - The model you want to delete from.
+ * @returns A function that takes a model as an argument and returns a promise.
+ */
 const deleter = async (Model) => {
   try {
     await Model.deleteMany({});
