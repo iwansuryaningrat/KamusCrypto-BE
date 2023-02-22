@@ -1,3 +1,4 @@
+/* Importing the necessary modules for the controller to work. */
 import db from "../../models/index.js";
 const Users = db.users;
 import jwt from "jsonwebtoken";
@@ -6,6 +7,13 @@ import bcrypt from "bcrypt";
 import { forgotPasswordMailer } from "../../services/mailer.service.js";
 
 // Request Reset Password Link Controller Function (DONE)
+/**
+ * It takes an email from the request body, finds the user in the database, creates a token, and sends
+ * an email to the user with a reset password link
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The response from the forgotPasswordMailer function.
+ */
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -66,6 +74,13 @@ const forgotPassword = async (req, res) => {
 };
 
 // Reset Password With Token Controller Function (DONE)
+/**
+ * It takes a password and a token as parameters, validates the password, validates the token, finds
+ * the user, hashes the password, updates the user's password, and returns a message
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The user's password is being returned.
+ */
 const resetPasswordWithToken = async (req, res) => {
   const { password } = req.body;
 
