@@ -2,6 +2,15 @@ import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 
 // Basic Membership Middleware (Done)
+/**
+ * If the token is not present, return a 401 error. If the token is present, verify the token and if
+ * it's valid, return the user. If the token is expired, return a 401 error. If the token is not valid,
+ * return a 401 error.
+ * @param req - The request object.
+ * @param res - The response object.
+ * @param next - This is a function that is called when the middleware is complete.
+ * @returns a function.
+ */
 const login = (req, res, next) => {
   const token = req.header("x-auth-token");
 
@@ -35,6 +44,13 @@ const login = (req, res, next) => {
 };
 
 // Admin Middleware (Done)
+/**
+ * If the user is an admin, then the user can access the route
+ * @param req - The request object.
+ * @param res - The response object.
+ * @param next - The next middleware function in the stack.
+ * @returns a function.
+ */
 const admin = (req, res, next) => {
   const token = req.header("x-auth-token");
 
@@ -74,6 +90,14 @@ const admin = (req, res, next) => {
 };
 
 // Pro Membership Middleware (Done)
+/**
+ * If the user is a pro member or admin, then they can access the route
+ * @param req - The request object.
+ * @param res - The response object.
+ * @param next - This is a function that you call when you want to pass control to the next middleware
+ * function in the stack.
+ * @returns a function.
+ */
 const proMember = (req, res, next) => {
   const token = req.header("x-auth-token");
 
@@ -108,6 +132,13 @@ const proMember = (req, res, next) => {
 };
 
 // Super Admin Middleware (Done)
+/**
+ * If the user is a Super Admin and the token is valid, then the user is allowed to access the route.
+ * @param req - The request object.
+ * @param res - The response object.
+ * @param next - The next middleware function in the stack.
+ * @returns a function.
+ */
 const superAdmin = (req, res, next) => {
   const token = req.header("x-auth-token");
 
