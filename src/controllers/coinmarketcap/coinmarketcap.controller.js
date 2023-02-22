@@ -2,6 +2,12 @@ import axios from "axios";
 import "dotenv/config";
 
 // Done
+/**
+ * It makes a request to the CoinMarketCap API, and returns the response data.
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The response is being returned.
+ */
 const map = async (req, res) => {
   let response = null;
   try {
@@ -36,6 +42,12 @@ const map = async (req, res) => {
 };
 
 // Get Top Assets Data (Done)
+/**
+ * It fetches data from an API and returns it to the user
+ * @param req - The request object.
+ * @param res - the response object
+ * @returns The response is an array of objects.
+ */
 const topAssets = async (req, res) => {
   let { page, pageLimit } = req.query;
   let response = null;
@@ -127,6 +139,12 @@ const topAssets = async (req, res) => {
 };
 
 // Get Top Gainer Data (Done)
+/**
+ * It gets the top gainers from the CoinMarketCap API and returns the data in a specific format
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The response is an array of objects.
+ */
 const topGainers = async (req, res) => {
   let { page, pageLimit } = req.query;
   let response = null;
@@ -214,6 +232,13 @@ const topGainers = async (req, res) => {
 };
 
 // Done
+/**
+ * It takes a query parameter (symbol, id, or slug) and returns the cryptocurrency info from the
+ * CoinMarketCap API.
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The response is being returned as an object.
+ */
 const info = async (req, res) => {
   const { symbol, id, slug } = req.query;
 
@@ -257,6 +282,13 @@ const info = async (req, res) => {
 };
 
 // Done
+/**
+ * It takes in a query parameter (symbol, id, or slug) and returns the price of the cryptocurrency in
+ * USD
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The response is being returned as an object.
+ */
 const price = async (req, res) => {
   const { symbol, id, slug } = req.query;
   let convert = req.query.convert;
@@ -305,6 +337,12 @@ const price = async (req, res) => {
 };
 
 // Done
+/**
+ * It takes in a symbol, amount, and convert, and returns the converted amount
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The response is being returned.
+ */
 const convertCoin = async (req, res) => {
   const { symbol, amount, convert } = req.query;
 
