@@ -1,9 +1,17 @@
+/* Importing the liveclass model from the index.js file in the models folder. */
 import db from "../models/index.js";
 const Liveclass = db.liveclass;
 
+/* Importing the dataCounter function from the dataCounter.js file in the helpers folder. */
 import dataCounter from "../helpers/dataCounter.js";
 
 // Find all liveclasses (Done)
+/**
+ * It fetches all liveclasses from the database and returns them to the user.
+ * </code>
+ * @param req - the request object
+ * @param res - the response object
+ */
 const findAll = async (req, res) => {
   let { status, category, tags, page } = req.query;
   let query = status ? { status: status } : {};
@@ -117,6 +125,11 @@ const findAll = async (req, res) => {
 };
 
 // Find All liveclasses for Users (Done)
+/**
+ * It fetches all liveclasses from the database and paginates them
+ * @param req - The request object.
+ * @param res - The response object.
+ */
 const findAllForUsers = async (req, res) => {
   let { page, pageLimit } = req.query;
 
@@ -218,6 +231,14 @@ const findAllForUsers = async (req, res) => {
 };
 
 // Find liveclass by id (Done)
+/**
+ * It finds a liveclass by id and populates the participants.participantsList.userID field with the
+ * user's name, username and email.
+ * </code>
+ * @param req - The request object.
+ * @param res - the response object
+ * @returns The liveclass object with the populated participants.participantsList.userID
+ */
 const findOne = (req, res) => {
   const { id } = req.params;
 
@@ -251,6 +272,13 @@ const findOne = (req, res) => {
 };
 
 // Delete liveclass (Done)
+/**
+ * It deletes a live class from the database
+ * @param req - The request object represents the HTTP request and has properties for the request query
+ * string, parameters, body, HTTP headers, and so on.
+ * @param res - The response object.
+ * @returns a promise.
+ */
 const deleteClass = (req, res) => {
   const { id } = req.params;
 
@@ -279,6 +307,13 @@ const deleteClass = (req, res) => {
 };
 
 // Done
+/**
+ * It takes the id of the live class from the request parameters, checks if the id is valid, and if it
+ * is, it updates the live class with the new data from the request body.
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The updated live class.
+ */
 const update = (req, res) => {
   const { id } = req.params;
 
@@ -308,6 +343,12 @@ const update = (req, res) => {
 };
 
 // Create liveclass (Done)
+/**
+ * It creates a new live class
+ * @param req - the request object
+ * @param res - the response object
+ * @returns The response is a JSON object with a message property.
+ */
 const create = (req, res) => {
   const {
     title,
@@ -385,6 +426,14 @@ const create = (req, res) => {
 };
 
 // Update thumbnail (Done)
+/**
+ * It updates the thumbnail of a live class.
+ * @param req - the request object
+ * @param res - the response object
+ * @returns {
+ *     "message": "Live Class was updated"
+ * }</code>
+ */
 const updateThumbnail = (req, res) => {
   // const protocol = req.protocol === "https" ? req.protocol : "https";
   // const photoName = req.file.filename;
@@ -426,6 +475,12 @@ const updateThumbnail = (req, res) => {
 };
 
 // Change status (Done)
+/**
+ * It updates the status of a live class
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The result of the findByIdAndUpdate() method.
+ */
 const changeStatus = (req, res) => {
   const { id } = req.params;
 
