@@ -70,7 +70,11 @@ app.get("/", (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 8000;
+if (process.env.NODE_ENV === "production") {
+  var PORT = process.env.PORT || 8000;
+} else {
+  var PORT = process.env.PORT_DEV || 8080;
+}
 
 app.listen(PORT, () => {
   console.log(`Server started on port http://localhost:${PORT}`);
