@@ -2,13 +2,23 @@ import jwt from "jsonwebtoken";
 import db from "../models/index.js";
 const Messages = db.messages;
 
+/* Importing the replyMessage function from the reply.js file. */
 import replyMessage from "../helpers/reply.js";
+
+/* Importing the dataCounter function from the dataCounter.js file. */
 import dataCounter from "../helpers/dataCounter.js";
 
+/* Importing the mongoose module and creating a new ObjectId. */
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
 // Fetch All Messages from Database (Done)
+/**
+ * It fetches all messages from the database and paginates them.
+ * </code>
+ * @param req - The request object.
+ * @param res - The response object.
+ */
 const findAll = async (req, res) => {
   let { status, page } = req.query;
   let query = {};
@@ -89,6 +99,12 @@ const findAll = async (req, res) => {
 };
 
 // Create and Save a new Message to the database (Done)
+/**
+ * It takes the request body and creates a new message in the database.
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The message is being returned.
+ */
 const create = (req, res) => {
   const { firstName, lastName, email, subject, body } = req.body;
 
@@ -121,6 +137,12 @@ const create = (req, res) => {
 };
 
 // Find Message By ID (Done)
+/**
+ * It finds a message by its ID and returns it
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The findOne function is returning the message with the id that was passed in the request.
+ */
 const findOne = (req, res) => {
   const { id } = req.params;
 
@@ -162,6 +184,14 @@ const findOne = (req, res) => {
 };
 
 // Update Status into Read (Done)
+/**
+ * It takes the id of a message from the request parameters, checks if the id is valid, and if it is,
+ * it updates the message's status to "Read" and returns the updated message.
+ * @param req - The request object represents the HTTP request and has properties for the request query
+ * string, parameters, body, HTTP headers, and so on.
+ * @param res - The response object.
+ * @returns The message is being returned with the status of "Readed"
+ */
 const read = (req, res) => {
   const { id } = req.params;
 
@@ -203,6 +233,13 @@ const read = (req, res) => {
 };
 
 // Update Status into Replied (Done)
+/**
+ * It takes the message ID, the user ID, the email, the subject, and the message and sends it to the
+ * replyMessage function.
+ * @param req - {
+ * @param res - The response object.
+ * @returns The response from the replyMessage function.
+ */
 const reply = async (req, res) => {
   const { id } = req.params;
 
@@ -256,6 +293,13 @@ const reply = async (req, res) => {
 };
 
 // Delete Message By Id (Done)
+/**
+ * It takes the id of the message to be deleted from the request parameters, checks if the id is valid,
+ * and if it is, it deletes the message from the database and returns a message to the user.
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The message is being deleted from the database.
+ */
 const deleteMsg = (req, res) => {
   const { id } = req.params;
 
