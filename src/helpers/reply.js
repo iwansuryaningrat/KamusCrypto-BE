@@ -1,3 +1,4 @@
+/* Importing the database and the playlists collection. */
 import mailgun from "mailgun-js";
 import db from "../models/index.js";
 const Messages = db.messages;
