@@ -1,13 +1,23 @@
+/* Importing the models from the index.js file in the models folder. */
 import db from "../models/index.js";
 const LiveclassTransactions = db.liveclassTransactions;
 const Users = db.users;
 const Liveclass = db.liveclass;
 const Vouchers = db.vouchers;
 const Referrals = db.referrals;
+
+/* Importing the functions from the files. */
 import createTransaction from "./midtrans/createPayment.function.js";
 import addParticipant from "../helpers/liveclass.js";
 
 // Create and Save a new MembershipTransaction
+/**
+ * It creates a transaction and a liveclass transaction.
+ * </code>
+ * @param req - {
+ * @param res - the response object
+ * @returns The transaction object
+ */
 const create = async (req, res) => {
   const { userId } = req.params;
   // Validate request (must have a liveclass id in params)
