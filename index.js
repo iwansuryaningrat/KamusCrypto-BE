@@ -18,12 +18,14 @@ import {
 const app = express();
 
 // File Access Control
+/* For file access control. */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 app.use(cors());
 
+/* A middleware that allows the server to accept requests from different origins. */
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
@@ -36,6 +38,7 @@ app.use((req, res, next) => {
   next();
 });
 
+/* A middleware that allows the server to accept requests from different origins. */
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -43,9 +46,10 @@ app.use(
   })
 );
 
+/* A middleware that allows the server to accept requests from different origins. */
 app.use(
   cookieSession({
-    name: "Cuanmax",
+    name: "Kamus Crypto",
     secret: "COOKIE_SECRET",
     httpOnly: true,
     sameSite: "strict",
@@ -70,7 +74,11 @@ app.get("/", (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 8000;
+if (process.env.NODE_ENV === "production") {
+  var PORT = process.env.PORT || 8000;
+} else {
+  var PORT = process.env.PORT_DEV || 8080;
+}
 
 app.listen(PORT, () => {
   console.log(`Server started on port http://localhost:${PORT}`);

@@ -8,10 +8,13 @@ const ObjectId = mongoose.Types.ObjectId;
 
 const password = "Undip.jaya123";
 // generate salt to hash password
+/* Generating a salt for the password. */
 const salt = await bcrypt.genSalt(10);
 // now we set user password to hashed password
+/* Hashing the password. */
 const encryptedPassword = await bcrypt.hash(password, salt);
 
+/* An array of objects. */
 const usersSeeder = [
   {
     name: "Super Admin",
@@ -91,6 +94,10 @@ const usersSeeder = [
 ];
 
 // Create users seeder function
+/**
+ * It deletes all the users in the database, then inserts the usersSeeder array into the database.
+ * @returns The return value is a promise.
+ */
 const usersSeederFunction = async () => {
   try {
     await Users.deleteMany();

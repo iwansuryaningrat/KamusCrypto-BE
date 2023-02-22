@@ -1,5 +1,8 @@
 import db from "../models/index.js";
 
+/**
+ * It connects to the database and returns a promise.
+ */
 const connect = () => {
   db.mongoose
     .connect(db.url, {

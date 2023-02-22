@@ -1,3 +1,4 @@
+/* Importing the necessary packages for the function to work. */
 import db from "../../models/index.js";
 const Users = db.users;
 import jwt from "jsonwebtoken";
@@ -5,6 +6,13 @@ import "dotenv/config";
 import bcrypt from "bcrypt";
 
 // Login Controller Function (DONE)
+/**
+ * It checks if the user exists, if it does, it compares the password, if it matches, it creates a
+ * token and a refresh token, and sends it back to the client
+ * @param req - The request object.
+ * @param res - the response object
+ * @returns The token and refreshToken are being returned.
+ */
 const loggingin = async (req, res) => {
   const { email, password, rememberMe } = req.body;
 

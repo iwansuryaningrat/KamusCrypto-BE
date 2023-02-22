@@ -6,6 +6,14 @@ import jwt from "jsonwebtoken";
 import { signupMailer } from "../../services/mailer.service.js";
 
 // Sign Up (DONE)
+/**
+ * It creates a new user, generates a token, and sends an email to the user.
+ * </code>
+ * @param req - The request object. This contains information about the HTTP request that raised the
+ * event.
+ * @param res - The response object.
+ * @returns The result of the function is the result of the await expression.
+ */
 const signup = async (req, res) => {
   const { name, email, username } = req.body;
   let password = req.body.password;

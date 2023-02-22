@@ -1,9 +1,16 @@
+/* Importing the database, the jwt, and the dotenv. */
 import db from "../../models/index.js";
 const Users = db.users;
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
 // Refresh Token Controller Function (DONE)
+/**
+ * It takes a refresh token, verifies it, and returns a new access token and a new refresh token
+ * @param req - request
+ * @param res - response object
+ * @returns The token and refreshToken are being returned.
+ */
 const refreshToken = async (req, res) => {
   const { refreshToken } = req.body;
 

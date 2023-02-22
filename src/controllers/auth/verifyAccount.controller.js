@@ -1,9 +1,18 @@
+/* Importing the database, the user model, the jwt library, and the dotenv library. */
 import db from "../../models/index.js";
 const Users = db.users;
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
 // Verify Account (DONE)
+/**
+ * It verifies the user's account by checking if the token is valid and if the user exists in the
+ * database.
+ * </code>
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The user object
+ */
 const verifyAccount = async (req, res) => {
   const { token } = req.params;
 

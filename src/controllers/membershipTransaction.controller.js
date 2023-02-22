@@ -1,10 +1,20 @@
+/* Importing the models from the index.js file in the models folder. */
 import db from "../models/index.js";
 const Users = db.users;
 const Plans = db.plans;
 const MembershipTransactions = db.membershipTransactions;
+
+/* Importing the function `createTransaction` from the file `createPayment.function.js` in the folder
+`midtrans`. */
 import createTransaction from "./midtrans/createPayment.function.js";
 
 // Create and Save a new MembershipTransaction
+/**
+ * It creates a transaction and saves it to the database
+ * @param req - the request object
+ * @param res - The response object.
+ * @returns The response is an object with a message and data property.
+ */
 const create = async (req, res) => {
   const { userId } = req.params;
   // Validate request (must have a membership id in params)
