@@ -523,6 +523,48 @@ const changeStatus = (req, res) => {
     });
 };
 
+// Get All Participants of a Live Class (Done)
+/**
+ * It gets all the participants of a live class.
+ * @param req - request object
+ * @param res - the response object
+ * @returns The participants array is being returned.
+ */
+const getAllParticipants = (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).send({
+      message: "Live Class ID is required.",
+    });
+  }
+
+  Liveclass.findById(id)
+    .populate({
+      path: "participants.participantsList.userID",
+      select: "name username email",
+    })
+    .then((result) => {
+      if (!result) {
+        return res.status(404).send({
+          message: "Live Class not found",
+        });
+      }
+
+      const { participants } = result;
+
+      return res.status(200).send({
+        message: "All participants of a live class successfully retrieved",
+        participants,
+      });
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message: err.message || "Some error while updating live class.",
+      });
+    });
+};
+
 export {
   findAll,
   findAllForUsers,
@@ -532,4 +574,5 @@ export {
   create,
   updateThumbnail,
   changeStatus,
+  getAllParticipants,
 };
