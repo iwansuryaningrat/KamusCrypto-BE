@@ -1,6 +1,7 @@
 import dbConfig from "../configs/db.config.js";
 import mongoose from "mongoose";
 
+/* Importing all the models from the models folder. */
 import Certificate from "../models/certificate.model.js";
 import Liveclass from "../models/liveclass.model.js";
 import Messages from "../models/messages.model.js";
@@ -21,10 +22,13 @@ import Videos from "../models/videos.model.js";
 import Vouchers from "../models/vouchers.model.js";
 import Watchlist from "../models/watchlist.model.js";
 
+/* Setting the Promise library that mongoose will use. */
 mongoose.Promise = global.Promise;
 
+/* Creating an empty object. */
 const db = {};
 
+/* Creating a connection to the database. */
 db.mongoose = mongoose;
 db.url = dbConfig.url;
 db.certificate = Certificate(mongoose);
