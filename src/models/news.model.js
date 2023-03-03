@@ -20,6 +20,9 @@ export default (mongoose) => {
         require: true,
       },
       thumbnail: {
+        alt: {
+          type: String,
+        },
         photoName: {
           type: String,
         },
