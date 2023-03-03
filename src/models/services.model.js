@@ -8,13 +8,18 @@ export default (mongoose) => {
       },
       description: String,
       image: {
-        imageName: {
-          type: String,
-        },
-        imagePath: {
+        alt: {
           type: String,
           require: true,
-          default: "",
+        },
+        imageName: {
+          type: String,
+          require: true,
+        },
+        imageLink: {
+          type: String,
+          require: true,
+          default: "https://via.placeholder.com/150",
         },
       },
       benefits: [

@@ -22,11 +22,13 @@ export default (mongoose) => {
       thumbnail: {
         alt: {
           type: String,
+          require: true,
         },
-        photoName: {
+        imageName: {
           type: String,
+          require: true,
         },
-        photoLink: {
+        imageLink: {
           type: String,
           require: true,
           default: "https://via.placeholder.com/150",
