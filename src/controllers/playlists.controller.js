@@ -5,6 +5,8 @@ import dataCounter from "../helpers/dataCounter.js";
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
+import Images from "../helpers/imageProcessor.js";
+
 // Find All Playlists for Admin
 const findAll = async (req, res) => {
   let { category, videoLevel, status, page } = req.query;
@@ -232,10 +234,12 @@ const create = (req, res) => {
   //   "host"
   // )}/assets/images/${photoName}`;
   const photoName = req.file.filename;
-  const photoLink =
-    process.env.NODE_ENV === "production"
-      ? `https://api.kamuscrypto.id/assets/images/${photoName}`
-      : `https://dev.kamuscrypto.id/assets/images/${photoName}`;
+  const image = new Images(photoName);
+
+  image.setImageAlt();
+  image.setImageName();
+  image.setImageSrc();
+  const imageProp = image.getImageProperties();
 
   const { name, description } = req.body;
 
@@ -248,10 +252,7 @@ const create = (req, res) => {
   const playlist = new Playlists({
     name,
     description,
-    image: {
-      imageName: photoName,
-      imageLink: photoLink,
-    },
+    image: imageProp,
   });
 
   playlist
@@ -367,18 +368,17 @@ const updateThumbnail = (req, res) => {
   //   "host"
   // )}/assets/images/${photoName}`;
   const photoName = req.file.filename;
-  const photoLink =
-    process.env.NODE_ENV === "production"
-      ? `https://api.kamuscrypto.id/assets/images/${photoName}`
-      : `https://dev.kamuscrypto.id/assets/images/${photoName}`;
+  const image = new Images(photoName);
+
+  image.setImageAlt();
+  image.setImageName();
+  image.setImageSrc();
+  const imageProp = image.getImageProperties();
 
   Playlists.findByIdAndUpdate(
     id,
     {
-      image: {
-        imageName: photoName,
-        imageLink: photoLink,
-      },
+      image: imageProp,
     },
     { new: true }
   )

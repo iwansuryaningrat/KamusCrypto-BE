@@ -5,6 +5,9 @@ const Liveclass = db.liveclass;
 /* Importing the dataCounter function from the dataCounter.js file in the helpers folder. */
 import dataCounter from "../helpers/dataCounter.js";
 
+/* The above code is importing the imageProcessor.js file from the helpers folder. */
+import Images from "../helpers/imageProcessor.js";
+
 // Find all liveclasses (Done)
 /**
  * It fetches all liveclasses from the database and returns them to the user.
@@ -399,10 +402,12 @@ const create = (req, res) => {
   //   "host"
   // )}/assets/images/${photoName}`;
   const photoName = req.file.filename;
-  const photoLink =
-    process.env.NODE_ENV === "production"
-      ? `https://api.kamuscrypto.id/assets/images/${photoName}`
-      : `https://dev.kamuscrypto.id/assets/images/${photoName}`;
+  const image = new Images(photoName);
+
+  image.setImageAlt();
+  image.setImageName();
+  image.setImageSrc();
+  const imageProp = image.getImageProperties();
 
   const theDate = new Date(date).toDateString();
 
@@ -419,10 +424,7 @@ const create = (req, res) => {
     time,
     location,
     duration,
-    thumbnail: {
-      imageName: photoName,
-      imageLink: photoLink,
-    },
+    thumbnail: imageProp,
     benefits,
     participants: [],
     status,
@@ -459,10 +461,12 @@ const updateThumbnail = (req, res) => {
   //   "host"
   // )}/assets/images/${photoName}`;
   const photoName = req.file.filename;
-  const photoLink =
-    process.env.NODE_ENV === "production"
-      ? `https://api.kamuscrypto.id/assets/images/${photoName}`
-      : `https://dev.kamuscrypto.id/assets/images/${photoName}`;
+  const image = new Images(photoName);
+
+  image.setImageAlt();
+  image.setImageName();
+  image.setImageSrc();
+  const imageProp = image.getImageProperties();
 
   const { id } = req.params;
 
@@ -472,11 +476,7 @@ const updateThumbnail = (req, res) => {
     });
   }
 
-  Liveclass.findByIdAndUpdate(
-    id,
-    { thumbnail: { imageName: photoName, imageLink: photoLink } },
-    { new: true }
-  )
+  Liveclass.findByIdAndUpdate(id, { thumbnail: imageProp }, { new: true })
     .then((result) => {
       if (!result) {
         return res.status(404).send({

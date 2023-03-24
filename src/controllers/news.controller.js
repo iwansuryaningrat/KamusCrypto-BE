@@ -5,6 +5,7 @@ const News = db.news;
 /* Importing the dataCounter and timeConverter helper functions. */
 import dataCounter from "../helpers/dataCounter.js";
 import timeConvert from "../helpers/timeConverter.js";
+import Images from "../helpers/imageProcessor.js";
 
 // Create and Save a new News (Done)
 /**
@@ -73,16 +74,15 @@ const uploadImage = (req, res) => {
 
   // Handle thumbnail image upload
   const photoName = req.file.filename;
-  const photoLink =
-    process.env.NODE_ENV === "production"
-      ? `https://api.kamuscrypto.id/assets/images/${photoName}`
-      : `https://dev.kamuscrypto.id/assets/images/${photoName}`;
+  const image = new Images(photoName);
+
+  image.setImageAlt();
+  image.setImageName();
+  image.setImageSrc();
+  const imageProp = image.getImageProperties();
 
   News.findByIdAndUpdate(id, {
-    thumbnail: {
-      photoName,
-      photoLink,
-    },
+    thumbnail: imageProp,
   })
     .then((data) => {
       if (!data) {
@@ -374,20 +374,19 @@ const update = (req, res) => {
   //   "host"
   // )}/assets/images/${photoName}`;
   const photoName = req.file.filename;
-  const photoLink =
-    process.env.NODE_ENV === "production"
-      ? `https://api.kamuscrypto.id/assets/images/${photoName}`
-      : `https://dev.kamuscrypto.id/assets/images/${photoName}`;
+  const image = new Images(photoName);
+
+  image.setImageAlt();
+  image.setImageName();
+  image.setImageSrc();
+  const imageProp = image.getImageProperties();
 
   News.findByIdAndUpdate(id, {
     title,
     author,
     category,
     tags,
-    thumbnail: {
-      photoName,
-      photoLink,
-    },
+    thumbnail: imageProp,
     body,
     source,
     status,

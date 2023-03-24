@@ -572,13 +572,19 @@ const create = async (req, res) => {
     status,
   } = req.body;
 
-  // const protocol = req.protocol === "https" ? req.protocol : "https";
-  // var thumbnailName = req.file.filename;
-  // var thumbnailLink = `${protocol}://${req.get(
-  //   "host"
-  // )}/assets/images/${thumbnailName}`;
+  if (!req.file) {
+    return res.status(400).send({
+      message: "Thumbnail is required",
+    });
+  }
+
   const thumbnailName = req.file.filename;
-  const thumbnailLink = `https://api.kamuscrypto.id/assets/images/${thumbnailName}`;
+  const image = new Images(thumbnailName);
+
+  image.setImageAlt();
+  image.setImageName();
+  image.setImageSrc();
+  const imageProp = image.getImageProperties();
 
   if (
     !title ||
@@ -599,11 +605,6 @@ const create = async (req, res) => {
 
   if (!url360) url360 = null;
 
-  if (!req.file) {
-    thumbnailName = null;
-    thumbnailLink = null;
-  }
-
   const video = new Videos({
     title,
     description,
@@ -615,7 +616,7 @@ const create = async (req, res) => {
       { quality: "480p", url: url480 },
       { quality: "360p", url: url360 },
     ],
-    thumbnail: { thumbnailName, thumbnailLink },
+    thumbnail: imageProp,
     playlist: playlistId,
     tags,
     date: new Date().getTime(),
@@ -651,13 +652,19 @@ const create = async (req, res) => {
 
 // Update thumbnail
 const updateThumbnail = (req, res) => {
-  // const protocol = req.protocol === "https" ? req.protocol : "https";
-  // const thumbnailName = req.file.filename;
-  // const thumbnailLink = `${protocol}://${req.get(
-  //   "host"
-  // )}/assets/images/${thumbnailName}`;
+  if (!req.file) {
+    return res.status(400).send({
+      message: "Thumbnail file is required",
+    });
+  }
+
   const thumbnailName = req.file.filename;
-  const thumbnailLink = `https://api.kamuscrypto.id/assets/images/${photoName}`;
+  const image = new Images(thumbnailName);
+
+  image.setImageAlt();
+  image.setImageName();
+  image.setImageSrc();
+  const imageProp = image.getImageProperties();
 
   const { id } = req.params;
 
@@ -667,17 +674,7 @@ const updateThumbnail = (req, res) => {
     });
   }
 
-  if (!req.file) {
-    return res.status(400).send({
-      message: "Thumbnail file is required",
-    });
-  }
-
-  Videos.findByIdAndUpdate(
-    id,
-    { thumbnail: { thumbnailName, thumbnailLink } },
-    { new: true }
-  )
+  Videos.findByIdAndUpdate(id, { thumbnail: imageProp }, { new: true })
     .then((result) => {
       if (!result) {
         return res.status(404).send({

@@ -6,6 +6,8 @@ import dataCounter from "../helpers/dataCounter.js";
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
+import Images from "../helpers/imageProcessor.js";
+
 // Find all testimoni for admin
 const findAllAdmin = async (req, res) => {
   let { active, page } = req.query;
@@ -63,7 +65,7 @@ const findAllAdmin = async (req, res) => {
       }
 
       const data = result.map((item) => {
-        const { _id, name, position, company, testimoni, photosUrl, status } =
+        const { _id, name, position, company, testimoni, photos, status } =
           item;
         return {
           id: _id,
@@ -71,7 +73,7 @@ const findAllAdmin = async (req, res) => {
           position,
           company,
           testimoni,
-          photosUrl,
+          photos,
           status,
         };
       });
@@ -100,13 +102,13 @@ const findAll = (req, res) => {
       }
 
       const data = result.map((item) => {
-        const { name, position, company, testimoni, photosUrl } = item;
+        const { name, position, company, testimoni, photos } = item;
         return {
           name,
           position,
           company,
           testimoni,
-          photosUrl,
+          photos,
         };
       });
 
@@ -140,7 +142,7 @@ const findOne = (req, res) => {
         });
       }
 
-      const { _id, name, position, company, testimoni, photosUrl, status } =
+      const { _id, name, position, company, testimoni, photos, status } =
         result;
 
       res.send({
@@ -151,7 +153,7 @@ const findOne = (req, res) => {
           position,
           company,
           testimoni,
-          photosUrl,
+          photos,
           status,
         },
       });
@@ -179,23 +181,20 @@ const create = (req, res) => {
     });
   }
 
-  // const protocol = req.protocol === "https" ? req.protocol : "https";
-  // const imageName = req.file.filename;
-  // const photosUrl = `${protocol}://${req.get(
-  //   "host"
-  // )}/assets/images/${imageName}`;
   const imageName = req.file.filename;
-  const photosUrl =
-    process.env.NODE_ENV === "production"
-      ? `https://api.kamuscrypto.id/assets/images/${imageName}`
-      : `https://dev.kamuscrypto.id/assets/images/${imageName}`;
+  const image = new Images(imageName);
+
+  image.setImageAlt();
+  image.setImageName();
+  image.setImageSrc();
+  const imageProp = image.getImageProperties();
 
   const newTestimoni = new Testimoni({
     name,
     position,
     company,
     testimoni,
-    photosUrl,
+    photos: imageProp,
   });
 
   newTestimoni
@@ -318,19 +317,15 @@ const uploadPhotos = (req, res) => {
     });
   }
 
-  // const protocol = req.protocol === "https" ? req.protocol : "https";
-  // const imageName = req.file.filename;
-  // const photosUrl = `${protocol}://${req.get(
-  //   "host"
-  // )}/assets/images/${imageName}`;
-
   const imageName = req.file.filename;
-  const photosUrl =
-    process.env.NODE_ENV === "production"
-      ? `https://api.kamuscrypto.id/assets/images/${imageName}`
-      : `https://dev.kamuscrypto.id/assets/images/${imageName}`;
+  const image = new Images(imageName);
 
-  Testimoni.findByIdAndUpdate(id, { photosUrl }, { new: true })
+  image.setImageAlt();
+  image.setImageName();
+  image.setImageSrc();
+  const imageProp = image.getImageProperties();
+
+  Testimoni.findByIdAndUpdate(id, { photos: imageProp }, { new: true })
     .then((result) => {
       if (!result) {
         return res.status(404).send({
