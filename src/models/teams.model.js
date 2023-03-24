@@ -14,11 +14,17 @@ export default (mongoose) => {
         require: true,
       },
       photo: {
-        photoName: {
+        alt: {
           type: String,
+          require: true,
+          default: "default-profile-picture",
+        },
+        imageName: {
+          type: String,
+          require: true,
           default: "default-profile-picture.png",
         },
-        photoLink: {
+        imageLink: {
           type: String,
           require: true,
           default:

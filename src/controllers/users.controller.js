@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import adminCheck from "../helpers/admincheck.js";
 import dataCounter from "../helpers/dataCounter.js";
+import Images from "../helpers/imageProcessor.js";
 
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
@@ -404,21 +405,24 @@ const changeProfilePicture = (req, res) => {
     });
   }
 
-  // const protocol = req.protocol === "https" ? req.protocol : "https";
-  // const imageName = req.file.filename;
-  // const imageLink = `${protocol}://${req.get(
-  //   "host"
-  // )}/assets/images/${imageName}`;
-  const imageName = req.file.filename;
-  const imageLink = `https://api.kamuscrypto.id/assets/images/${imageName}`;
+  let imageName = req.file.filename;
+  const image = new Image(imageName);
+
+  image.setImageAlt();
+  image.setImageName();
+  image.setImageSrc();
+  const imageProp = image.getImageProperties();
+
+  // var newImageName = imageName.substring(14, imageName.length);
+  // var slug = newImageName
+  //   .substring(0, newImageName.length - 4)
+  //   .toLocaleLowerCase();
+  // const imageLink = `https://api.kamuscrypto.id/assets/images/${imageName}`;
 
   Users.findByIdAndUpdate(
     id,
     {
-      image: {
-        imageName: imageName,
-        imageLink: imageLink,
-      },
+      image: imageProp,
     },
     { new: true }
   )

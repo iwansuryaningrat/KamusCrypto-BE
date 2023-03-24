@@ -18,11 +18,23 @@ export default (mongoose) => {
         type: String,
         require: true,
       },
-      photosUrl: {
-        type: String,
-        require: true,
-        default:
-          "https://kamuscrypto.sgp1.cdn.digitaloceanspaces.com/images/default-profile-picture.png",
+      photos: {
+        alt: {
+          type: String,
+          require: true,
+          default: "default-profile-picture",
+        },
+        imageName: {
+          type: String,
+          require: true,
+          default: "default-profile-picture.png",
+        },
+        imageLink: {
+          type: String,
+          require: true,
+          default:
+            "https://kamuscrypto.sgp1.cdn.digitaloceanspaces.com/images/default-profile-picture.png",
+        },
       },
       status: {
         type: String,

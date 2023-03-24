@@ -20,10 +20,15 @@ export default (mongoose) => {
         require: true,
       },
       thumbnail: {
-        photoName: {
+        alt: {
           type: String,
+          require: true,
         },
-        photoLink: {
+        imageName: {
+          type: String,
+          require: true,
+        },
+        imageLink: {
           type: String,
           require: true,
           default: "https://via.placeholder.com/150",

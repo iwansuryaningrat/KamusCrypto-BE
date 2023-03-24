@@ -8,8 +8,13 @@ export default (mongoose) => {
       },
       description: String,
       image: {
+        alt: {
+          type: String,
+          require: true,
+        },
         imageName: {
           type: String,
+          require: true,
         },
         imageLink: {
           type: String,

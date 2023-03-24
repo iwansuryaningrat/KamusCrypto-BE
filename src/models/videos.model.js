@@ -28,14 +28,17 @@ export default (mongoose) => {
         },
       ],
       thumbnail: {
-        thumbnailName: {
+        alt: {
           type: String,
           require: true,
         },
-        thumbnailLink: {
+        imageName: {
           type: String,
           require: true,
-          default: "example.jpg",
+        },
+        imageLink: {
+          type: String,
+          require: true,
         },
       },
       playlist: {
