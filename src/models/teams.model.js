@@ -14,7 +14,7 @@ export default (mongoose) => {
         require: true,
       },
       photo: {
-        alt: {
+        imageAlt: {
           type: String,
           require: true,
           default: "default-profile-picture",
