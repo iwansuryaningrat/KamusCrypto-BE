@@ -20,7 +20,7 @@ export default (mongoose) => {
         require: true,
       },
       thumbnail: {
-        alt: {
+        imageAlt: {
           type: String,
           require: true,
         },

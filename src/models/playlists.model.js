@@ -8,7 +8,7 @@ export default (mongoose) => {
       },
       description: String,
       image: {
-        alt: {
+        imageAlt: {
           type: String,
           require: true,
         },

@@ -5,6 +5,8 @@ import dataCounter from "../helpers/dataCounter.js";
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
+import Images from "../helpers/imageProcessor.js";
+
 // Fetch all teams data (DONE)
 const findAll = async (req, res) => {
   let { active, page, pageLimit } = req.query;
@@ -282,14 +284,15 @@ const teamProfilePicture = (req, res) => {
     });
   }
 
-  // const protocol = req.protocol === "https" ? req.protocol : "https";
   const photoName = req.file.filename;
-  const photoLink = `https://api.kamuscrypto.id/assets/images/${photoName}`;
-  // const photoLink = `${protocol}://${req.get(
-  //   "host"
-  // )}/assets/images/${photoName}`;
+  const image = new Images(photoName);
 
-  Teams.findByIdAndUpdate(id, { photo: { photoName, photoLink } })
+  image.setImageAlt();
+  image.setImageName();
+  image.setImageSrc();
+  const imageProp = image.getImageProperties();
+
+  Teams.findByIdAndUpdate(id, { photo: imageProp })
     .then((result) => {
       if (!result) {
         return res.status(404).send({

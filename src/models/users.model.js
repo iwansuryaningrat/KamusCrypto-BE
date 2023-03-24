@@ -32,7 +32,7 @@ export default (mongoose) => {
         require: true,
       },
       image: {
-        alt: {
+        imageAlt: {
           type: String,
           require: true,
           default: "default-profile-picture",

@@ -5,6 +5,9 @@ const Liveclass = db.liveclass;
 /* Importing the dataCounter function from the dataCounter.js file in the helpers folder. */
 import dataCounter from "../helpers/dataCounter.js";
 
+/* The above code is importing the imageProcessor.js file from the helpers folder. */
+import Images from "../helpers/imageProcessor.js";
+
 // Find all liveclasses (Done)
 /**
  * It fetches all liveclasses from the database and returns them to the user.
@@ -85,6 +88,7 @@ const findAll = async (req, res) => {
           date,
           time,
           location,
+          duration,
           benefits,
           thumbnail,
           participants,
@@ -103,6 +107,7 @@ const findAll = async (req, res) => {
           date,
           time,
           location,
+          duration,
           thumbnail,
           benefits,
           participants,
@@ -196,6 +201,7 @@ const findAllForUsers = async (req, res) => {
           date,
           time,
           location,
+          duration,
           benefits,
           thumbnail,
         } = liveclass;
@@ -212,6 +218,7 @@ const findAllForUsers = async (req, res) => {
           date,
           time,
           location,
+          duration,
           thumbnail,
           benefits,
         };
@@ -259,6 +266,7 @@ const findOne = (req, res) => {
           message: "Liveclass not found with id " + id,
         });
       }
+
       res.send({
         message: "Liveclass was fetched successfully",
         data: liveclass,
@@ -362,14 +370,23 @@ const create = (req, res) => {
     date,
     time,
     location,
+    duration,
     status,
     benefits,
   } = req.body;
 
-  if (!title || !liveclassCode || !price || !date || !time || !location) {
+  if (
+    !title ||
+    !liveclassCode ||
+    !price ||
+    !date ||
+    !time ||
+    !location ||
+    !duration
+  ) {
     return res.status(400).send({
       message:
-        "Title, Live Class Code, Price, Date, Time, and Location are required.",
+        "Title, Live Class Code, Price, Date, Time, Location, and Duration are required.",
     });
   }
 
@@ -385,7 +402,12 @@ const create = (req, res) => {
   //   "host"
   // )}/assets/images/${photoName}`;
   const photoName = req.file.filename;
-  const photoLink = `https://api.kamuscrypto.id/assets/images/${photoName}`;
+  const image = new Images(photoName);
+
+  image.setImageAlt();
+  image.setImageName();
+  image.setImageSrc();
+  const imageProp = image.getImageProperties();
 
   const theDate = new Date(date).toDateString();
 
@@ -401,10 +423,8 @@ const create = (req, res) => {
     theDate,
     time,
     location,
-    thumbnail: {
-      imageName: photoName,
-      imageLink: photoLink,
-    },
+    duration,
+    thumbnail: imageProp,
     benefits,
     participants: [],
     status,
@@ -441,7 +461,12 @@ const updateThumbnail = (req, res) => {
   //   "host"
   // )}/assets/images/${photoName}`;
   const photoName = req.file.filename;
-  const photoLink = `https://api.kamuscrypto.id/assets/images/${photoName}`;
+  const image = new Images(photoName);
+
+  image.setImageAlt();
+  image.setImageName();
+  image.setImageSrc();
+  const imageProp = image.getImageProperties();
 
   const { id } = req.params;
 
@@ -451,11 +476,7 @@ const updateThumbnail = (req, res) => {
     });
   }
 
-  Liveclass.findByIdAndUpdate(
-    id,
-    { thumbnail: { imageName: photoName, imageLink: photoLink } },
-    { new: true }
-  )
+  Liveclass.findByIdAndUpdate(id, { thumbnail: imageProp }, { new: true })
     .then((result) => {
       if (!result) {
         return res.status(404).send({

@@ -406,7 +406,7 @@ const changeProfilePicture = (req, res) => {
   }
 
   let imageName = req.file.filename;
-  const image = new Image(imageName);
+  const image = new Images(imageName);
 
   image.setImageAlt();
   image.setImageName();

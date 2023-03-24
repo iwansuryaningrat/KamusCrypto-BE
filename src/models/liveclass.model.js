@@ -49,9 +49,18 @@ export default (mongoose) => {
         type: String,
         require: true,
       },
+      duration: {
+        type: String,
+        require: true,
+      },
       thumbnail: {
+        imageAlt: {
+          type: String,
+          require: true,
+        },
         imageName: {
           type: String,
+          require: true,
         },
         imageLink: {
           type: String,
