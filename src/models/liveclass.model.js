@@ -54,8 +54,13 @@ export default (mongoose) => {
         require: true,
       },
       thumbnail: {
+        imageAlt: {
+          type: String,
+          require: true,
+        },
         imageName: {
           type: String,
+          require: true,
         },
         imageLink: {
           type: String,
