@@ -85,6 +85,7 @@ const findAll = async (req, res) => {
           date,
           time,
           location,
+          duration,
           benefits,
           thumbnail,
           participants,
@@ -103,6 +104,7 @@ const findAll = async (req, res) => {
           date,
           time,
           location,
+          duration,
           thumbnail,
           benefits,
           participants,
@@ -196,6 +198,7 @@ const findAllForUsers = async (req, res) => {
           date,
           time,
           location,
+          duration,
           benefits,
           thumbnail,
         } = liveclass;
@@ -212,6 +215,7 @@ const findAllForUsers = async (req, res) => {
           date,
           time,
           location,
+          duration,
           thumbnail,
           benefits,
         };
@@ -259,6 +263,7 @@ const findOne = (req, res) => {
           message: "Liveclass not found with id " + id,
         });
       }
+
       res.send({
         message: "Liveclass was fetched successfully",
         data: liveclass,
@@ -362,14 +367,23 @@ const create = (req, res) => {
     date,
     time,
     location,
+    duration,
     status,
     benefits,
   } = req.body;
 
-  if (!title || !liveclassCode || !price || !date || !time || !location) {
+  if (
+    !title ||
+    !liveclassCode ||
+    !price ||
+    !date ||
+    !time ||
+    !location ||
+    !duration
+  ) {
     return res.status(400).send({
       message:
-        "Title, Live Class Code, Price, Date, Time, and Location are required.",
+        "Title, Live Class Code, Price, Date, Time, Location, and Duration are required.",
     });
   }
 
@@ -404,6 +418,7 @@ const create = (req, res) => {
     theDate,
     time,
     location,
+    duration,
     thumbnail: {
       imageName: photoName,
       imageLink: photoLink,
