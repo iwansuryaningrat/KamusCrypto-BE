@@ -20,7 +20,10 @@ export default class Images {
   }
 
   setImageSrc() {
-    this.imageSrc = `https://api.kamuscrypto.id/assets/images/${this.imageName}`;
+    this.imageSrc =
+      process.env.NODE_ENV === "production"
+        ? `https://api.kamuscrypto.id/assets/images/${this.imageName}`
+        : `https://dev.kamuscrypto.id/assets/images/${this.imageName}`;
 
     return this.imageSrc;
   }

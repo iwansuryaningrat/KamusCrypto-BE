@@ -232,7 +232,10 @@ const create = (req, res) => {
   //   "host"
   // )}/assets/images/${photoName}`;
   const photoName = req.file.filename;
-  const photoLink = `https://api.kamuscrypto.id/assets/images/${photoName}`;
+  const photoLink =
+    process.env.NODE_ENV === "production"
+      ? `https://api.kamuscrypto.id/assets/images/${photoName}`
+      : `https://dev.kamuscrypto.id/assets/images/${photoName}`;
 
   const { name, description } = req.body;
 
@@ -364,7 +367,10 @@ const updateThumbnail = (req, res) => {
   //   "host"
   // )}/assets/images/${photoName}`;
   const photoName = req.file.filename;
-  const photoLink = `https://api.kamuscrypto.id/assets/images/${photoName}`;
+  const photoLink =
+    process.env.NODE_ENV === "production"
+      ? `https://api.kamuscrypto.id/assets/images/${photoName}`
+      : `https://dev.kamuscrypto.id/assets/images/${photoName}`;
 
   Playlists.findByIdAndUpdate(
     id,

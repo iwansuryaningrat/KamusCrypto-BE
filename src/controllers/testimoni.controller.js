@@ -185,7 +185,10 @@ const create = (req, res) => {
   //   "host"
   // )}/assets/images/${imageName}`;
   const imageName = req.file.filename;
-  const photosUrl = `https://api.kamuscrypto.id/assets/images/${imageName}`;
+  const photosUrl =
+    process.env.NODE_ENV === "production"
+      ? `https://api.kamuscrypto.id/assets/images/${imageName}`
+      : `https://dev.kamuscrypto.id/assets/images/${imageName}`;
 
   const newTestimoni = new Testimoni({
     name,
@@ -315,11 +318,17 @@ const uploadPhotos = (req, res) => {
     });
   }
 
-  const protocol = req.protocol === "https" ? req.protocol : "https";
+  // const protocol = req.protocol === "https" ? req.protocol : "https";
+  // const imageName = req.file.filename;
+  // const photosUrl = `${protocol}://${req.get(
+  //   "host"
+  // )}/assets/images/${imageName}`;
+
   const imageName = req.file.filename;
-  const photosUrl = `${protocol}://${req.get(
-    "host"
-  )}/assets/images/${imageName}`;
+  const photosUrl =
+    process.env.NODE_ENV === "production"
+      ? `https://api.kamuscrypto.id/assets/images/${imageName}`
+      : `https://dev.kamuscrypto.id/assets/images/${imageName}`;
 
   Testimoni.findByIdAndUpdate(id, { photosUrl }, { new: true })
     .then((result) => {
