@@ -49,6 +49,10 @@ export default (mongoose) => {
         type: String,
         require: true,
       },
+      duration: {
+        type: String,
+        require: true,
+      },
       thumbnail: {
         imageName: {
           type: String,
