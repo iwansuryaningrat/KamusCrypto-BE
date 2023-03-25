@@ -5,12 +5,15 @@ connect();
 // Import Seeder
 import usersSeederFunction from "./users.seeder.js";
 import deleteAll from "./delete.seeder.js";
+import seedPlans from "./plans.seeder.js";
 
 // Run Seeder
-const userSeeder = await usersSeederFunction();
-console.log(userSeeder);
+// const userSeeder = await usersSeederFunction();
+// console.log(userSeeder);
 // const deleteAllSeeder = await deleteAll();
 // console.log(deleteAllSeeder);
+const plansSeeder = await seedPlans();
+console.log(plansSeeder);
 
 //   end task
 process.exit();
