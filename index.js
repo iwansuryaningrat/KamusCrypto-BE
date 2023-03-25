@@ -23,20 +23,20 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 
-app.use(cors());
+// app.use(cors());
 
 /* A middleware that allows the server to accept requests from different origins. */
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, x-access-token"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", true);
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+//   res.setHeader(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept, x-access-token"
+//   );
+//   res.setHeader("Access-Control-Allow-Credentials", true);
 
-  next();
-});
+//   next();
+// });
 
 /* A middleware that allows the server to accept requests from different origins. */
 app.use(express.json());
