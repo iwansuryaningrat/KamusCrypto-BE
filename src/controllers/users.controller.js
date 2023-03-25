@@ -655,6 +655,42 @@ const requestUserActivation = async (req, res) => {
   }
 };
 
+const deletePicture = (req, res) => {
+  const { id } = req.params;
+
+  if (!id || !ObjectId.isValid(id)) {
+    return res.status(400).send({
+      message: "User ID is required",
+    });
+  }
+
+  const image = new Images("default-profile-picture.png");
+  image.setImageSrc();
+  image.setImageAlt();
+  image.setImageName();
+  const imageProp = image.getImageProperties();
+
+  Users.findByIdAndUpdate(id, { image: imageProp }, { new: true })
+    .then((result) => {
+      if (!result) {
+        return res.status(404).send({
+          message: "User not found",
+        });
+      }
+
+      res.send({
+        message: "User's profile picture deleted successfully.",
+      });
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message:
+          err.message ||
+          "Some error occurred while deleting the profile picture.",
+      });
+    });
+};
+
 export {
   findAll,
   findOne,
@@ -665,4 +701,5 @@ export {
   createReferralCode,
   changeProMemberToBasicMember,
   requestUserActivation,
+  deletePicture,
 };
