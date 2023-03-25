@@ -44,7 +44,7 @@ const deleter = async (Model) => {
  * @returns A promise.
  */
 const deleteData = async () => {
-  const isDeleted = await deleter(Playlists);
+  const isDeleted = await deleter(Liveclass);
   if (isDeleted) {
     return "Deleted";
   } else {
