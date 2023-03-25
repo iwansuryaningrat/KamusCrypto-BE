@@ -181,6 +181,7 @@ const findOne = (req, res) => {
         discountPrice: result.discountPrice,
         currency: result.currency,
         features: result.features,
+        materi: result.materi,
       };
 
       res.send({
@@ -264,6 +265,7 @@ const create = (req, res) => {
     currency,
     favourite,
     features,
+    materi,
   } = req.body;
 
   if (!planName || !duration || !price || !discountPrice || !features) {
@@ -281,6 +283,7 @@ const create = (req, res) => {
     currency,
     favourite,
     features,
+    materi,
   })
     .then((result) => {
       res.send({
