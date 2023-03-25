@@ -30,7 +30,7 @@ export default class Images {
 
   getImageProperties() {
     return {
-      ImageAlt: this.imageAlt,
+      imageAlt: this.imageAlt,
       imageName: this.imageName,
       imageLink: this.imageSrc,
     };
