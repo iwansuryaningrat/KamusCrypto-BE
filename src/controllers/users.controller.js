@@ -413,12 +413,6 @@ const changeProfilePicture = (req, res) => {
   image.setImageName();
   const imageProp = image.getImageProperties();
 
-  // var newImageName = imageName.substring(14, imageName.length);
-  // var slug = newImageName
-  //   .substring(0, newImageName.length - 4)
-  //   .toLocaleLowerCase();
-  // const imageLink = `https://api.kamuscrypto.id/assets/images/${imageName}`;
-
   Users.findByIdAndUpdate(
     id,
     {
