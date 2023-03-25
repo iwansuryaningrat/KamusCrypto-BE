@@ -4,6 +4,7 @@ import {
   changePassword,
   changeProfilePicture,
   createReferralCode,
+  deletePicture,
 } from "../../controllers/users.controller.js";
 import { login, proMember } from "../../middlewares/auth.js";
 import { userFinder } from "../../middlewares/usersfinder.js";
@@ -33,6 +34,13 @@ const usersProRouter = (app) => {
     proMember,
     userFinder,
     createReferralCode
+  );
+  router.delete(
+    "/:id/deletepicture",
+    login,
+    proMember,
+    userFinder,
+    deletePicture
   );
 
   app.use("/v1/pro/users", router);

@@ -69,6 +69,12 @@ const findAll = async (req, res) => {
     .limit(pageLimit)
     .sort({ createdAt: -1 })
     .then((result) => {
+      if (!result) {
+        return res.status(204).send({
+          message: "Videos not found",
+        });
+      }
+
       const data = result.map((video) => {
         const {
           _id,
@@ -167,6 +173,12 @@ const findAllPro = async (req, res) => {
     .limit(pageLimit)
     .sort({ createdAt: -1 })
     .then((result) => {
+      if (!result) {
+        return res.status(204).send({
+          message: "Videos not found",
+        });
+      }
+
       const data = result.map((video) => {
         const {
           _id,
@@ -581,9 +593,9 @@ const create = async (req, res) => {
   const thumbnailName = req.file.filename;
   const image = new Images(thumbnailName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
 
   if (
@@ -661,9 +673,9 @@ const updateThumbnail = (req, res) => {
   const thumbnailName = req.file.filename;
   const image = new Images(thumbnailName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
 
   const { id } = req.params;

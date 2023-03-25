@@ -69,7 +69,7 @@ const findAll = async (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "No users found!",
         });
       }
@@ -408,16 +408,10 @@ const changeProfilePicture = (req, res) => {
   let imageName = req.file.filename;
   const image = new Images(imageName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
-
-  // var newImageName = imageName.substring(14, imageName.length);
-  // var slug = newImageName
-  //   .substring(0, newImageName.length - 4)
-  //   .toLocaleLowerCase();
-  // const imageLink = `https://api.kamuscrypto.id/assets/images/${imageName}`;
 
   Users.findByIdAndUpdate(
     id,
@@ -655,6 +649,42 @@ const requestUserActivation = async (req, res) => {
   }
 };
 
+const deletePicture = (req, res) => {
+  const { id } = req.params;
+
+  if (!id || !ObjectId.isValid(id)) {
+    return res.status(400).send({
+      message: "User ID is required",
+    });
+  }
+
+  const image = new Images("default-profile-picture.png");
+  image.setImageSrc();
+  image.setImageAlt();
+  image.setImageName();
+  const imageProp = image.getImageProperties();
+
+  Users.findByIdAndUpdate(id, { image: imageProp }, { new: true })
+    .then((result) => {
+      if (!result) {
+        return res.status(404).send({
+          message: "User not found",
+        });
+      }
+
+      res.send({
+        message: "User's profile picture deleted successfully.",
+      });
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message:
+          err.message ||
+          "Some error occurred while deleting the profile picture.",
+      });
+    });
+};
+
 export {
   findAll,
   findOne,
@@ -665,4 +695,5 @@ export {
   createReferralCode,
   changeProMemberToBasicMember,
   requestUserActivation,
+  deletePicture,
 };

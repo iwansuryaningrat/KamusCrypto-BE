@@ -55,7 +55,7 @@ const findAll = async (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Playlist not found",
         });
       }
@@ -89,7 +89,7 @@ const findAllNameId = (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Playlist not found",
         });
       }
@@ -158,7 +158,7 @@ const findAllforPro = async (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Playlist not found",
         });
       }
@@ -193,7 +193,7 @@ const findAllforUsers = (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Playlist not found",
         });
       }
@@ -236,9 +236,9 @@ const create = (req, res) => {
   const photoName = req.file.filename;
   const image = new Images(photoName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
 
   const { name, description } = req.body;
@@ -370,9 +370,9 @@ const updateThumbnail = (req, res) => {
   const photoName = req.file.filename;
   const image = new Images(photoName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
 
   Playlists.findByIdAndUpdate(

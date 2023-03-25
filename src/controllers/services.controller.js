@@ -59,7 +59,7 @@ const findAll = async (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       if (result.length === 0) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Services not found",
         });
       }
@@ -331,7 +331,7 @@ const findAllForUsers = (req, res) => {
   Services.find({ status: "Active" })
     .then((result) => {
       if (!result) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Service not found",
         });
       }

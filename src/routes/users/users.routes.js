@@ -4,6 +4,7 @@ import {
   changePassword,
   changeProfilePicture,
   requestUserActivation,
+  deletePicture,
 } from "../../controllers/users.controller.js";
 import { login } from "../../middlewares/auth.js";
 import { userFinder } from "../../middlewares/usersfinder.js";
@@ -21,6 +22,7 @@ const usersRouter = (app) => {
     userFinder,
     requestUserActivation
   );
+  router.delete("/:id/deletepicture", login, userFinder, deletePicture);
 
   app.use("/v1/users", router);
 };

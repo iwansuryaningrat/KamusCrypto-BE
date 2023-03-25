@@ -65,7 +65,7 @@ const findAll = async (req, res) => {
     .sort({ createdAt: -1 })
     .then((message) => {
       if (message.length < 1) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "No Message was Found!",
         });
       }

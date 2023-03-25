@@ -69,7 +69,7 @@ const findAll = async (req, res) => {
     .sort({ createdAt: -1 })
     .then((liveclasses) => {
       if (!liveclasses) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "No liveclass was found",
         });
       }
@@ -182,7 +182,7 @@ const findAllForUsers = async (req, res) => {
     .sort({ createdAt: -1 })
     .then((liveclasses) => {
       if (!liveclasses) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "No liveclass was found",
         });
       }
@@ -396,17 +396,12 @@ const create = (req, res) => {
     });
   }
 
-  // const protocol = req.protocol === "https" ? req.protocol : "https";
-  // const photoName = req.file.filename;
-  // const photoLink = `${protocol}://${req.get(
-  //   "host"
-  // )}/assets/images/${photoName}`;
   const photoName = req.file.filename;
   const image = new Images(photoName);
 
-  image.setImageAlt();
-  image.setImageName();
   image.setImageSrc();
+  image.setImageName();
+  image.setImageAlt();
   const imageProp = image.getImageProperties();
 
   const theDate = new Date(date).toDateString();
@@ -455,17 +450,12 @@ const create = (req, res) => {
  * }</code>
  */
 const updateThumbnail = (req, res) => {
-  // const protocol = req.protocol === "https" ? req.protocol : "https";
-  // const photoName = req.file.filename;
-  // const photoLink = `${protocol}://${req.get(
-  //   "host"
-  // )}/assets/images/${photoName}`;
   const photoName = req.file.filename;
   const image = new Images(photoName);
 
-  image.setImageAlt();
-  image.setImageName();
   image.setImageSrc();
+  image.setImageName();
+  image.setImageAlt();
   const imageProp = image.getImageProperties();
 
   const { id } = req.params;

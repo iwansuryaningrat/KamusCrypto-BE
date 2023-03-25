@@ -52,7 +52,7 @@ const findAll = async (req, res) => {
     .then((result) => {
       // Check if there is any data
       if (result.length === 0) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "No data found.",
         });
       }
@@ -91,7 +91,7 @@ const findAllforUsers = (req, res) => {
     .then((result) => {
       // Check if there is any data
       if (result.length === 0) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "No data found.",
         });
       }
@@ -287,9 +287,9 @@ const teamProfilePicture = (req, res) => {
   const photoName = req.file.filename;
   const image = new Images(photoName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
 
   Teams.findByIdAndUpdate(id, { photo: imageProp })

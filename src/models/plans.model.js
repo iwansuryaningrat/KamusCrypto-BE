@@ -45,6 +45,17 @@ export default (mongoose) => {
           },
         },
       ],
+      materi: {
+        pertemuan: {
+          type: Number,
+          require: true,
+        },
+        duration: {
+          type: String,
+          require: true,
+        },
+        materi: [{ type: String, require: true }],
+      },
       status: {
         type: String,
         require: true,

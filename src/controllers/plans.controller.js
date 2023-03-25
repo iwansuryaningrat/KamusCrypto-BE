@@ -47,7 +47,7 @@ const findAllforUsers = async (req, res) => {
     .limit(pageLimit)
     .then((result) => {
       if (!result || result.length === 0) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "No plan was found",
         });
       }
@@ -124,7 +124,7 @@ const findAll = async (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result || result.length === 0) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "No plan was found",
         });
       }
@@ -181,6 +181,7 @@ const findOne = (req, res) => {
         discountPrice: result.discountPrice,
         currency: result.currency,
         features: result.features,
+        materi: result.materi,
       };
 
       res.send({
@@ -264,6 +265,7 @@ const create = (req, res) => {
     currency,
     favourite,
     features,
+    materi,
   } = req.body;
 
   if (!planName || !duration || !price || !discountPrice || !features) {
@@ -281,6 +283,7 @@ const create = (req, res) => {
     currency,
     favourite,
     features,
+    materi,
   })
     .then((result) => {
       res.send({
