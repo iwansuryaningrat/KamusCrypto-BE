@@ -184,9 +184,9 @@ const create = (req, res) => {
   const imageName = req.file.filename;
   const image = new Images(imageName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
 
   const newTestimoni = new Testimoni({
@@ -320,9 +320,9 @@ const uploadPhotos = (req, res) => {
   const imageName = req.file.filename;
   const image = new Images(imageName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
 
   Testimoni.findByIdAndUpdate(id, { photos: imageProp }, { new: true })

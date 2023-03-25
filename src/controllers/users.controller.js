@@ -408,9 +408,9 @@ const changeProfilePicture = (req, res) => {
   let imageName = req.file.filename;
   const image = new Images(imageName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
 
   // var newImageName = imageName.substring(14, imageName.length);

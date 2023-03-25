@@ -593,9 +593,9 @@ const create = async (req, res) => {
   const thumbnailName = req.file.filename;
   const image = new Images(thumbnailName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
 
   if (
@@ -673,9 +673,9 @@ const updateThumbnail = (req, res) => {
   const thumbnailName = req.file.filename;
   const image = new Images(thumbnailName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
 
   const { id } = req.params;

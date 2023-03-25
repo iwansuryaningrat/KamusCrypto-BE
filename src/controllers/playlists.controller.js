@@ -236,9 +236,9 @@ const create = (req, res) => {
   const photoName = req.file.filename;
   const image = new Images(photoName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
 
   const { name, description } = req.body;
@@ -370,9 +370,9 @@ const updateThumbnail = (req, res) => {
   const photoName = req.file.filename;
   const image = new Images(photoName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
 
   Playlists.findByIdAndUpdate(

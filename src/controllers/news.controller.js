@@ -76,9 +76,9 @@ const uploadImage = (req, res) => {
   const photoName = req.file.filename;
   const image = new Images(photoName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
 
   News.findByIdAndUpdate(id, {
@@ -376,9 +376,9 @@ const update = (req, res) => {
   const photoName = req.file.filename;
   const image = new Images(photoName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
 
   News.findByIdAndUpdate(id, {

@@ -404,9 +404,9 @@ const create = (req, res) => {
   const photoName = req.file.filename;
   const image = new Images(photoName);
 
-  image.setImageAlt();
-  image.setImageName();
   image.setImageSrc();
+  image.setImageName();
+  image.setImageAlt();
   const imageProp = image.getImageProperties();
 
   const theDate = new Date(date).toDateString();
@@ -458,9 +458,9 @@ const updateThumbnail = (req, res) => {
   const photoName = req.file.filename;
   const image = new Images(photoName);
 
-  image.setImageAlt();
-  image.setImageName();
   image.setImageSrc();
+  image.setImageName();
+  image.setImageAlt();
   const imageProp = image.getImageProperties();
 
   const { id } = req.params;

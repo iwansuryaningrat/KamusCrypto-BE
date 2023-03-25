@@ -287,9 +287,9 @@ const teamProfilePicture = (req, res) => {
   const photoName = req.file.filename;
   const image = new Images(photoName);
 
+  image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
-  image.setImageSrc();
   const imageProp = image.getImageProperties();
 
   Teams.findByIdAndUpdate(id, { photo: imageProp })
