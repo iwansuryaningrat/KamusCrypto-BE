@@ -154,7 +154,7 @@ const findAllforUsers = async (req, res) => {
     .sort({ date: -1 })
     .then((data) => {
       if (!data) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: `Not found News with status ${condition.status}`,
         });
       }
@@ -244,7 +244,7 @@ const findAll = async (req, res) => {
     .sort({ date: -1 })
     .then((data) => {
       if (!data) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: `News not found`,
         });
       }

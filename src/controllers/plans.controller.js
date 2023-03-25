@@ -47,7 +47,7 @@ const findAllforUsers = async (req, res) => {
     .limit(pageLimit)
     .then((result) => {
       if (!result || result.length === 0) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "No plan was found",
         });
       }
@@ -124,7 +124,7 @@ const findAll = async (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result || result.length === 0) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "No plan was found",
         });
       }

@@ -44,7 +44,7 @@ const findAll = async (req, res) => {
     .limit(pageLimit)
     .then((result) => {
       if (!result) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Vouchers not found.",
         });
       }

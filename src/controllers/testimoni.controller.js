@@ -59,7 +59,7 @@ const findAllAdmin = async (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result || result.length === 0) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Testimoni not found",
         });
       }
@@ -96,7 +96,7 @@ const findAll = (req, res) => {
   Testimoni.find({ status: "Active" })
     .then((result) => {
       if (!result || result.length === 0) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Testimoni not found",
         });
       }

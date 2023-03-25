@@ -55,7 +55,7 @@ const findAll = async (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Playlist not found",
         });
       }
@@ -89,7 +89,7 @@ const findAllNameId = (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Playlist not found",
         });
       }
@@ -158,7 +158,7 @@ const findAllforPro = async (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Playlist not found",
         });
       }
@@ -193,7 +193,7 @@ const findAllforUsers = (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Playlist not found",
         });
       }

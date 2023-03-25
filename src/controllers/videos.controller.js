@@ -69,6 +69,12 @@ const findAll = async (req, res) => {
     .limit(pageLimit)
     .sort({ createdAt: -1 })
     .then((result) => {
+      if (!result) {
+        return res.status(204).send({
+          message: "Videos not found",
+        });
+      }
+
       const data = result.map((video) => {
         const {
           _id,
@@ -167,6 +173,12 @@ const findAllPro = async (req, res) => {
     .limit(pageLimit)
     .sort({ createdAt: -1 })
     .then((result) => {
+      if (!result) {
+        return res.status(204).send({
+          message: "Videos not found",
+        });
+      }
+
       const data = result.map((video) => {
         const {
           _id,

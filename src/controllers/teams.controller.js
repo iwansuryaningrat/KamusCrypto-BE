@@ -52,7 +52,7 @@ const findAll = async (req, res) => {
     .then((result) => {
       // Check if there is any data
       if (result.length === 0) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "No data found.",
         });
       }
@@ -91,7 +91,7 @@ const findAllforUsers = (req, res) => {
     .then((result) => {
       // Check if there is any data
       if (result.length === 0) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "No data found.",
         });
       }

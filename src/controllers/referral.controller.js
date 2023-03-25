@@ -63,7 +63,7 @@ const findAll = async (req, res) => {
     .sort({ createdAt: -1 })
     .then((referrals) => {
       if (referrals.length < 0) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Referrals not found",
         });
       }
@@ -439,7 +439,7 @@ const showAllVerification = async (req, res) => {
     .sort({ createdAt: -1 })
     .then((referrals) => {
       if (!referrals) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: `Referrals not found`,
         });
       }
@@ -552,7 +552,7 @@ const showAllWithdraw = async (req, res) => {
     .sort({ createdAt: -1 })
     .then((referrals) => {
       if (!referrals) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: `Referrals not found`,
         });
       }
