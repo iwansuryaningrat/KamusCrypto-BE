@@ -284,13 +284,15 @@ const teamProfilePicture = (req, res) => {
     });
   }
 
-  const photoName = req.file.filename;
+  const photoName = req.file.originalname.replace(/\s/g, "-");
+  console.log(photoName);
   const image = new Images(photoName);
 
   image.setImageSrc();
   image.setImageAlt();
   image.setImageName();
   const imageProp = image.getImageProperties();
+  console.log(imageProp);
 
   Teams.findByIdAndUpdate(id, { photo: imageProp })
     .then((result) => {
