@@ -1,5 +1,6 @@
 import multer from "multer";
 import aws from "aws-sdk";
+// import { S3 } from "@aws-sdk/client-s3";
 import multerS3 from "multer-s3";
 import shortid from "shortid";
 
@@ -30,14 +31,7 @@ const imageStorage = multerS3({
   bucket: "kamuscrypto",
   acl: "public-read",
   key: function (req, file, cb) {
-    console.log(file);
-    cb(
-      null,
-      "images/" +
-        shortid.generate() +
-        "-" +
-        file.originalname.replace(/\s/g, "-")
-    );
+    cb(null, "images/" + file.originalname.replace(/\s/g, "-"));
   },
 });
 
