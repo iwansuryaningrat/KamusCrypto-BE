@@ -27,7 +27,7 @@ app.use(cors());
 
 /* A middleware that allows the server to accept requests from different origins. */
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "kamuscrypto.id");
   res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   res.setHeader(
     "Access-Control-Allow-Headers",
