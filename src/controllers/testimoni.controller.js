@@ -181,7 +181,7 @@ const create = (req, res) => {
     });
   }
 
-  const imageName = req.file.filename;
+  const imageName = req.file.originalname.replace(/\s/g, "-");
   const image = new Images(imageName);
 
   image.setImageSrc();
@@ -317,7 +317,7 @@ const uploadPhotos = (req, res) => {
     });
   }
 
-  const imageName = req.file.filename;
+  const imageName = req.file.originalname.replace(/\s/g, "-");
   const image = new Images(imageName);
 
   image.setImageSrc();

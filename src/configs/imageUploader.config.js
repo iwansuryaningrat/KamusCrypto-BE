@@ -1,16 +1,31 @@
-import multer from "multer";
+import aws from "aws-sdk";
+import multerS3 from "multer-s3";
 
-// Image Uploader Setup
-/* Creating a storage object for multer to use. */
-const imageStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./assets/images");
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      new Date().getTime() + "-" + file.originalname.replace(/\s/g, "-")
-    );
+// Set S3 endpoint to DigitalOcean Spaces
+const spacesEndpoint = new aws.Endpoint(process.env.DO_SPACES_ENDPOINT);
+const s3 = new aws.S3({
+  endpoint: spacesEndpoint,
+  accessKeyId: process.env.DO_SPACES_KEY,
+  secretAccessKey: process.env.DO_SPACES_SECRET,
+});
+//   destination: (req, file, cb) => {
+//     cb(null, "./assets/images");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(
+//       null,
+//       new Date().getTime() + "-" + file.originalname.replace(/\s/g, "-")
+//     );
+//   },
+// });
+
+/* Creating a new multerS3 object. */
+const imageStorage = multerS3({
+  s3: s3,
+  bucket: "kamuscrypto",
+  acl: "public-read",
+  key: function (req, file, cb) {
+    cb(null, "images/" + file.originalname.replace(/\s/g, "-"));
   },
 });
 
