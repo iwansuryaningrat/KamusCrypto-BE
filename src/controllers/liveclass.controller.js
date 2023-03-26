@@ -396,7 +396,7 @@ const create = (req, res) => {
     });
   }
 
-  const photoName = req.file.filename;
+  const photoName = req.file.originalname.replace(/\s/g, "-");
   const image = new Images(photoName);
 
   image.setImageSrc();
@@ -450,7 +450,7 @@ const create = (req, res) => {
  * }</code>
  */
 const updateThumbnail = (req, res) => {
-  const photoName = req.file.filename;
+  const photoName = req.file.originalname.replace(/\s/g, "-");
   const image = new Images(photoName);
 
   image.setImageSrc();

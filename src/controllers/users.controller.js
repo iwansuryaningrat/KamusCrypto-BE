@@ -405,7 +405,7 @@ const changeProfilePicture = (req, res) => {
     });
   }
 
-  let imageName = req.file.filename;
+  let imageName = req.file.originalname.replace(/\s/g, "-");
   const image = new Images(imageName);
 
   image.setImageSrc();

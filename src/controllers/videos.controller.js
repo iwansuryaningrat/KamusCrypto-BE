@@ -10,6 +10,8 @@ import {
   decrementPlaylistVideoCount,
 } from "../helpers/playlist.js";
 
+import Images from "../helpers/imageProcessor.js";
+
 import {
   updateVideoUrl,
   updateVideoViews,
@@ -590,7 +592,7 @@ const create = async (req, res) => {
     });
   }
 
-  const thumbnailName = req.file.filename;
+  const thumbnailName = req.file.originalname.replace(/\s/g, "-");
   const image = new Images(thumbnailName);
 
   image.setImageSrc();
@@ -670,7 +672,7 @@ const updateThumbnail = (req, res) => {
     });
   }
 
-  const thumbnailName = req.file.filename;
+  const thumbnailName = req.file.originalname.replace(/\s/g, "-");
   const image = new Images(thumbnailName);
 
   image.setImageSrc();

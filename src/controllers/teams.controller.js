@@ -284,7 +284,7 @@ const teamProfilePicture = (req, res) => {
     });
   }
 
-  const photoName = req.file.filename;
+  const photoName = req.file.originalname.replace(/\s/g, "-");
   const image = new Images(photoName);
 
   image.setImageSrc();
