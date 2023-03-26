@@ -23,7 +23,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 
-app.use(cors());
+// app.use(cors());
 
 /* A middleware that allows the server to accept requests from different origins. */
 // app.use((req, res, next) => {
