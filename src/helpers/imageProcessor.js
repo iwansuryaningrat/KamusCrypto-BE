@@ -6,7 +6,7 @@ export default class Images {
   }
 
   setImageName() {
-    this.imageName = this.imageName.substring(14, this.imageName.length);
+    this.imageName = this.imageName;
 
     return this.imageName;
   }
@@ -21,9 +21,8 @@ export default class Images {
 
   setImageSrc() {
     this.imageSrc =
-      process.env.NODE_ENV === "production"
-        ? `https://api.kamuscrypto.id/assets/images/${this.imageName}`
-        : `https://dev.kamuscrypto.id/assets/images/${this.imageName}`;
+      "https://kamuscrypto.sgp1.cdn.digitaloceanspaces.com/images%2F" +
+      this.imageName;
 
     return this.imageSrc;
   }
