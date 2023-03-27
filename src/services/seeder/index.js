@@ -10,14 +10,14 @@ import seedTestimoni from "./testimoni.seeder.js";
 import seedTeams from "./teams.seeder.js";
 
 // Run Seeder
-// const userSeeder = await usersSeederFunction();
-// console.log(userSeeder);
-// const deleteAllSeeder = await deleteAll();
-// console.log(deleteAllSeeder);
-// const plansSeeder = await seedPlans();
-// console.log(plansSeeder);
-// const testimoniSeeder = await seedTestimoni();
-// console.log(testimoniSeeder);
+const userSeeder = await usersSeederFunction();
+console.log(userSeeder);
+const deleteAllSeeder = await deleteAll();
+console.log(deleteAllSeeder);
+const plansSeeder = await seedPlans();
+console.log(plansSeeder);
+const testimoniSeeder = await seedTestimoni();
+console.log(testimoniSeeder);
 const teamsSeeder = await seedTeams();
 console.log(teamsSeeder);
 
