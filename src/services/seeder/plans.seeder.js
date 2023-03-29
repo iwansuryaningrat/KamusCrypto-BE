@@ -54,7 +54,7 @@ const plans = [
     discountPrice: -1501000,
     totalPrice: 5999000,
     currency: "IDR",
-    favourite: true,
+    favourite: false,
     features: [
       {
         name: "Signal Trading 6 Bulan",
@@ -100,7 +100,7 @@ const plans = [
     discountPrice: -2001000,
     totalPrice: 9999000,
     currency: "IDR",
-    favourite: false,
+    favourite: true,
     features: [
       {
         name: "Signal Trading 12 Bulan",
