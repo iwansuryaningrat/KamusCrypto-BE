@@ -267,7 +267,8 @@ const update = (req, res) => {
 
 // Use Voucher
 const useVoucher = (req, res) => {
-  const { username, voucherCode } = req.params;
+  const { voucherCode } = req.params;
+  const { username } = req.body;
 
   if (!username || !voucherCode) {
     return res.status(400).send({

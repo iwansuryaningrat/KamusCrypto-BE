@@ -3,7 +3,7 @@ import Express from "express";
 const router = Express.Router();
 
 const vouchersRouter = (app) => {
-  router.get("/:voucherCode", useVoucher);
+  router.post("/:voucherCode", useVoucher);
 
   app.use("/v1/vouchers", router);
 };
