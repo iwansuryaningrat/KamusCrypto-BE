@@ -1,5 +1,5 @@
 import { useVoucher } from "../controllers/vouchers.controller.js";
-import { login } from "../middlewares/auth.middleware.js";
+import { login } from "../middlewares/auth.js";
 import Express from "express";
 const router = Express.Router();
 
