@@ -312,7 +312,6 @@ const useVoucher = (req, res) => {
         .then((result) => {
           res.send({
             message: "Voucher successfully used",
-            timestamp: new Date().toString(),
             data: result,
           });
         })
