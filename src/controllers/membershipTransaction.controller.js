@@ -3,6 +3,7 @@ import db from "../models/index.js";
 const Users = db.users;
 const Plans = db.plans;
 const MembershipTransactions = db.membershipTransactions;
+const Vouchers = db.vouchers;
 
 /* Importing the function `createTransaction` from the file `createPayment.function.js` in the folder
 `midtrans`. */
@@ -64,7 +65,11 @@ const create = async (req, res) => {
     },
   ];
 
-  if (voucherCode) {
+  // Validate request (voucher code must exist)
+  const voucher = await Vouchers.findOne({ voucherCode });
+  console.log(voucher);
+
+  if (voucher) {
     const voucherDiscountPrice = {
       id: "VOUCHER",
       price: -voucherDiscount,
@@ -85,6 +90,17 @@ const create = async (req, res) => {
     email: user.email,
     phone: user.phone,
   };
+
+  // Validate total price of all items (must be equal to gross amount)
+  const totalItemsPrice = items.reduce((acc, item) => {
+    return acc + item.price * item.quantity;
+  }, 0);
+
+  if (totalItemsPrice !== transaction_details.gross_amount) {
+    return res.status(400).send({
+      message: "Total price of all items must be equal to gross amount!",
+    });
+  }
 
   const transaction = await createTransaction(
     transaction_details,
