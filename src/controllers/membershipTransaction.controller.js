@@ -37,6 +37,13 @@ const create = async (req, res) => {
     return res.status(400).send({ message: "User not found!" });
   }
 
+  // Validate request (user must not have an active membership)
+  if (user.type.accountType.member !== "Basic Member") {
+    return res
+      .status(400)
+      .send({ message: "User already has an active membership!" });
+  }
+
   // Find the membership
   const membership = await Plans.findById(membershipId);
 
