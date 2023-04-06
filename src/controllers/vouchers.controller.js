@@ -1,6 +1,7 @@
 import db from "../models/index.js";
 const Vouchers = db.vouchers;
 const Users = db.users;
+const Referrals = db.referrals;
 import dataCounter from "../helpers/dataCounter.js";
 
 // Find All Vouchers with Pagination (Done)
@@ -276,8 +277,9 @@ const useVoucher = (req, res) => {
     });
   }
 
-  Users.findOne({ referal: { referalCode: voucherCode } })
+  Referrals.findOne({ referralCode: voucherCode, referralStatus: "Active" })
     .then((result) => {
+      console.log(result);
       if (!result) {
         Vouchers.findOne({ voucherCode })
           .then((result) => {
@@ -297,29 +299,29 @@ const useVoucher = (req, res) => {
               message: err.message || "Some error while fetch voucher.",
             });
           });
+      } else {
+        const email = result.email;
+
+        Users.findOneAndUpdate(
+          { email },
+          {
+            referalCount: result.referal.referalCount + 1,
+            referalAccount: result.referal.referalAccount.push({ username }),
+          },
+          { new: true }
+        )
+          .then((result) => {
+            res.send({
+              message: "Voucher successfully used",
+              data: result,
+            });
+          })
+          .catch((err) => {
+            return res.status(500).send({
+              message: err.message || "Some error while use voucher.",
+            });
+          });
       }
-
-      const email = result.email;
-
-      Users.findOneAndUpdate(
-        { email },
-        {
-          referalCount: result.referal.referalCount + 1,
-          referalAccount: result.referal.referalAccount.push({ username }),
-        },
-        { new: true }
-      )
-        .then((result) => {
-          res.send({
-            message: "Voucher successfully used",
-            data: result,
-          });
-        })
-        .catch((err) => {
-          return res.status(500).send({
-            message: err.message || "Some error while use voucher.",
-          });
-        });
     })
     .catch((err) => {
       return res.status(500).send({
