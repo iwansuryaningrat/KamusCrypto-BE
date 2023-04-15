@@ -47,6 +47,10 @@ export default (mongoose) => {
           require: true,
         },
       },
+      technicalAnalysis: {
+        type: String,
+        require: true,
+      },
       status: {
         type: String,
         require: true,
