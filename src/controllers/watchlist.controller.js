@@ -174,6 +174,7 @@ const findAllPro = async (req, res) => {
           buyArea,
           stopLoss,
           takeProfit,
+          techAnalysis,
           status,
         } = item;
         return {
@@ -187,6 +188,7 @@ const findAllPro = async (req, res) => {
           buyArea,
           stopLoss,
           takeProfit,
+          techAnalysis,
           status,
         };
       });
