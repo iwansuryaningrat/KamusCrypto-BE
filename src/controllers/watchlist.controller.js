@@ -330,7 +330,6 @@ const create = (req, res) => {
       if (result) {
         return res.status(400).send({
           message: "Watchlist already exists",
-          timestamp: new Date().toString(),
         });
       }
     })

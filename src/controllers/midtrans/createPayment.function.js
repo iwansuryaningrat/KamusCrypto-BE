@@ -21,9 +21,14 @@ const createTransaction = async (
   items,
   customer_details
 ) => {
+  const env = process.env.NODE_ENV === "production" ? true : false;
+  const key = env
+    ? process.env.PROD_MIDTRANS_SERVER_KEY
+    : process.env.SANDBOX_MIDTRANS_SERVER_KEY;
+
   let snap = new midtransClient.Snap({
-    isProduction: false,
-    serverKey: process.env.SANDBOX_MIDTRANS_SERVER_KEY,
+    isProduction: env,
+    serverKey: key,
   });
 
   const time = timeConvert(new Date());
