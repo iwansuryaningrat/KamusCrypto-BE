@@ -177,6 +177,7 @@ const findAllPro = async (req, res) => {
           techAnalysis,
           status,
         } = item;
+
         return {
           id: _id,
           name,
