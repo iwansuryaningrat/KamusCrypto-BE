@@ -25,6 +25,18 @@ app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 app.use(cors());
 
+if (process.env.NODE_ENV === "production") {
+  var corsOptions = {
+    origin: "https://kamuscrypto.id",
+  };
+} else {
+  var corsOptions = {
+    origin: "*",
+  };
+}
+
+app.use(cors(corsOptions));
+
 /* A middleware that allows the server to accept requests from different origins. */
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "https://kamuscrypto.id");

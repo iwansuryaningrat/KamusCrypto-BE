@@ -63,6 +63,7 @@ const findAllforUsers = async (req, res) => {
           currency: plan.currency,
           favourite: plan.favourite,
           features: plan.features,
+          materi: plan.materi,
         };
       });
 
@@ -138,6 +139,7 @@ const findAll = async (req, res) => {
           discountPrice: plan.discountPrice,
           currency: plan.currency,
           features: plan.features,
+          materi: plan.materi,
           status: plan.status,
         };
       });
