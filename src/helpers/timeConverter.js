@@ -6,7 +6,7 @@
  */
 const timeConvert = (date) => {
   const d = new Date(date);
-  return d.toString().replace(/GMT.*/, "");
+  return d.toString();
 };
 
 export default timeConvert;
