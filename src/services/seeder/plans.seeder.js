@@ -24,7 +24,15 @@ const plans = [
         status: true,
       },
       {
-        name: "Video Recording",
+        name: "Free Basic Class",
+        status: true,
+      },
+      {
+        name: "Konsultasi setiap hari",
+        status: true,
+      },
+      {
+        name: "Live Trading",
         status: true,
       },
     ],
@@ -69,7 +77,23 @@ const plans = [
         status: true,
       },
       {
+        name: "Free Basic Class",
+        status: true,
+      },
+      {
+        name: "Free Intermediate Class",
+        status: true,
+      },
+      {
         name: "Video Recording",
+        status: true,
+      },
+      {
+        name: "Konsultasi setiap hari",
+        status: true,
+      },
+      {
+        name: "Live Trading",
         status: true,
       },
     ],
@@ -107,7 +131,16 @@ const plans = [
         status: true,
       },
       {
-        name: "Belajar Basic Teknikal Analisis + Money Management + Indikator Teknikal Analisis",
+        name: "Belajar Basic Teknikal Analisis",
+        status: true,
+      },
+
+      {
+        name: "Belajar Money Management",
+        status: true,
+      },
+      {
+        name: "Indikator Teknikal Analisis",
         status: true,
       },
       {
@@ -115,7 +148,27 @@ const plans = [
         status: true,
       },
       {
+        name: "Free Basic Class",
+        status: true,
+      },
+      {
+        name: "Free Intermediate Class",
+        status: true,
+      },
+      {
+        name: "Free Advanced Class",
+        status: true,
+      },
+      {
         name: "Video Recording",
+        status: true,
+      },
+      {
+        name: "Konsultasi setiap hari",
+        status: true,
+      },
+      {
+        name: "Live Trading",
         status: true,
       },
     ],
