@@ -68,10 +68,10 @@ const findAll = async (req, res) => {
           category,
           tags,
           date,
-          lastPrice,
           buyArea,
           stopLoss,
           takeProfit,
+          techAnalysis,
           status,
         } = item;
         return {
@@ -81,10 +81,10 @@ const findAll = async (req, res) => {
           category,
           tags,
           date,
-          lastPrice,
           buyArea,
           stopLoss,
           takeProfit,
+          techAnalysis,
           status,
         };
       });
@@ -170,7 +170,6 @@ const findAllPro = async (req, res) => {
           category,
           tags,
           date,
-          lastPrice,
           buyArea,
           stopLoss,
           takeProfit,
@@ -185,7 +184,6 @@ const findAllPro = async (req, res) => {
           category,
           tags,
           date,
-          lastPrice,
           buyArea,
           stopLoss,
           takeProfit,
@@ -304,12 +302,12 @@ const create = (req, res) => {
     category,
     tags,
     sector,
-    lastPrice,
     buyArea,
     stopLoss,
     TP1,
     TP2,
     TP3,
+    techAnalysis,
   } = req.body;
 
   if (
@@ -317,14 +315,14 @@ const create = (req, res) => {
     !code ||
     !category ||
     !sector ||
-    !lastPrice ||
+    !techAnalysis ||
     !buyArea ||
     !stopLoss ||
     !TP1
   ) {
     return res.status(400).send({
       message:
-        "Name, code, category, sector, lastPrice, buyArea, stopLoss, and TP1 are required",
+        "Name, code, category, sector, techAnalysis, buyArea, stopLoss, and TP1 are required",
     });
   }
 
@@ -348,7 +346,6 @@ const create = (req, res) => {
     category: category,
     tags: tags,
     sector: sector,
-    lastPrice: lastPrice,
     buyArea: buyArea,
     stopLoss: stopLoss,
     takeProfit: {
@@ -356,6 +353,7 @@ const create = (req, res) => {
       TP2: TP2,
       TP3: TP3,
     },
+    techAnalysis: techAnalysis,
     isActive: true,
   });
 
