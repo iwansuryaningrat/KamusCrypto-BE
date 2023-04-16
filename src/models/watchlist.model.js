@@ -22,8 +22,14 @@ export default (mongoose) => {
         require: true,
       },
       buyArea: {
-        type: Number,
-        require: true,
+        under: {
+          type: Number,
+          require: true,
+        },
+        over: {
+          type: Number,
+          require: true,
+        },
       },
       stopLoss: {
         type: Number,
