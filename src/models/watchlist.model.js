@@ -21,10 +21,6 @@ export default (mongoose) => {
         type: String,
         require: true,
       },
-      lastPrice: {
-        type: Number,
-        require: true,
-      },
       buyArea: {
         type: Number,
         require: true,
