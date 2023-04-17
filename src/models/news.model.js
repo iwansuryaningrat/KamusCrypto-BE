@@ -7,8 +7,8 @@ export default (mongoose) => {
         require: true,
       },
       author: {
-        type: Schema.Types.ObjectId,
-        ref: "Users",
+        type: String,
+        require: true,
       },
       category: {
         type: String,

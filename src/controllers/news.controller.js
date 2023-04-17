@@ -145,10 +145,6 @@ const findAllforUsers = async (req, res) => {
   };
 
   await News.find(condition)
-    .populate({
-      path: "author",
-      select: "name",
-    })
     .skip(skip)
     .limit(pageLimit)
     .sort({ date: -1 })
@@ -235,10 +231,6 @@ const findAll = async (req, res) => {
   };
 
   await News.find()
-    .populate({
-      path: "author",
-      select: "name",
-    })
     .skip(skip)
     .limit(pageLimit)
     .sort({ date: -1 })
@@ -301,10 +293,6 @@ const findOne = (req, res) => {
   }
 
   News.findById(id)
-    .populate({
-      path: "author",
-      select: "name",
-    })
     .then((data) => {
       if (!data)
         return res.status(404).send({

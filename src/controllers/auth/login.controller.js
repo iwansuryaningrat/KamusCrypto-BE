@@ -50,6 +50,7 @@ const loggingin = async (req, res) => {
                 username: user.username,
                 admin: user.type.isAdmin,
                 role: user.type.accountType.member,
+                memberType: user.type.accountType.subscription.subscriptionType,
                 isActivated: user.type.isActivated,
                 image: user.image.imageLink,
               },
