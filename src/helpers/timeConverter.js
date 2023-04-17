@@ -9,4 +9,9 @@ const timeConvert = (date) => {
   return d.toString();
 };
 
-export default timeConvert;
+const timeConvertNumber = (date) => {
+  const d = new Date(date);
+  return d.getTime();
+};
+
+export { timeConvert, timeConvertNumber };
