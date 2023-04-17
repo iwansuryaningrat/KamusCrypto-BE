@@ -4,7 +4,7 @@ const News = db.news;
 
 /* Importing the dataCounter and timeConverter helper functions. */
 import dataCounter from "../helpers/dataCounter.js";
-import timeConvert from "../helpers/timeConverter.js";
+import { timeConvert } from "../helpers/timeConverter.js";
 import Images from "../helpers/imageProcessor.js";
 
 // Create and Save a new News (Done)

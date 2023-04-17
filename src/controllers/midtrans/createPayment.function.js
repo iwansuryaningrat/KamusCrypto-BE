@@ -2,7 +2,7 @@ import midtransClient from "midtrans-client";
 import "dotenv/config";
 
 /* Importing a function from a file called timeConverter.js. */
-import timeConvert from "../../helpers/timeConverter.js";
+import { timeConvert } from "../../helpers/timeConverter.js";
 
 // Create Snap API instance
 /**
