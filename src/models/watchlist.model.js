@@ -21,13 +21,15 @@ export default (mongoose) => {
         type: String,
         require: true,
       },
-      lastPrice: {
-        type: Number,
-        require: true,
-      },
       buyArea: {
-        type: Number,
-        require: true,
+        under: {
+          type: Number,
+          require: true,
+        },
+        over: {
+          type: Number,
+          require: true,
+        },
       },
       stopLoss: {
         type: Number,
@@ -46,6 +48,10 @@ export default (mongoose) => {
           type: Number,
           require: true,
         },
+      },
+      technicalAnalysis: {
+        type: String,
+        require: true,
       },
       status: {
         type: String,

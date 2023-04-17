@@ -60,6 +60,14 @@ export default (mongoose) => {
             },
           },
           subscription: {
+            subscriptionType: {
+              type: String,
+              default: "Free",
+              enum: {
+                values: ["Free", "Silver", "Gold", "Platinum"],
+                message: "Subscription type is not valid",
+              },
+            },
             startAt: {
               type: Number,
               default: 0,
