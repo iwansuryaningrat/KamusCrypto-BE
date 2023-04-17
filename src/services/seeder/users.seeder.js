@@ -27,6 +27,11 @@ const usersSeeder = [
     type: {
       accountType: {
         member: "Super Admin",
+        subscription: {
+          startAt: new Date().getTime(),
+          expiredAt: 0,
+          subscriptionType: "Free",
+        },
         isNew: false,
       },
       isAdmin: true,
@@ -44,6 +49,11 @@ const usersSeeder = [
     type: {
       accountType: {
         member: "Admin",
+        subscription: {
+          startAt: new Date().getTime(),
+          expiredAt: 0,
+          subscriptionType: "Free",
+        },
         isNew: false,
       },
       isAdmin: true,
@@ -63,6 +73,8 @@ const usersSeeder = [
         member: "Basic Member",
         subscription: {
           startAt: new Date().getTime(),
+          expiredAt: 0,
+          subscriptionType: "Free",
         },
         isNew: false,
       },
@@ -82,6 +94,7 @@ const usersSeeder = [
       accountType: {
         member: "Pro Member",
         subscription: {
+          subscriptionType: "Gold",
           startAt: new Date().getTime(),
           expiredAt: new Date().getTime() + 2592000000,
         },
