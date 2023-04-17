@@ -53,7 +53,9 @@ const create = async (req, res) => {
   }
 
   const transaction_details = {
-    order_id: `MS-${membership.planName}-${userId}`,
+    order_id: `MS-${
+      membership.planName
+    }-${userId}-${new Date().getUTCMilliseconds()}`,
     gross_amount: totalPrice,
   };
 
@@ -74,7 +76,6 @@ const create = async (req, res) => {
 
   // Validate request (voucher code must exist)
   const voucher = await Vouchers.findOne({ voucherCode });
-  console.log(voucher);
 
   if (voucher) {
     const voucherDiscountPrice = {

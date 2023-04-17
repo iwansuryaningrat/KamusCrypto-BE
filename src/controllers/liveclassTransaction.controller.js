@@ -60,7 +60,9 @@ const create = async (req, res) => {
   }
 
   const transaction_details = {
-    order_id: `LC-${liveclass.liveclassCode}-${user._id}`,
+    order_id: `LC-${liveclass.liveclassCode}-${
+      user._id
+    }-${new Date().getUTCMilliseconds()}`,
     gross_amount: totalPrice,
   };
 
