@@ -53,7 +53,9 @@ const create = async (req, res) => {
   }
 
   const transaction_details = {
-    order_id: `MS-${membership.planName}-${userId}`,
+    order_id: `MS-${
+      membership.planName
+    }-${userId}-${new Date().getUTCMilliseconds()}`,
     gross_amount: totalPrice,
   };
 
