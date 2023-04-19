@@ -116,8 +116,8 @@ const data = [
   {
     title:
       "Bitcoin Dominance dan Strategy of Dollar Cost Averaging (DCA) Bitcoin",
-    number: 1,
-    liveclassCode: "LC-01-Platinum",
+    number: 2,
+    liveclassCode: "LC-02-Platinum",
     description:
       "Bitcoin dominance adalah persentase nilai pasar Bitcoin terhadap nilai pasar cryptocurrency secara keseluruhan, sementara strategi dollar cost averaging (DCA) Bitcoin adalah membeli Bitcoin secara teratur dengan jumlah yang sama pada interval waktu tertentu untuk mengurangi risiko fluktuasi harga. Kedua konsep ini penting untuk investor cryptocurrency.",
     category: "Cryptocurrency",
