@@ -7,9 +7,9 @@ import Express from "express";
 const router = Express.Router();
 
 const notificationsRouter = (app) => {
-  router.post("/", notificationController);
+  router.post("/payment", notificationController);
   router.post("/recurring", notificationrecurring);
-  router.post("/pay", notificationpay);
+  router.post("/pay-account", notificationpay);
 
   app.use("/v1/notifications", router);
 };
