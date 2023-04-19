@@ -8,6 +8,8 @@ import dataCounter from "../helpers/dataCounter.js";
 /* The above code is importing the imageProcessor.js file from the helpers folder. */
 import Images from "../helpers/imageProcessor.js";
 
+import { timeConvert } from "../helpers/timeConverter.js";
+
 // Find all liveclasses (Done)
 /**
  * It fetches all liveclasses from the database and returns them to the user.
@@ -78,38 +80,45 @@ const findAll = async (req, res) => {
         const {
           _id,
           title,
+          number,
           liveclassCode,
           price,
           discount,
           totalPrice,
           description,
+          memberType,
           category,
           tags,
           date,
           time,
           location,
           duration,
+          mentor,
           benefits,
           thumbnail,
           participants,
           status,
         } = liveclass;
+
         return {
           id: _id,
           title,
+          number,
           liveclassCode,
           price,
           discount,
           totalPrice,
           description,
+          memberType,
           category,
           tags,
-          date,
+          date: timeConvert(date),
           time,
           location,
           duration,
-          thumbnail,
+          mentor,
           benefits,
+          thumbnail,
           participants,
           status,
         };
@@ -191,36 +200,43 @@ const findAllForUsers = async (req, res) => {
         const {
           _id,
           title,
+          number,
           liveclassCode,
           price,
           discount,
           totalPrice,
           description,
+          memberType,
           category,
           tags,
           date,
           time,
           location,
           duration,
+          mentor,
           benefits,
           thumbnail,
         } = liveclass;
+
         return {
           id: _id,
           title,
+          number,
           liveclassCode,
           price,
           discount,
           totalPrice,
           description,
+          memberType,
           category,
           tags,
-          date,
+          date: timeConvert(date),
           time,
           location,
           duration,
-          thumbnail,
+          mentor,
           benefits,
+          thumbnail,
         };
       });
 
@@ -267,9 +283,53 @@ const findOne = (req, res) => {
         });
       }
 
+      const data = liveclasses.map((liveclass) => {
+        const {
+          _id,
+          title,
+          number,
+          liveclassCode,
+          price,
+          discount,
+          totalPrice,
+          description,
+          memberType,
+          category,
+          tags,
+          date,
+          time,
+          location,
+          duration,
+          mentor,
+          benefits,
+          thumbnail,
+        } = liveclass;
+
+        return {
+          id: _id,
+          title,
+          number,
+          liveclassCode,
+          price,
+          discount,
+          totalPrice,
+          description,
+          memberType,
+          category,
+          tags,
+          date: timeConvert(date),
+          time,
+          location,
+          duration,
+          mentor,
+          benefits,
+          thumbnail,
+        };
+      });
+
       res.send({
         message: "Liveclass was fetched successfully",
-        data: liveclass,
+        data,
       });
     })
     .catch((err) => {
