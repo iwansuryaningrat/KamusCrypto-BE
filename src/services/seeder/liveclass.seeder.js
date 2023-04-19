@@ -139,7 +139,7 @@ const data = [
 
 const seedLiveclass = async () => {
   try {
-    // await Liveclass.deleteMany({});
+    await Liveclass.deleteMany({});
     await Liveclass.insertMany(data);
     return true;
   } catch (error) {
