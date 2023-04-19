@@ -5,8 +5,12 @@
  * @returns A string in the format of: YYYY-MM-DD HH:MM:SS +/-HH:MM
  */
 const timeConvert = (date) => {
-  const d = new Date(date);
-  return d.toString();
+  if (date == 0 || date == null || date == undefined) {
+    return "Coming Soon";
+  } else {
+    const d = new Date(date);
+    return d.toString();
+  }
 };
 
 const timeConvertNumber = (date) => {
