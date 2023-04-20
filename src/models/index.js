@@ -2,14 +2,16 @@ import dbConfig from "../configs/db.config.js";
 import mongoose from "mongoose";
 
 /* Importing all the models from the models folder. */
-import Certificate from "../models/certificate.model.js";
 import Liveclass from "../models/liveclass.model.js";
+import LiveclassCertificates from "./liveclassCertificates.model.js";
+import LiveclassHistory from "./liveclassHistory.model.js";
 import LiveclassTransactions from "./liveclassTransactions.model.js";
 import Membership from "../models/membership.model.js";
 import MembershipTransactions from "./membershipTransactions.model.js";
 import Messages from "../models/messages.model.js";
 import News from "../models/news.model.js";
 import Playlists from "../models/playlists.model.js";
+import PlaylistCertificates from "./playlistCertificates.model.js";
 import PlaylistsTracking from "../models/playlistTracking.model.js";
 import Plans from "./plans.model.js";
 import Referrals from "./referral.model.js";
@@ -32,14 +34,16 @@ const db = {};
 /* Creating a connection to the database. */
 db.mongoose = mongoose;
 db.url = dbConfig.url;
-db.certificate = Certificate(mongoose);
 db.liveclass = Liveclass(mongoose);
+db.liveclassCertificates = LiveclassCertificates(mongoose);
+db.liveclassHistory = LiveclassHistory(mongoose);
 db.liveclassTransactions = LiveclassTransactions(mongoose);
 db.membership = Membership(mongoose);
 db.membershipTransactions = MembershipTransactions(mongoose);
 db.messages = Messages(mongoose);
 db.news = News(mongoose);
 db.playlists = Playlists(mongoose);
+db.playlistCertificates = PlaylistCertificates(mongoose);
 db.playlistsTracking = PlaylistsTracking(mongoose);
 db.plans = Plans(mongoose);
 db.referrals = Referrals(mongoose);
