@@ -2,7 +2,7 @@
 export default (mongoose) => {
   const Schema = mongoose.Schema;
   /* Creating a schema for the certificate model. */
-  const certificateSchema = new Schema(
+  const playlistCertificatesSchema = new Schema(
     {
       certificateNumber: {
         type: String,
@@ -35,13 +35,16 @@ export default (mongoose) => {
   );
 
   /* This is a method that is used to remove the version key from the response. */
-  certificateSchema.method("toJSON", function () {
+  playlistCertificatesSchema.method("toJSON", function () {
     const { __v, _id, ...object } = this.toObject();
     object.id = _id;
     return object;
   });
 
-  const Certificate = mongoose.model("certificate", certificateSchema);
+  const PlaylistCertificates = mongoose.model(
+    "playlistCertificates",
+    playlistCertificatesSchema
+  );
 
-  return Certificate;
+  return PlaylistCertificates;
 };
