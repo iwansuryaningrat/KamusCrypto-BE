@@ -33,14 +33,14 @@ const findAll = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = page ? (page - 1) * pageLimit : 0;
-  const dataCount = await dataCounter(Liveclass, pageLimit, query);
+  const limit = 10;
+  const skip = page ? (page - 1) * limit : 0;
+  const dataCount = await dataCounter(Liveclass, limit, query);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
 
-  const pageData = paginationLinks(page, pageLimit, link, dataCount);
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Liveclass.find(query)
     .populate({
@@ -48,7 +48,7 @@ const findAll = async (req, res) => {
       select: "name username email",
     })
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((liveclasses) => {
       if (!liveclasses) {
@@ -128,10 +128,11 @@ const findAll = async (req, res) => {
  * @param res - The response object.
  */
 const findAllForUsers = async (req, res) => {
-  let { page, pageLimit } = req.query;
+  let { page, limit } = req.query;
 
   if (page === undefined) page = 1;
-  if (pageLimit === undefined) pageLimit = 9;
+  if (limit === undefined) limit = 9;
+  console.log(page, limit);
 
   const condition = {
     status: {
@@ -139,17 +140,17 @@ const findAllForUsers = async (req, res) => {
     },
   };
 
-  const skip = page ? (page - 1) * pageLimit : 0;
-  const dataCount = await dataCounter(Liveclass, pageLimit, condition);
+  const skip = page ? (page - 1) * limit : 0;
+  const dataCount = await dataCounter(Liveclass, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
 
-  const pageData = paginationLinks(page, pageLimit, link, dataCount);
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Liveclass.find()
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((liveclasses) => {
       if (!liveclasses) {
