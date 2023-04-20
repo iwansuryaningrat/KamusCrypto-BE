@@ -1,17 +1,16 @@
-import db from "../models/index.js";
-const Videos = db.videos;
-import dataCounter from "../helpers/dataCounter.js";
-
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
+import db from "../models/index.js";
+const Videos = db.videos;
+
+import dataCounter from "../helpers/dataCounter.js";
+import paginationLinks from "../helpers/paginationLinks.js";
+import Images from "../helpers/imageProcessor.js";
 import {
   incrementPlaylistVideoCount,
   decrementPlaylistVideoCount,
 } from "../helpers/playlist.js";
-
-import Images from "../helpers/imageProcessor.js";
-
 import {
   updateVideoUrl,
   updateVideoViews,
@@ -36,31 +35,10 @@ const findAll = async (req, res) => {
   const skip = pageLimit * (page - 1);
   const dataCount = await dataCounter(Videos, pageLimit, condition);
 
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
-
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
-
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+ 
+  const pageData = paginationLinks(page, pageLimit, link, dataCount);
 
   await Videos.find(condition)
     .populate({
@@ -140,31 +118,10 @@ const findAllPro = async (req, res) => {
   const skip = pageLimit * (page - 1);
   const dataCount = await dataCounter(Videos, pageLimit, condition);
 
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
-
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
-
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  
+  const pageData = paginationLinks(page, pageLimit, link, dataCount);
 
   await Videos.find(condition)
     .populate({
@@ -249,31 +206,10 @@ const findByPlaylist = async (req, res) => {
   const skip = pageLimit * (page - 1);
   const dataCount = await dataCounter(Videos, pageLimit, condition);
 
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
-
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, pageLimit, link, dataCount);
 
   await Videos.find(condition)
     .populate({
