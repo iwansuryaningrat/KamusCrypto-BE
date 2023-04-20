@@ -9,6 +9,7 @@ const data = [
     description:
       "Uang telah digunakan selama ribuan tahun sebagai alat pembayaran dan pertukaran nilai. Blockchain adalah teknologi yang memungkinkan pengiriman data digital secara aman dan transparan tanpa pihak ketiga, dan cryptocurrency adalah bentuk uang digital yang menggunakan teknologi kriptografi untuk keamanan dan verifikasi transaksi. Bitcoin adalah cryptocurrency pertama yang dikenal dan nilainya ditentukan oleh pasar. Meskipun belum diakui secara luas, cryptocurrency semakin populer dan semakin banyak digunakan.",
     memberType: "Silver",
+    type: "Free",
     category: "-",
     tags: ["Uang", "Blockchain", "Cryptocurrency"],
     location: {
@@ -32,6 +33,7 @@ const data = [
     description:
       "Cryptocurrency menggunakan teknologi blockchain dan kriptografi untuk membuat transaksi yang aman dan terdesentralisasi. Bitcoin adalah cryptocurrency pertama dan paling populer. Perbedaan antara emas, uang fiat, dan bitcoin adalah emas memiliki nilai intrinsik, uang fiat diatur oleh pemerintah, sedangkan bitcoin nilai dan keamanannya ditentukan oleh pasar dan teknologi blockchain dan kriptografi.",
     memberType: "Silver",
+    type: "Free",
     category: "Cryptocurrency",
     tags: ["Uang", "Blockchain", "Cryptocurrency"],
     location: {
@@ -54,6 +56,7 @@ const data = [
     description:
       "Money management adalah cara mengatur keuangan dengan tujuan memaksimalkan keuntungan dan meminimalkan risiko. Berinvestasi di cryptocurrency memiliki risiko sendiri, sehingga manajemen risiko yang baik sangat penting. Ini dapat dilakukan dengan cara diversifikasi portofolio, menetapkan tujuan investasi, dan memantau investasi secara teratur.",
     memberType: "Gold",
+    type: "Free",
     category: "Money management",
     tags: ["Uang", "Blockchain", "Cryptocurrency"],
     location: {
@@ -76,6 +79,7 @@ const data = [
     description:
       "Fundamental cryptocurrency merujuk pada faktor yang mempengaruhi nilai dan keandalan mata uang digital seperti teknologi blockchain, adopsi pasar, dan regulasi pemerintah. Potensi cryptocurrency terletak pada teknologi blockchain yang menawarkan transaksi yang cepat, aman, dan hemat biaya. Namun, investasi di cryptocurrency tetap memiliki risiko dan potensi keuntungan yang perlu dipahami dengan baik sebelum melakukan investasi.",
     memberType: "Gold",
+    type: "Free",
     category: "Cryptocurrency",
     tags: ["Uang", "Blockchain", "Cryptocurrency"],
     location: {
@@ -98,6 +102,7 @@ const data = [
     description:
       "Market psychology dan market cycle adalah konsep penting dalam cryptocurrency yang berkaitan dengan perilaku pasar dan pola pergerakan harga. Market psychology melibatkan emosi dan sentimen pasar, sedangkan market cycle mencakup pola pergerakan harga berdasarkan sejarah pergerakan harga. Memahami keduanya membantu investor membuat keputusan investasi yang lebih baik.",
     memberType: "Platinum",
+    type: "Free",
     category: "Cryptocurrency",
     tags: ["Uang", "Blockchain", "Cryptocurrency"],
     location: {
@@ -121,6 +126,8 @@ const data = [
     description:
       "Bitcoin dominance adalah persentase nilai pasar Bitcoin terhadap nilai pasar cryptocurrency secara keseluruhan, sementara strategi dollar cost averaging (DCA) Bitcoin adalah membeli Bitcoin secara teratur dengan jumlah yang sama pada interval waktu tertentu untuk mengurangi risiko fluktuasi harga. Kedua konsep ini penting untuk investor cryptocurrency.",
     category: "Cryptocurrency",
+    memberType: "Platinum",
+    type: "Free",
     tags: ["Uang", "Blockchain", "Cryptocurrency"],
     location: {
       name: "Zoom Meeting",
