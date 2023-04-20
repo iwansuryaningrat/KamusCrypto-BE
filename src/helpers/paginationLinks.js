@@ -15,9 +15,9 @@ const paginationLinks = (page, pageLimit, link, dataCount) => {
   const firstlink = `${link}?page=${firstpage}&limit=${pageLimit}`;
 
   const pagination = {
-    currentPage,
+    currentPage: parseInt(currentPage),
     totalPages: dataCount.pageCount,
-    dataPerPage: pageLimit,
+    dataPerPage: parseInt(dataCount.dataPerPage),
     totalDatas: dataCount.dataCount,
     links: {
       next: nextlink,
