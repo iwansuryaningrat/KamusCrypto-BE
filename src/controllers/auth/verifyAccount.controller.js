@@ -34,7 +34,7 @@ const verifyAccount = async (req, res) => {
     await user
       .save()
       .then((data) => {
-        return res.status(200).send({
+        return res.status(202).send({
           message: "Account verified successfully",
           email: user.email,
         });

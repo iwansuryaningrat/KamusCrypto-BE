@@ -107,7 +107,7 @@ const create = (req, res) => {
   message
     .save()
     .then((result) => {
-      res.status(200).send({
+      res.status(201).send({
         message: "Message sent successfully.",
       });
     })

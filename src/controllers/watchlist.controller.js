@@ -54,6 +54,7 @@ const findAll = async (req, res) => {
           techAnalysis,
           status,
         } = item;
+
         return {
           id: _id,
           name,
@@ -319,7 +320,7 @@ const create = (req, res) => {
   watchlist
     .save()
     .then((result) => {
-      res.send({
+      res.status(201).send({
         message: "Watchlist was created successfully",
         data: result,
       });

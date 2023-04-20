@@ -248,7 +248,7 @@ const findOne = (req, res) => {
         });
       }
 
-      const data = liveclasses.map((liveclass) => {
+      const data = liveclass.map((liveclass) => {
         const {
           _id,
           title,
@@ -455,7 +455,7 @@ const create = (req, res) => {
   liveclass
     .save()
     .then((result) => {
-      res.send({
+      res.status(201).send({
         message: "Live class was successfully created",
       });
     })
@@ -591,10 +591,16 @@ const getAllParticipants = (req, res) => {
 
       const { participants } = result;
 
-      return res.status(200).send({
-        message: "All participants of a live class successfully retrieved",
-        participants,
-      });
+      if (participants.participantsCount === 0) {
+        return res.status(204).send({
+          message: "No participants yet",
+        });
+      } else {
+        return res.status(200).send({
+          message: "All participants of a live class successfully retrieved",
+          data: participants,
+        });
+      }
     })
     .catch((err) => {
       return res.status(500).send({

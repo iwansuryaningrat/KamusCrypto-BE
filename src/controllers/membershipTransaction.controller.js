@@ -118,7 +118,7 @@ const create = async (req, res) => {
 
   //   Create a MembershipTransaction
   const membershipTransaction = new MembershipTransactions({
-    peymentCode: transaction.transaction_id,
+    peymentCode: transaction_details.order_id,
     transactionName: "Membership Transaction for" + user.name,
     memberhipDuration: membership.duration,
     transactionAmount: transaction.gross_amount,
@@ -133,7 +133,7 @@ const create = async (req, res) => {
   membershipTransaction
     .save(membershipTransaction)
     .then((data) => {
-      res.send({
+      res.status(201).send({
         message: "MembershipTransaction was created successfully!",
         data: transaction,
       });

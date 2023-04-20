@@ -247,7 +247,7 @@ const create = (req, res) => {
     materi,
   })
     .then((result) => {
-      res.send({
+      res.status(201).send({
         message: "Plan was successfully created",
       });
     })
@@ -306,7 +306,7 @@ const addFeature = (req, res) => {
         });
       }
 
-      res.send({
+      res.status(201).send({
         message: "Feature was successfully added to plan",
       });
     })

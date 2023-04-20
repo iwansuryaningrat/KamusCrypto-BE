@@ -131,7 +131,7 @@ const findAllforUsers = async (req, res) => {
     .then((data) => {
       if (!data) {
         return res.status(204).send({
-          message: `Not found News with status ${condition.status}`,
+          message: "No news found.",
         });
       }
 

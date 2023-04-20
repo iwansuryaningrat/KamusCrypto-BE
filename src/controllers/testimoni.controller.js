@@ -46,6 +46,7 @@ const findAllAdmin = async (req, res) => {
       const data = result.map((item) => {
         const { _id, name, position, company, testimoni, photos, status } =
           item;
+
         return {
           id: _id,
           name,
@@ -82,6 +83,7 @@ const findAll = (req, res) => {
 
       const data = result.map((item) => {
         const { name, position, company, testimoni, photos } = item;
+
         return {
           name,
           position,
@@ -179,7 +181,7 @@ const create = (req, res) => {
   newTestimoni
     .save()
     .then((result) => {
-      res.send({
+      res.status(201).send({
         message: "Testimoni was successfully created",
       });
     })
@@ -312,7 +314,7 @@ const uploadPhotos = (req, res) => {
         });
       }
 
-      res.send({
+      res.status(201).send({
         message: "Testimoni photo was successfully uploaded",
       });
     })

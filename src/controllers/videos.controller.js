@@ -221,7 +221,7 @@ const findByPlaylist = async (req, res) => {
     .sort({ createdAt: 1 })
     .then((result) => {
       if (!result) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Video not found",
         });
       }
@@ -295,7 +295,7 @@ const findByPlaylistPro = (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Video not found",
         });
       }
@@ -589,7 +589,7 @@ const create = async (req, res) => {
     const updatePlaylist = await incrementPlaylistVideoCount(playlistId);
 
     if (updatePlaylist === true) {
-      res.send({
+      res.status(201).send({
         message: "Video was created",
       });
     } else {

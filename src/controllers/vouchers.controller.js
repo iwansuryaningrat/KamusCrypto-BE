@@ -42,6 +42,7 @@ const findAll = async (req, res) => {
           forNewUser,
           status,
         } = item;
+
         return {
           id: _id,
           voucherCode,
@@ -153,7 +154,7 @@ const create = (req, res) => {
   voucher
     .save()
     .then((result) => {
-      res.send({
+      res.status(201).send({
         message: "Voucher was created",
       });
     })

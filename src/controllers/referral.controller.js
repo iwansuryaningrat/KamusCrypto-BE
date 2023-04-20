@@ -63,6 +63,7 @@ const findAll = async (req, res) => {
           referralStatus,
           referralWithDrawBank,
         } = referral;
+
         return {
           id: _id,
           referralCode,
@@ -204,7 +205,7 @@ const addBankAccount = (req, res) => {
         });
       }
 
-      res.send({
+      res.status(201).send({
         message: "Referral updated successfully",
       });
     })

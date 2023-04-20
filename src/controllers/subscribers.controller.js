@@ -91,7 +91,7 @@ const create = (req, res) => {
       subscribers
         .save()
         .then((result) => {
-          res.status(200).send({
+          res.status(201).send({
             message: "You have successfully subscribed.",
           });
         })

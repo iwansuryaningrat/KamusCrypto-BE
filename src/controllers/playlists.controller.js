@@ -212,7 +212,7 @@ const create = (req, res) => {
   playlist
     .save()
     .then((result) => {
-      res.status(200).send({
+      res.status(201).send({
         message: "Playlist successfully added.",
       });
     })

@@ -39,6 +39,7 @@ const findAll = async (req, res) => {
       const data = result.map((item) => {
         const { _id, name, description, position, photo, contact, status } =
           item;
+
         return {
           id: _id,
           name,
@@ -77,6 +78,7 @@ const findAllforUsers = (req, res) => {
 
       const data = result.map((item) => {
         const { _id, name, description, position, photo, contact } = item;
+
         return {
           id: _id,
           name,
@@ -193,7 +195,7 @@ const create = (req, res) => {
   team
     .save()
     .then((result) => {
-      res.status(200).send({
+      res.status(201).send({
         message: "Team successfully created.",
       });
     })
@@ -279,7 +281,7 @@ const teamProfilePicture = (req, res) => {
         });
       }
 
-      res.send({
+      res.status(201).send({
         message: "Team profile photo successfully updated.",
       });
     })
