@@ -43,14 +43,14 @@ const findAll = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Users, pageLimit, condition);
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Users, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
 
-  const pageData = paginationLinks(page, pageLimit, link, dataCount);
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Users.find(condition)
     .populate({
@@ -59,7 +59,7 @@ const findAll = async (req, res) => {
         "referralCode referralCount referralAccount referralTotalAmount referralAvailableAmount referralWithDraw referralWithDrawBank referralWithDrawHistory referralStatus ",
     })
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {

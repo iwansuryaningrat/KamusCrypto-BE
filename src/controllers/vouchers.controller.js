@@ -11,18 +11,18 @@ const findAll = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Videos, pageLimit, condition);
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Videos, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  
-  const pageData = paginationLinks(page, pageLimit, link, dataCount);
+
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   Vouchers.find()
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .then((result) => {
       if (!result) {
         return res.status(204).send({

@@ -8,23 +8,23 @@ const ObjectId = mongoose.Types.ObjectId;
 
 // Get all plans for Users (Active only) - Done
 const findAllforUsers = async (req, res) => {
-  let { page, pageLimit } = req.query;
+  let { page, limit } = req.query;
 
   if (page === undefined) page = 1;
-  if (pageLimit === undefined) pageLimit = 3;
+  if (limit === undefined) limit = 3;
 
   const condition = { status: "Active" };
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Plans, pageLimit, condition);
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Plans, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
 
-  const pageData = paginationLinks(page, pageLimit, link, dataCount);
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Plans.find(condition)
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .then((result) => {
       if (!result || result.length === 0) {
         return res.status(204).send({
@@ -69,18 +69,18 @@ const findAll = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Plans, pageLimit, condition);
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Plans, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
 
-  const pageData = paginationLinks(page, pageLimit, link, dataCount);
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Plans.find(condition)
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result || result.length === 0) {

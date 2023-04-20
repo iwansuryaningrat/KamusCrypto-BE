@@ -20,18 +20,18 @@ const findAll = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Playlists, pageLimit, query);
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Playlists, limit, query);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
 
-  const pageData = paginationLinks(page, pageLimit, link, dataCount);
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Playlists.find(query)
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
@@ -96,24 +96,24 @@ const findAllNameId = (req, res) => {
 
 // Find All Playlists for Pro User
 const findAllforPro = async (req, res) => {
-  let { page, pageLimit } = req.query;
+  let { page, limit } = req.query;
 
   const query = { status: "Published" };
 
   if (page === undefined) page = 1;
-  if (pageLimit === undefined) pageLimit = 10;
+  if (limit === undefined) limit = 10;
 
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Playlists, pageLimit, query);
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Playlists, limit, query);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
 
-  const pageData = paginationLinks(page, pageLimit, link, dataCount);
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Playlists.find(query)
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {

@@ -110,23 +110,23 @@ const uploadImage = (req, res) => {
  * @param res - the response object
  */
 const findAllforUsers = async (req, res) => {
-  var { page, pageLimit } = req.query;
+  var { page, limit } = req.query;
   const condition = { status: "Published" };
 
   page ? (page = parseInt(page)) : (page = 1);
 
-  pageLimit ? (pageLimit = parseInt(pageLimit)) : (pageLimit = 9);
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(News, pageLimit, condition);
+  limit ? (limit = parseInt(limit)) : (limit = 9);
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(News, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
 
-  const pageData = paginationLinks(page, pageLimit, link, dataCount);
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await News.find(condition)
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ date: -1 })
     .then((data) => {
       if (!data) {
@@ -168,7 +168,7 @@ const findAllforUsers = async (req, res) => {
  * @param res - the response object
  */
 const findAll = async (req, res) => {
-  var { page, pageLimit } = req.query;
+  var { page, limit } = req.query;
 
   if (!page) {
     page = 1;
@@ -176,22 +176,22 @@ const findAll = async (req, res) => {
     page = parseInt(page);
   }
 
-  if (!pageLimit) {
-    pageLimit = 9;
+  if (!limit) {
+    limit = 9;
   } else {
-    pageLimit = parseInt(pageLimit);
+    limit = parseInt(limit);
   }
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(News, pageLimit);
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(News, limit);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
 
-  const pageData = paginationLinks(page, pageLimit, link, dataCount);
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await News.find()
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ date: -1 })
     .then((data) => {
       if (!data) {

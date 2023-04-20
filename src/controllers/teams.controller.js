@@ -10,23 +10,23 @@ import Images from "../helpers/imageProcessor.js";
 
 // Fetch all teams data (DONE)
 const findAll = async (req, res) => {
-  let { active, page, pageLimit } = req.query;
+  let { active, page, limit } = req.query;
 
   let condition = active ? { status: "Active" } : {};
 
   if (page === undefined) page = 1;
-  if (pageLimit === undefined) pageLimit = 10;
+  if (limit === undefined) limit = 10;
 
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Teams, pageLimit, condition);
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Teams, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
 
-  const pageData = paginationLinks(page, pageLimit, link, dataCount);
+  const pageData = paginationLinks(page, limit, link, dataCount);
   await Teams.find(condition)
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: 1 })
     .then((result) => {
       // Check if there is any data

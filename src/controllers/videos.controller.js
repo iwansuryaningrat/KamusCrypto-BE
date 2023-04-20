@@ -31,14 +31,14 @@ const findAll = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Videos, pageLimit, condition);
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Videos, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
- 
-  const pageData = paginationLinks(page, pageLimit, link, dataCount);
+
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Videos.find(condition)
     .populate({
@@ -46,7 +46,7 @@ const findAll = async (req, res) => {
       select: "_id name videoLevel videoCount status",
     })
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
@@ -108,20 +108,20 @@ const findAll = async (req, res) => {
 
 // Find all videos for Pro Member (DONE)
 const findAllPro = async (req, res) => {
-  let { page, pageLimit } = req.query;
+  let { page, limit } = req.query;
 
   const condition = { status: "Published" };
 
   if (page === null) page = 1;
-  if (pageLimit === null) pageLimit = 10;
+  if (limit === null) limit = 10;
 
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Videos, pageLimit, condition);
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Videos, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  
-  const pageData = paginationLinks(page, pageLimit, link, dataCount);
+
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Videos.find(condition)
     .populate({
@@ -129,7 +129,7 @@ const findAllPro = async (req, res) => {
       select: "_id name videoLevel videoCount",
     })
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
@@ -202,14 +202,14 @@ const findByPlaylist = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Videos, pageLimit, condition);
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Videos, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
 
-  const pageData = paginationLinks(page, pageLimit, link, dataCount);
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Videos.find(condition)
     .populate({
@@ -217,7 +217,7 @@ const findByPlaylist = async (req, res) => {
       select: "_id name videoLevel videoCount status",
     })
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: 1 })
     .then((result) => {
       if (!result) {
