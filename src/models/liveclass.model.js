@@ -38,9 +38,18 @@ export default (mongoose) => {
         require: true,
         enum: {
           values: ["Silver", "Gold", "Platinum", "None"],
-          message: "",
+          message: "Member type must be Silver, Gold, Platinum or None",
         },
         default: "None",
+      },
+      type: {
+        type: String,
+        require: true,
+        enum: {
+          values: ["Free", "Paid"],
+          message: "Type must be Free or Paid",
+        },
+        default: "Paid",
       },
       category: {
         type: String,

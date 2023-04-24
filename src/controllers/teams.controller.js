@@ -1,6 +1,7 @@
 import db from "../models/index.js";
 const Teams = db.teams;
 import dataCounter from "../helpers/dataCounter.js";
+import paginationLinks from "../helpers/paginationLinks.js";
 
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
@@ -9,45 +10,23 @@ import Images from "../helpers/imageProcessor.js";
 
 // Fetch all teams data (DONE)
 const findAll = async (req, res) => {
-  let { active, page, pageLimit } = req.query;
+  let { active, page, limit } = req.query;
 
   let condition = active ? { status: "Active" } : {};
 
   if (page === undefined) page = 1;
-  if (pageLimit === undefined) pageLimit = 10;
+  if (limit === undefined) limit = 10;
 
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Teams, pageLimit, condition);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Teams, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
-
+  const pageData = paginationLinks(page, limit, link, dataCount);
   await Teams.find(condition)
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: 1 })
     .then((result) => {
       // Check if there is any data
@@ -60,6 +39,7 @@ const findAll = async (req, res) => {
       const data = result.map((item) => {
         const { _id, name, description, position, photo, contact, status } =
           item;
+
         return {
           id: _id,
           name,
@@ -98,6 +78,7 @@ const findAllforUsers = (req, res) => {
 
       const data = result.map((item) => {
         const { _id, name, description, position, photo, contact } = item;
+
         return {
           id: _id,
           name,
@@ -214,7 +195,7 @@ const create = (req, res) => {
   team
     .save()
     .then((result) => {
-      res.status(200).send({
+      res.status(201).send({
         message: "Team successfully created.",
       });
     })
@@ -300,7 +281,7 @@ const teamProfilePicture = (req, res) => {
         });
       }
 
-      res.send({
+      res.status(201).send({
         message: "Team profile photo successfully updated.",
       });
     })

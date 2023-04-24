@@ -1,50 +1,30 @@
 import db from "../models/index.js";
 const Plans = db.plans;
 import dataCounter from "../helpers/dataCounter.js";
+import paginationLinks from "../helpers/paginationLinks.js";
 
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
 // Get all plans for Users (Active only) - Done
 const findAllforUsers = async (req, res) => {
-  let { page, pageLimit } = req.query;
+  let { page, limit } = req.query;
 
   if (page === undefined) page = 1;
-  if (pageLimit === undefined) pageLimit = 10;
+  if (limit === undefined) limit = 3;
 
   const condition = { status: "Active" };
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Plans, pageLimit, condition);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Plans, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Plans.find(condition)
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .then((result) => {
       if (!result || result.length === 0) {
         return res.status(204).send({
@@ -89,39 +69,18 @@ const findAll = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Plans, pageLimit, condition);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Plans, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Plans.find(condition)
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result || result.length === 0) {
@@ -288,7 +247,7 @@ const create = (req, res) => {
     materi,
   })
     .then((result) => {
-      res.send({
+      res.status(201).send({
         message: "Plan was successfully created",
       });
     })
@@ -347,7 +306,7 @@ const addFeature = (req, res) => {
         });
       }
 
-      res.send({
+      res.status(201).send({
         message: "Feature was successfully added to plan",
       });
     })

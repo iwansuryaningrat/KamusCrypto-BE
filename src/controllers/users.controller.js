@@ -1,14 +1,29 @@
+/* The above code is importing two modules, bcrypt and jwt, in a JavaScript file. These modules are
+commonly used for authentication and security purposes in web applications. Bcrypt is a library used
+for hashing passwords, while jwt is used for creating and verifying JSON Web Tokens. */
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
+/* The above code is importing the Mongoose library and defining a constant variable `ObjectId` which
+is used to generate unique identifiers for MongoDB documents. */
+import mongoose from "mongoose";
+const ObjectId = mongoose.Types.ObjectId;
+
+/* The above code is importing the database models from "../models/index.js" and creating variables for
+the "users" and "referrals" collections. These collections are likely used for storing and
+retrieving data related to users and their referrals in a web application or system. */
 import db from "../models/index.js";
 const Users = db.users;
 const Referrals = db.referrals;
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+
+/* The above code is importing various helper functions from different modules in a JavaScript project.
+These helper functions include adminCheck, dataCounter, Images, and paginationLinks. The purpose of
+these functions is not clear from the code snippet alone, but they likely serve to assist with
+various tasks within the project. */
 import adminCheck from "../helpers/admincheck.js";
 import dataCounter from "../helpers/dataCounter.js";
 import Images from "../helpers/imageProcessor.js";
-
-import mongoose from "mongoose";
-const ObjectId = mongoose.Types.ObjectId;
+import paginationLinks from "../helpers/paginationLinks.js";
 
 // Fetch all users - Admin Only (need to be updated)
 const findAll = async (req, res) => {
@@ -28,35 +43,14 @@ const findAll = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Users, pageLimit, condition);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Users, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Users.find(condition)
     .populate({
@@ -65,7 +59,7 @@ const findAll = async (req, res) => {
         "referralCode referralCount referralAccount referralTotalAmount referralAvailableAmount referralWithDraw referralWithDrawBank referralWithDrawHistory referralStatus ",
     })
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {

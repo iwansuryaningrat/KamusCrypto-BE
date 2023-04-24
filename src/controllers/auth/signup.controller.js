@@ -91,7 +91,7 @@ const signup = async (req, res) => {
     const response = await signupMailer(result.email, token);
 
     if (response == "Email sent") {
-      return res.status(200).send({
+      return res.status(201).send({
         message: "User registered successfully! Please check your email.",
       });
     } else {

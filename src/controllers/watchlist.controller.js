@@ -1,6 +1,7 @@
 import db from "../models/index.js";
 const Watchlist = db.watchlist;
 import dataCounter from "../helpers/dataCounter.js";
+import paginationLinks from "../helpers/paginationLinks.js";
 
 // Find All data for admin
 const findAll = async (req, res) => {
@@ -19,39 +20,18 @@ const findAll = async (req, res) => {
     query.date = date;
   }
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Watchlist, pageLimit, query);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Watchlist, limit, query);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Watchlist.find(query)
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
@@ -74,6 +54,7 @@ const findAll = async (req, res) => {
           techAnalysis,
           status,
         } = item;
+
         return {
           id: _id,
           name,
@@ -121,39 +102,18 @@ const findAllPro = async (req, res) => {
     query.date = date;
   }
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Watchlist, pageLimit, query);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Watchlist, limit, query);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Watchlist.find(query)
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
@@ -360,7 +320,7 @@ const create = (req, res) => {
   watchlist
     .save()
     .then((result) => {
-      res.send({
+      res.status(201).send({
         message: "Watchlist was created successfully",
         data: result,
       });

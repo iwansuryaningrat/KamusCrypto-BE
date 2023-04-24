@@ -2,6 +2,8 @@ import db from "../models/index.js";
 const Referrals = db.referrals;
 /* Importing the dataCounter function from the helpers folder. */
 import dataCounter from "../helpers/dataCounter.js";
+/* Importing the paginationLinks function from the helpers folder. */
+import paginationLinks from "../helpers/paginationLinks.js";
 
 /* Importing the mongoose library and creating a new ObjectId. */
 import mongoose from "mongoose";
@@ -23,35 +25,14 @@ const findAll = async (req, res) => {
     condition = {};
   }
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Referrals, pageLimit, condition);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Referrals, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Referrals.find(condition)
     .populate({
@@ -59,7 +40,7 @@ const findAll = async (req, res) => {
       select: "name username email",
     })
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((referrals) => {
       if (referrals.length < 0) {
@@ -82,6 +63,7 @@ const findAll = async (req, res) => {
           referralStatus,
           referralWithDrawBank,
         } = referral;
+
         return {
           id: _id,
           referralCode,
@@ -223,7 +205,7 @@ const addBankAccount = (req, res) => {
         });
       }
 
-      res.send({
+      res.status(201).send({
         message: "Referral updated successfully",
       });
     })
@@ -382,9 +364,9 @@ const requestWD = (req, res) => {
  *
  *   if (page === undefined) page = 1;
  *
- *   const pageLimit = 10;
- *   const skip = pageLimit * (page - 1);
- *   const dataCount = await dataCounter(Referrals, pageLimit, query);
+ *   const limit = 10;
+ *   const skip = limit * (page - 1);
+ *   const dataCount = await dataCounter(Referrals, limit, query);
  *
  *   const nextPage = parseInt(page) + 1;
  *   const prevPage = parseInt(page) - 1;
@@ -399,35 +381,14 @@ const showAllVerification = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Referrals, pageLimit, query);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Referrals, limit, query);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Referrals.find(query)
     .populate({
@@ -435,7 +396,7 @@ const showAllVerification = async (req, res) => {
       select: "name username email",
     })
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((referrals) => {
       if (!referrals) {
@@ -500,9 +461,9 @@ const showAllVerification = async (req, res) => {
  *
  *   if (page === undefined) page = 1;
  *
- *   const pageLimit = 10;
- *   const skip = pageLimit * (page - 1);
- *   const dataCount = await dataCounter(Referrals, pageLimit, query);
+ *   const limit = 10;
+ *   const skip = limit * (page - 1);
+ *   const dataCount = await dataCounter(Referrals, limit, query);
  * @param req - The request object.
  * @param res - the response object
  */
@@ -512,35 +473,14 @@ const showAllWithdraw = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Referrals, pageLimit, query);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Referrals, limit, query);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Referrals.find(query)
     .populate({
@@ -548,7 +488,7 @@ const showAllWithdraw = async (req, res) => {
       select: "name username email",
     })
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((referrals) => {
       if (!referrals) {

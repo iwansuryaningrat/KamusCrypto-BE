@@ -6,6 +6,7 @@ const News = db.news;
 import dataCounter from "../helpers/dataCounter.js";
 import { timeConvert } from "../helpers/timeConverter.js";
 import Images from "../helpers/imageProcessor.js";
+import paginationLinks from "../helpers/paginationLinks.js";
 
 // Create and Save a new News (Done)
 /**
@@ -109,49 +110,28 @@ const uploadImage = (req, res) => {
  * @param res - the response object
  */
 const findAllforUsers = async (req, res) => {
-  var { page, pageLimit } = req.query;
+  var { page, limit } = req.query;
   const condition = { status: "Published" };
 
   page ? (page = parseInt(page)) : (page = 1);
 
-  pageLimit ? (pageLimit = parseInt(pageLimit)) : (pageLimit = 9);
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(News, pageLimit, condition);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  limit ? (limit = parseInt(limit)) : (limit = 9);
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(News, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await News.find(condition)
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ date: -1 })
     .then((data) => {
       if (!data) {
         return res.status(204).send({
-          message: `Not found News with status ${condition.status}`,
+          message: "No news found.",
         });
       }
 
@@ -188,7 +168,7 @@ const findAllforUsers = async (req, res) => {
  * @param res - the response object
  */
 const findAll = async (req, res) => {
-  var { page, pageLimit } = req.query;
+  var { page, limit } = req.query;
 
   if (!page) {
     page = 1;
@@ -196,43 +176,22 @@ const findAll = async (req, res) => {
     page = parseInt(page);
   }
 
-  if (!pageLimit) {
-    pageLimit = 9;
+  if (!limit) {
+    limit = 9;
   } else {
-    pageLimit = parseInt(pageLimit);
+    limit = parseInt(limit);
   }
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(News, pageLimit);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(News, limit);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await News.find()
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ date: -1 })
     .then((data) => {
       if (!data) {

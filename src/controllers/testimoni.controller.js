@@ -2,11 +2,11 @@ import db from "../models/index.js";
 const Testimoni = db.testimoni;
 
 import dataCounter from "../helpers/dataCounter.js";
+import paginationLinks from "../helpers/paginationLinks.js";
+import Images from "../helpers/imageProcessor.js";
 
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
-
-import Images from "../helpers/imageProcessor.js";
 
 // Find all testimoni for admin
 const findAllAdmin = async (req, res) => {
@@ -23,39 +23,18 @@ const findAllAdmin = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Testimoni, pageLimit, condition);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Testimoni, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Testimoni.find(condition)
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result || result.length === 0) {
@@ -67,6 +46,7 @@ const findAllAdmin = async (req, res) => {
       const data = result.map((item) => {
         const { _id, name, position, company, testimoni, photos, status } =
           item;
+
         return {
           id: _id,
           name,
@@ -103,6 +83,7 @@ const findAll = (req, res) => {
 
       const data = result.map((item) => {
         const { name, position, company, testimoni, photos } = item;
+
         return {
           name,
           position,
@@ -200,7 +181,7 @@ const create = (req, res) => {
   newTestimoni
     .save()
     .then((result) => {
-      res.send({
+      res.status(201).send({
         message: "Testimoni was successfully created",
       });
     })
@@ -333,7 +314,7 @@ const uploadPhotos = (req, res) => {
         });
       }
 
-      res.send({
+      res.status(201).send({
         message: "Testimoni photo was successfully uploaded",
       });
     })

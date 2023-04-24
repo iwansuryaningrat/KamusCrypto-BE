@@ -1,17 +1,16 @@
-import db from "../models/index.js";
-const Videos = db.videos;
-import dataCounter from "../helpers/dataCounter.js";
-
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
+import db from "../models/index.js";
+const Videos = db.videos;
+
+import dataCounter from "../helpers/dataCounter.js";
+import paginationLinks from "../helpers/paginationLinks.js";
+import Images from "../helpers/imageProcessor.js";
 import {
   incrementPlaylistVideoCount,
   decrementPlaylistVideoCount,
 } from "../helpers/playlist.js";
-
-import Images from "../helpers/imageProcessor.js";
-
 import {
   updateVideoUrl,
   updateVideoViews,
@@ -32,35 +31,14 @@ const findAll = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Videos, pageLimit, condition);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Videos, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Videos.find(condition)
     .populate({
@@ -68,7 +46,7 @@ const findAll = async (req, res) => {
       select: "_id name videoLevel videoCount status",
     })
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
@@ -130,41 +108,20 @@ const findAll = async (req, res) => {
 
 // Find all videos for Pro Member (DONE)
 const findAllPro = async (req, res) => {
-  let { page, pageLimit } = req.query;
+  let { page, limit } = req.query;
 
   const condition = { status: "Published" };
 
   if (page === null) page = 1;
-  if (pageLimit === null) pageLimit = 10;
+  if (limit === null) limit = 10;
 
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Videos, pageLimit, condition);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Videos, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Videos.find(condition)
     .populate({
@@ -172,7 +129,7 @@ const findAllPro = async (req, res) => {
       select: "_id name videoLevel videoCount",
     })
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
@@ -245,35 +202,14 @@ const findByPlaylist = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Videos, pageLimit, condition);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Videos, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Videos.find(condition)
     .populate({
@@ -281,11 +217,11 @@ const findByPlaylist = async (req, res) => {
       select: "_id name videoLevel videoCount status",
     })
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: 1 })
     .then((result) => {
       if (!result) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Video not found",
         });
       }
@@ -359,7 +295,7 @@ const findByPlaylistPro = (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       if (!result) {
-        return res.status(404).send({
+        return res.status(204).send({
           message: "Video not found",
         });
       }
@@ -653,7 +589,7 @@ const create = async (req, res) => {
     const updatePlaylist = await incrementPlaylistVideoCount(playlistId);
 
     if (updatePlaylist === true) {
-      res.send({
+      res.status(201).send({
         message: "Video was created",
       });
     } else {

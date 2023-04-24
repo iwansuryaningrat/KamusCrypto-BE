@@ -135,7 +135,7 @@ const create = async (req, res) => {
       const participant = addParticipant(user._id, liveclass._id);
 
       if (participant) {
-        res.status(200).send({
+        res.status(201).send({
           message: "Transaction created successfully!",
           data: transaction,
         });

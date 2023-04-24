@@ -2,7 +2,7 @@
 export default (mongoose) => {
   const Schema = mongoose.Schema;
   /* Creating a schema for the certificate model. */
-  const certificateSchema = new Schema(
+  const liveclassCertificatesSchema = new Schema(
     {
       certificateNumber: {
         type: String,
@@ -13,9 +13,9 @@ export default (mongoose) => {
         ref: "Users",
         require: true,
       },
-      playlistId: {
+      liveclassId: {
         type: Schema.Types.ObjectId,
-        ref: "Playlists",
+        ref: "liveclass",
         require: true,
       },
       date: {
@@ -35,13 +35,16 @@ export default (mongoose) => {
   );
 
   /* This is a method that is used to remove the version key from the response. */
-  certificateSchema.method("toJSON", function () {
+  liveclassCertificatesSchema.method("toJSON", function () {
     const { __v, _id, ...object } = this.toObject();
     object.id = _id;
     return object;
   });
 
-  const Certificate = mongoose.model("certificate", certificateSchema);
+  const LiveclassCertificates = mongoose.model(
+    "liveclassCertificates",
+    liveclassCertificatesSchema
+  );
 
-  return Certificate;
+  return LiveclassCertificates;
 };

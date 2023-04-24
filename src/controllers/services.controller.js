@@ -1,6 +1,8 @@
 import db from "../models/index.js";
 const Services = db.services;
 import dataCounter from "../helpers/dataCounter.js";
+import paginationLinks from "../helpers/paginationLinks.js";
+import Images from "../helpers/imageProcessor.js";
 
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
@@ -23,39 +25,18 @@ const findAll = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Services, pageLimit, condition);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Services, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Services.find(condition)
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((result) => {
       if (result.length === 0) {
@@ -101,7 +82,7 @@ const create = (req, res) => {
   services
     .save()
     .then((result) => {
-      res.status(200).send({
+      res.status(201).send({
         message: "Service successfully added.",
       });
     })
@@ -128,22 +109,15 @@ const uploadImage = (req, res) => {
     });
   }
 
-  // const protocol = req.protocol === "https" ? req.protocol : "https";
-  // const photoName = req.file.filename;
-  // const photoLink = `${protocol}://${req.get(
-  //   "host"
-  // )}/assets/images/${photoName}`;
-  const photoName = req.file.filename;
-  const photoLink =
-    process.env.NODE_ENV === "production"
-      ? `https://api.kamuscrypto.id/assets/images/${photoName}`
-      : `https://dev.kamuscrypto.id/assets/images/${photoName}`;
+  const photoName = req.file.originalname.replace(/\s/g, "-");
+  const image = new Images(photoName);
 
-  Services.findByIdAndUpdate(
-    id,
-    { image: { imageName: photoName, imagePath: photoLink } },
-    { new: true }
-  )
+  image.setImageSrc();
+  image.setImageAlt();
+  image.setImageName();
+  const imageProp = image.getImageProperties();
+
+  Services.findByIdAndUpdate(id, { image: imageProp }, { new: true })
     .then((result) => {
       if (!result) {
         return res.status(404).send({
@@ -151,7 +125,7 @@ const uploadImage = (req, res) => {
         });
       }
 
-      res.status(200).send({
+      res.status(201).send({
         message: "Image successfully uploaded.",
       });
     })
@@ -286,7 +260,7 @@ const addBenefit = (req, res) => {
         });
       }
 
-      res.send({
+      res.status(201).send({
         message: "Benefit was added",
       });
     })

@@ -11,10 +11,6 @@ export default (mongoose) => {
         require: true,
         default: "Cuanmax Pro Membership",
       },
-      membershipDuration: {
-        type: String,
-        require: true,
-      },
       transactionAmount: {
         type: String,
         require: true,
@@ -27,8 +23,8 @@ export default (mongoose) => {
         type: String,
         require: true,
         enum: {
-          values: ["Pending", "Success", "Failed"],
-          message: "Status must be Pending, Success or Failed",
+          values: ["Pending", "Success", "Failed", "Challenge"],
+          message: "Status must be Pending, Success, Failed or Challenge",
         },
         default: "Pending",
       },

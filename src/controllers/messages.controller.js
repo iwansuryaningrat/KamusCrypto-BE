@@ -8,6 +8,9 @@ import replyMessage from "../helpers/reply.js";
 /* Importing the dataCounter function from the dataCounter.js file. */
 import dataCounter from "../helpers/dataCounter.js";
 
+/* Importing the paginationLinks function from the paginationLinks.js file. */
+import paginationLinks from "../helpers/paginationLinks.js";
+
 /* Importing the mongoose module and creating a new ObjectId. */
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
@@ -29,39 +32,18 @@ const findAll = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = pageLimit * (page - 1);
-  const dataCount = await dataCounter(Messages, pageLimit, query);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const limit = 10;
+  const skip = limit * (page - 1);
+  const dataCount = await dataCounter(Messages, limit, query);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Messages.find(query)
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((message) => {
       if (message.length < 1) {
@@ -125,7 +107,7 @@ const create = (req, res) => {
   message
     .save()
     .then((result) => {
-      res.status(200).send({
+      res.status(201).send({
         message: "Message sent successfully.",
       });
     })

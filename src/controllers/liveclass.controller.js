@@ -10,6 +10,8 @@ import Images from "../helpers/imageProcessor.js";
 
 import { timeConvert } from "../helpers/timeConverter.js";
 
+import paginationLinks from "../helpers/paginationLinks.js";
+
 // Find all liveclasses (Done)
 /**
  * It fetches all liveclasses from the database and returns them to the user.
@@ -31,35 +33,14 @@ const findAll = async (req, res) => {
 
   if (page === undefined) page = 1;
 
-  const pageLimit = 10;
-  const skip = page ? (page - 1) * pageLimit : 0;
-  const dataCount = await dataCounter(Liveclass, pageLimit, query);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const limit = 10;
+  const skip = page ? (page - 1) * limit : 0;
+  const dataCount = await dataCounter(Liveclass, limit, query);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Liveclass.find(query)
     .populate({
@@ -67,7 +48,7 @@ const findAll = async (req, res) => {
       select: "name username email",
     })
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((liveclasses) => {
       if (!liveclasses) {
@@ -87,6 +68,7 @@ const findAll = async (req, res) => {
           totalPrice,
           description,
           memberType,
+          type,
           category,
           tags,
           date,
@@ -110,6 +92,7 @@ const findAll = async (req, res) => {
           totalPrice,
           description,
           memberType,
+          type,
           category,
           tags,
           date: timeConvert(date),
@@ -145,10 +128,11 @@ const findAll = async (req, res) => {
  * @param res - The response object.
  */
 const findAllForUsers = async (req, res) => {
-  let { page, pageLimit } = req.query;
+  let { page, limit } = req.query;
 
   if (page === undefined) page = 1;
-  if (pageLimit === undefined) pageLimit = 9;
+  if (limit === undefined) limit = 9;
+  console.log(page, limit);
 
   const condition = {
     status: {
@@ -156,38 +140,17 @@ const findAllForUsers = async (req, res) => {
     },
   };
 
-  const skip = page ? (page - 1) * pageLimit : 0;
-  const dataCount = await dataCounter(Liveclass, pageLimit, condition);
-
-  const nextPage = parseInt(page) + 1;
-  const prevPage = parseInt(page) - 1;
+  const skip = page ? (page - 1) * limit : 0;
+  const dataCount = await dataCounter(Liveclass, limit, condition);
 
   const protocol = req.protocol === "https" ? req.protocol : "https";
   const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
-  var nextLink =
-    nextPage > dataCount.pageCount
-      ? `${link}?page=${dataCount.pageCount}`
-      : `${link}?page=${nextPage}`;
-  var prevLink = page > 1 ? `${link}?page=${prevPage}` : null;
-  var lastLink = `${link}?page=${dataCount.pageCount}`;
-  var firstLink = `${link}?page=1`;
 
-  const pageData = {
-    currentPage: parseInt(page),
-    pageCount: dataCount.pageCount,
-    dataPerPage: parseInt(pageLimit),
-    dataCount: dataCount.dataCount,
-    links: {
-      next: nextLink,
-      prev: prevLink,
-      last: lastLink,
-      first: firstLink,
-    },
-  };
+  const pageData = paginationLinks(page, limit, link, dataCount);
 
   await Liveclass.find()
     .skip(skip)
-    .limit(pageLimit)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then((liveclasses) => {
       if (!liveclasses) {
@@ -207,6 +170,7 @@ const findAllForUsers = async (req, res) => {
           totalPrice,
           description,
           memberType,
+          type,
           category,
           tags,
           date,
@@ -228,6 +192,7 @@ const findAllForUsers = async (req, res) => {
           totalPrice,
           description,
           memberType,
+          type,
           category,
           tags,
           date: timeConvert(date),
@@ -283,49 +248,49 @@ const findOne = (req, res) => {
         });
       }
 
-      const data = liveclasses.map((liveclass) => {
-        const {
-          _id,
-          title,
-          number,
-          liveclassCode,
-          price,
-          discount,
-          totalPrice,
-          description,
-          memberType,
-          category,
-          tags,
-          date,
-          time,
-          location,
-          duration,
-          mentor,
-          benefits,
-          thumbnail,
-        } = liveclass;
+      const {
+        _id,
+        title,
+        number,
+        liveclassCode,
+        price,
+        discount,
+        totalPrice,
+        description,
+        memberType,
+        type,
+        category,
+        tags,
+        date,
+        time,
+        location,
+        duration,
+        mentor,
+        benefits,
+        thumbnail,
+      } = liveclass;
 
-        return {
-          id: _id,
-          title,
-          number,
-          liveclassCode,
-          price,
-          discount,
-          totalPrice,
-          description,
-          memberType,
-          category,
-          tags,
-          date: timeConvert(date),
-          time,
-          location,
-          duration,
-          mentor,
-          benefits,
-          thumbnail,
-        };
-      });
+      const data = {
+        id: _id,
+        title,
+        number,
+        liveclassCode,
+        price,
+        discount,
+        totalPrice,
+        description,
+        memberType,
+        type,
+        category,
+        tags,
+        date,
+        time,
+        location,
+        duration,
+        mentor,
+        benefits,
+        thumbnail,
+      };
 
       res.send({
         message: "Liveclass was fetched successfully",
@@ -488,7 +453,7 @@ const create = (req, res) => {
   liveclass
     .save()
     .then((result) => {
-      res.send({
+      res.status(201).send({
         message: "Live class was successfully created",
       });
     })
@@ -624,10 +589,16 @@ const getAllParticipants = (req, res) => {
 
       const { participants } = result;
 
-      return res.status(200).send({
-        message: "All participants of a live class successfully retrieved",
-        participants,
-      });
+      if (participants.participantsCount === 0) {
+        return res.status(204).send({
+          message: "No participants yet",
+        });
+      } else {
+        return res.status(200).send({
+          message: "All participants of a live class successfully retrieved",
+          data: participants,
+        });
+      }
     })
     .catch((err) => {
       return res.status(500).send({
