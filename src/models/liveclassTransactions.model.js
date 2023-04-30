@@ -28,6 +28,14 @@ export default (mongoose) => {
         },
         default: "Pending",
       },
+      transactionUrl: {
+        url: {
+          type: String,
+        },
+        expiredAt: {
+          type: String,
+        },
+      },
       transactionDescription: {
         type: String,
         require: true,
