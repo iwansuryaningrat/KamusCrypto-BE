@@ -9,7 +9,7 @@ export default (mongoose) => {
       transactionName: {
         type: String,
         require: true,
-        default: "Cuanmax Pro Membership",
+        default: "Kamuscrypto Pro Membership",
       },
       transactionAmount: {
         type: String,
