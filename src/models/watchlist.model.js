@@ -10,13 +10,6 @@ export default (mongoose) => {
         type: String,
         require: true,
       },
-      category: {
-        type: String,
-        require: true,
-      },
-      tags: {
-        type: [String],
-      },
       date: {
         type: String,
         require: true,
