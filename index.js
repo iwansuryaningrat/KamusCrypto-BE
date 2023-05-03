@@ -161,6 +161,8 @@ import watchlistAdminRouter from "./src/routes/admin/watchlist.routes.js"; // Wa
 watchlistAdminRouter(app); // Watchlists Router
 
 // * Pro Users Routers
+import liveClassProRouter from "./src/routes/pro_users/liveclass.routes.js"; // Liveclass Router
+liveClassProRouter(app); // Liveclass Router
 import playlistsProRouter from "./src/routes/pro_users/playlists.routes.js"; // Playlists Router
 playlistsProRouter(app); // Playlists Router
 import referralRouter from "./src/routes/pro_users/referral.routes.js"; // Referral Router

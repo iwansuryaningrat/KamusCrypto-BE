@@ -121,22 +121,19 @@ const findAll = async (req, res) => {
     });
 };
 
-// Find All liveclasses for Users (Done)
-/**
- * It fetches all liveclasses from the database and paginates them
- * @param req - The request object.
- * @param res - The response object.
- */
-const findAllForUsers = async (req, res) => {
+// Find All for Pro Users
+const findAllForProUsers = async (req, res) => {
   let { page, limit } = req.query;
 
   if (page === undefined) page = 1;
   if (limit === undefined) limit = 9;
-  console.log(page, limit);
 
   const condition = {
     status: {
       $in: ["Upcoming", "Closed", "Ongoing"],
+    },
+    memberType: {
+      $in: [req.user.memberType, "All"],
     },
   };
 
@@ -148,7 +145,104 @@ const findAllForUsers = async (req, res) => {
 
   const pageData = paginationLinks(page, limit, link, dataCount);
 
-  await Liveclass.find()
+  await Liveclass.find(condition)
+    .skip(skip)
+    .limit(limit)
+    .sort({ createdAt: -1 })
+    .then((liveclasses) => {
+      if (!liveclasses) {
+        return res.status(204).send({
+          message: "No liveclass was found",
+        });
+      }
+
+      const data = liveclasses.map((liveclass) => {
+        const {
+          _id,
+          title,
+          number,
+          liveclassCode,
+          price,
+          discount,
+          totalPrice,
+          description,
+          memberType,
+          type,
+          category,
+          tags,
+          date,
+          time,
+          location,
+          duration,
+          mentor,
+          benefits,
+          thumbnail,
+        } = liveclass;
+
+        return {
+          id: _id,
+          title,
+          number,
+          liveclassCode,
+          price,
+          discount,
+          totalPrice,
+          description,
+          memberType,
+          type,
+          category,
+          tags,
+          date: timeConvert(date),
+          time,
+          location,
+          duration,
+          mentor,
+          benefits,
+          thumbnail,
+        };
+      });
+
+      res.send({
+        message: "All liveclasses were fetched successfully",
+        data,
+        page: pageData,
+      });
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message: "Some error occurred while retrieving liveclasses.",
+      });
+    });
+};
+
+// Find All liveclasses for Users (Done)
+/**
+ * It fetches all liveclasses from the database and paginates them
+ * @param req - The request object.
+ * @param res - The response object.
+ */
+const findAllForUsers = async (req, res) => {
+  let { page, limit } = req.query;
+
+  if (page === undefined) page = 1;
+  if (limit === undefined) limit = 9;
+
+  const condition = {
+    status: {
+      $in: ["Upcoming", "Closed", "Ongoing"],
+    },
+    type: "Paid",
+  };
+
+  const skip = page ? (page - 1) * limit : 0;
+  const dataCount = await dataCounter(Liveclass, limit, condition);
+
+  const protocol = req.protocol === "https" ? req.protocol : "https";
+  const link = `${protocol}://${req.get("host")}${req.baseUrl}`;
+
+  const pageData = paginationLinks(page, limit, link, dataCount);
+
+  await Liveclass.find(condition)
     .skip(skip)
     .limit(limit)
     .sort({ createdAt: -1 })
@@ -610,6 +704,7 @@ const getAllParticipants = (req, res) => {
 export {
   findAll,
   findAllForUsers,
+  findAllForProUsers,
   findOne,
   deleteClass,
   update,

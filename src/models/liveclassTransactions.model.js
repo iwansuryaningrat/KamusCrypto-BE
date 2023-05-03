@@ -28,6 +28,14 @@ export default (mongoose) => {
         },
         default: "Pending",
       },
+      transactionUrl: {
+        url: {
+          type: String,
+        },
+        expiredAt: {
+          type: String,
+        },
+      },
       transactionDescription: {
         type: String,
         require: true,
@@ -39,6 +47,47 @@ export default (mongoose) => {
       },
       voucherCode: {
         type: String,
+      },
+      transactionNotification: {
+        transaction_time: {
+          type: String,
+        },
+        transaction_status: {
+          type: String,
+        },
+        transaction_id: {
+          type: String,
+        },
+        status_message: {
+          type: String,
+        },
+        status_code: {
+          type: String,
+        },
+        signature_key: {
+          type: String,
+        },
+        payment_type: {
+          type: String,
+        },
+        order_id: {
+          type: String,
+        },
+        merchant_id: {
+          type: String,
+        },
+        gross_amount: {
+          type: String,
+        },
+        fraud_status: {
+          type: String,
+        },
+        expiry_time: {
+          type: String,
+        },
+        currency: {
+          type: String,
+        },
       },
     },
     { timestamps: true }

@@ -22,7 +22,7 @@ const login = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded.user;
+    req.user = decoded;
     next();
   } catch (err) {
     if (err.name === "TokenExpiredError") {
@@ -63,7 +63,7 @@ const admin = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (decoded.admin) {
-      req.user = decoded.user;
+      req.user = decoded;
       next();
     } else {
       return res.status(403).send({
@@ -110,7 +110,7 @@ const proMember = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (decoded.role === "Pro Member" || decoded.admin) {
-      req.user = decoded.user;
+      req.user = decoded;
       next();
     } else {
       return res.status(403).send({
@@ -151,7 +151,7 @@ const superAdmin = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (decoded.role === "Super Admin" && decoded.admin) {
-      req.user = decoded.user;
+      req.user = decoded;
       next();
     } else {
       return res.status(403).send({

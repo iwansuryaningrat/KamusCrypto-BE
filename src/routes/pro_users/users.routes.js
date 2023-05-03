@@ -7,39 +7,38 @@ import {
   deletePicture,
 } from "../../controllers/users.controller.js";
 import { login, proMember } from "../../middlewares/auth.js";
-import { userFinder } from "../../middlewares/usersfinder.js";
 import Express from "express";
 const router = Express.Router();
 
 const usersProRouter = (app) => {
-  router.get("/:id", login, proMember, userFinder, findOne);
-  router.put("/:id", login, proMember, userFinder, update);
+  router.get("/:id", login, proMember, findOne);
+  router.put("/:id", login, proMember, update);
   router.put(
     "/:id/changepassword",
     login,
     proMember,
-    userFinder,
+
     changePassword
   );
   router.put(
     "/:id/changepicture",
     login,
     proMember,
-    userFinder,
+
     changeProfilePicture
   );
   router.put(
     "/:id/createreferralcode",
     login,
     proMember,
-    userFinder,
+
     createReferralCode
   );
   router.delete(
     "/:id/deletepicture",
     login,
     proMember,
-    userFinder,
+
     deletePicture
   );
 

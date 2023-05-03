@@ -37,10 +37,10 @@ export default (mongoose) => {
         type: String,
         require: true,
         enum: {
-          values: ["Silver", "Gold", "Platinum", "None"],
-          message: "Member type must be Silver, Gold, Platinum or None",
+          values: ["Silver", "Gold", "Platinum", "All"],
+          message: "Member type must be Silver, Gold, Platinum or All",
         },
-        default: "None",
+        default: "All",
       },
       type: {
         type: String,
