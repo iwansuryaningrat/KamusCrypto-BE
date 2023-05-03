@@ -5,16 +5,8 @@ import paginationLinks from "../helpers/paginationLinks.js";
 
 // Find All data for admin
 const findAll = async (req, res) => {
-  const { category, tags, page, date } = req.query;
+  const { page, date } = req.query;
   let query = {};
-
-  if (category) {
-    query.category = category;
-  }
-
-  if (tags) {
-    query.tags = { $in: tags.split(",") };
-  }
 
   if (date) {
     query.date = date;
@@ -45,8 +37,6 @@ const findAll = async (req, res) => {
           _id,
           name,
           code,
-          category,
-          tags,
           date,
           buyArea,
           stopLoss,
@@ -59,8 +49,6 @@ const findAll = async (req, res) => {
           id: _id,
           name,
           code,
-          category,
-          tags,
           date,
           buyArea,
           stopLoss,
@@ -86,17 +74,9 @@ const findAll = async (req, res) => {
 
 // Find All data for pro member
 const findAllPro = async (req, res) => {
-  const { category, tags, date } = req.query;
+  const { date } = req.query;
   let query = {};
   query.status = "Active";
-
-  if (category) {
-    query.category = category;
-  }
-
-  if (tags) {
-    query.tags = { $in: tags.split(",") };
-  }
 
   if (date) {
     query.date = date;
@@ -127,8 +107,6 @@ const findAllPro = async (req, res) => {
           _id,
           name,
           code,
-          category,
-          tags,
           date,
           buyArea,
           stopLoss,
@@ -141,8 +119,6 @@ const findAllPro = async (req, res) => {
           id: _id,
           name,
           code,
-          category,
-          tags,
           date,
           buyArea,
           stopLoss,
@@ -256,30 +232,10 @@ const nonActivate = (req, res) => {
 
 // Create a data
 const create = (req, res) => {
-  const {
-    name,
-    code,
-    category,
-    tags,
-    sector,
-    buyArea,
-    stopLoss,
-    TP1,
-    TP2,
-    TP3,
-    techAnalysis,
-  } = req.body;
+  const { name, code, buyArea, stopLoss, TP1, TP2, TP3, techAnalysis } =
+    req.body;
 
-  if (
-    !name ||
-    !code ||
-    !category ||
-    !sector ||
-    !techAnalysis ||
-    !buyArea ||
-    !stopLoss ||
-    !TP1
-  ) {
+  if (!name || !code || !techAnalysis || !buyArea || !stopLoss || !TP1) {
     return res.status(400).send({
       message:
         "Name, code, category, sector, techAnalysis, buyArea, stopLoss, and TP1 are required",
@@ -303,9 +259,6 @@ const create = (req, res) => {
   const watchlist = new Watchlist({
     name: name,
     code: code,
-    category: category,
-    tags: tags,
-    sector: sector,
     buyArea: buyArea,
     stopLoss: stopLoss,
     takeProfit: {
@@ -342,33 +295,12 @@ const update = (req, res) => {
     });
   }
 
-  const {
-    name,
-    code,
-    category,
-    tags,
-    sector,
-    lastPrice,
-    buyArea,
-    stopLoss,
-    TP1,
-    TP2,
-    TP3,
-  } = req.body;
+  const { name, code, lastPrice, buyArea, stopLoss, TP1, TP2, TP3 } = req.body;
 
-  if (
-    !name ||
-    !code ||
-    !category ||
-    !sector ||
-    !lastPrice ||
-    !buyArea ||
-    !stopLoss ||
-    !TP1
-  ) {
+  if (!name || !code || !lastPrice || !buyArea || !stopLoss || !TP1) {
     return res.status(400).send({
       message:
-        "Name, code, category, sector, lastPrice, buyArea, stopLoss, and TP1 are required",
+        "Name, code,  lastPrice, buyArea, stopLoss, and TP1 are required",
     });
   }
 
@@ -377,9 +309,6 @@ const update = (req, res) => {
     {
       name: name,
       code: code,
-      category: category,
-      tags: tags,
-      sector: sector,
       lastPrice: lastPrice,
       buyArea: buyArea,
       stopLoss: stopLoss,
