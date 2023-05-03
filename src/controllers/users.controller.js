@@ -129,6 +129,12 @@ const findOne = (req, res) => {
     });
   }
 
+  if (id != req.user.id) {
+    return res.status(401).send({
+      message: " You are not authorized to access this user!",
+    });
+  }
+
   Users.findById(id)
     .populate({
       path: "referral",
@@ -249,6 +255,12 @@ const update = (req, res) => {
     });
   }
 
+  if (id != req.user.id) {
+    return res.status(401).send({
+      message: " You are not authorized to access this user!",
+    });
+  }
+
   Users.findByIdAndUpdate(id, req.body, { new: true })
     .then((result) => {
       if (!result) {
@@ -308,6 +320,12 @@ const changePassword = (req, res) => {
   if (!id || !ObjectId.isValid(id) || !oldPassword || !newPassword) {
     return res.status(400).send({
       message: "User ID, Old Password, and New Password are required",
+    });
+  }
+
+  if (id != req.user.id) {
+    return res.status(401).send({
+      message: " You are not authorized to access this user!",
     });
   }
 
@@ -384,6 +402,12 @@ const changeProfilePicture = (req, res) => {
   if (!id || !ObjectId.isValid(id)) {
     return res.status(400).send({
       message: "User ID is required",
+    });
+  }
+
+  if (id != req.user.id) {
+    return res.status(401).send({
+      message: " You are not authorized to access this user!",
     });
   }
 
@@ -474,6 +498,12 @@ const createReferralCode = (req, res) => {
   if (!id || !ObjectId.isValid(id)) {
     return res.status(400).send({
       message: "User ID is required",
+    });
+  }
+
+  if (id != req.user.id) {
+    return res.status(401).send({
+      message: " You are not authorized to access this user!",
     });
   }
 
@@ -594,6 +624,12 @@ const requestUserActivation = async (req, res) => {
     });
   }
 
+  if (id != req.user.id) {
+    return res.status(401).send({
+      message: " You are not authorized to access this user!",
+    });
+  }
+
   const result = await Users.findById(id)
     .then((result) => {
       if (!result) {
@@ -651,6 +687,12 @@ const deletePicture = (req, res) => {
   if (!id || !ObjectId.isValid(id)) {
     return res.status(400).send({
       message: "User ID is required",
+    });
+  }
+
+  if (id != req.user.id) {
+    return res.status(401).send({
+      message: " You are not authorized to access this user!",
     });
   }
 
