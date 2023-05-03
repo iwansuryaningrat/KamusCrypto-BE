@@ -13,13 +13,14 @@ const salt = await bcrypt.genSalt(10);
 // now we set user password to hashed password
 /* Hashing the password. */
 const encryptedPassword = await bcrypt.hash(password, salt);
+const date = new Date("12-12-2030").getTime();
 
 /* An array of objects. */
 const usersSeeder = [
   {
     name: "Super Admin",
     username: "superadmin",
-    email: "admin@cuanmax.id",
+    email: "admin@kamuscrypto.id",
     phone: "088802851811",
     address: "Jl. Admin",
     birthday: "2000-12-14",
@@ -97,6 +98,63 @@ const usersSeeder = [
           subscriptionType: "Gold",
           startAt: new Date().getTime(),
           expiredAt: new Date().getTime() + 2592000000,
+        },
+        isNew: false,
+      },
+      isAdmin: false,
+      isActivated: true,
+    },
+  },
+  {
+    name: "Sonny Yu",
+    username: "sonny",
+    email: "sonny@gmail.com",
+    password: encryptedPassword,
+    type: {
+      accountType: {
+        member: "Pro Member",
+        subscription: {
+          subscriptionType: "Platinum",
+          startAt: new Date().getTime(),
+          expiredAt: date,
+        },
+        isNew: false,
+      },
+      isAdmin: false,
+      isActivated: true,
+    },
+  },
+  {
+    name: "Jefri Tan",
+    username: "jefri",
+    email: "jefri@gmail.com",
+    password: encryptedPassword,
+    type: {
+      accountType: {
+        member: "Pro Member",
+        subscription: {
+          subscriptionType: "Platinum",
+          startAt: new Date().getTime(),
+          expiredAt: date,
+        },
+        isNew: false,
+      },
+      isAdmin: false,
+      isActivated: true,
+    },
+  },
+  {
+    name: "Vanessa",
+    username: "vanessa",
+    email: "vanessa@gmail.com",
+    password: encryptedPassword,
+    type: {
+      accountType: {
+        member: "Pro Member",
+        subscription: {
+          subscriptionType: "Platinum",
+          startAt: new Date().getTime(),
+          expiredAt: date,
         },
         isNew: false,
       },
