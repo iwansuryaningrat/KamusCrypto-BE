@@ -1,6 +1,6 @@
 {
   "name": "kamuscrypto-be",
-  "version": "1.0.0",
+  "version": "1.1.5",
   "description": "Backend Service for Kamus Crypto",
   "main": "index.js",
   "type": "module",
