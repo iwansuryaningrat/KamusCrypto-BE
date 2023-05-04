@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 /* Importing the models from the index.js file in the models folder. */
 import db from "../models/index.js";
 const Users = db.users;
@@ -129,6 +130,24 @@ const create = async (req, res) => {
     voucherCode,
   });
 
+  // Create expiry date for the token (6 hours from now)
+  const expiryDate = new Date();
+  expiryDate.setHours(expiryDate.getHours() + 6);
+
+  const token = jwt.sign(
+    {
+      order_id: transaction_details.order_id,
+      transaction_user: user._id,
+      midtrans_transaction_token: transaction.token,
+      transaction_link: transaction.redirect_url,
+      expiresIn: expiryDate,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "6h",
+    }
+  );
+
   // Save MembershipTransaction in the database
   membershipTransaction
     .save(membershipTransaction)
@@ -136,6 +155,7 @@ const create = async (req, res) => {
       res.status(201).send({
         message: "MembershipTransaction was created successfully!",
         data: transaction,
+        token,
       });
     })
     .catch((err) => {
