@@ -232,13 +232,21 @@ const nonActivate = (req, res) => {
 
 // Create a data
 const create = (req, res) => {
-  const { name, code, buyArea, stopLoss, TP1, TP2, TP3, techAnalysis } =
+  const { date, name, code, buyArea, stopLoss, TP1, TP2, TP3, techAnalysis } =
     req.body;
 
-  if (!name || !code || !techAnalysis || !buyArea || !stopLoss || !TP1) {
+  if (
+    !date ||
+    !name ||
+    !code ||
+    !techAnalysis ||
+    !buyArea ||
+    !stopLoss ||
+    !TP1
+  ) {
     return res.status(400).send({
       message:
-        "Name, code, category, sector, techAnalysis, buyArea, stopLoss, and TP1 are required",
+        "Name, code,  techAnalysis, buyArea, stopLoss, and TP1 are required",
     });
   }
 
@@ -266,6 +274,7 @@ const create = (req, res) => {
       TP2: TP2,
       TP3: TP3,
     },
+    date: date,
     techAnalysis: techAnalysis,
     isActive: true,
   });
