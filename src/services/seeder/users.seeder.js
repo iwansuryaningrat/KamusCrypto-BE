@@ -107,8 +107,8 @@ const usersSeeder = [
   },
   {
     name: "Sonny Yu",
-    username: "sonny",
-    email: "sonny@gmail.com",
+    username: "sonnyyu_",
+    email: "sonny.yu8@gmail.com",
     password: encryptedPassword,
     type: {
       accountType: {
@@ -126,8 +126,8 @@ const usersSeeder = [
   },
   {
     name: "Jefri Tan",
-    username: "jefri",
-    email: "jefri@gmail.com",
+    username: "jefri.tan",
+    email: "jefri.tan15@gmail.com",
     password: encryptedPassword,
     type: {
       accountType: {
@@ -145,8 +145,27 @@ const usersSeeder = [
   },
   {
     name: "Vanessa",
-    username: "vanessa",
-    email: "vanessa@gmail.com",
+    username: "vanessamcandra",
+    email: "vanessamcandra@gmail.com",
+    password: encryptedPassword,
+    type: {
+      accountType: {
+        member: "Pro Member",
+        subscription: {
+          subscriptionType: "Platinum",
+          startAt: new Date().getTime(),
+          expiredAt: date,
+        },
+        isNew: false,
+      },
+      isAdmin: false,
+      isActivated: true,
+    },
+  },
+  {
+    name: "Putri Sinta Syarif",
+    username: "putrisintasyarif_",
+    email: "putrisintasyarif@gmail.com",
     password: encryptedPassword,
     type: {
       accountType: {
