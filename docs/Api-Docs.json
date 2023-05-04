@@ -17,6 +17,10 @@
     {
       "description": "Kamus Crypto RESTful API Server for Production",
       "url": "https://api.kamuscrypto.id/v1"
+    },
+    {
+      "description": "Kamus Crypto RESTful API Server for Development",
+      "url": "https://dev.kamuscrypto.id/v1"
     }
   ],
   "paths": {
