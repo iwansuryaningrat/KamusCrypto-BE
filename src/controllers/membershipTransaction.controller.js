@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import "dotenv/config";
 /* Importing the models from the index.js file in the models folder. */
 import db from "../models/index.js";
 const Users = db.users;
