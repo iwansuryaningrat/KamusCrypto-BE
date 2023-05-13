@@ -71,7 +71,7 @@ const loggingin = async (req, res) => {
               }
             );
 
-            dateExpires = new Date();
+            let dateExpires = new Date();
             if (rememberMe) {
               dateExpires.setTime(dateExpires.getTime() + 3 * 60 * 60 * 1000);
             } else {
