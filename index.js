@@ -2,6 +2,7 @@
 import express from "express";
 import cors from "cors";
 import cookieSession from "cookie-session";
+import cookieParser from "cookie-parser";
 import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -24,6 +25,7 @@ const __dirname = path.dirname(__filename);
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 app.use(cors());
+app.use(cookieParser());
 
 if (process.env.NODE_ENV === "production") {
   var corsOptions = {
