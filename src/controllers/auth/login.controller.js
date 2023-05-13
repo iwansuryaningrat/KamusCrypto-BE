@@ -71,7 +71,22 @@ const loggingin = async (req, res) => {
               }
             );
 
+            dateExpires = new Date();
+            if (rememberMe) {
+              dateExpires.setTime(dateExpires.getTime() + 3 * 60 * 60 * 1000);
+            } else {
+              dateExpires.setTime(dateExpires.getTime() + 6 * 60 * 60 * 1000);
+            }
+
             res.setHeader("Content-Type", "Application/json");
+            res.cookie("isLoggedin", true, {
+              secure: true,
+              httpOnly: true,
+              expires: dateExpires,
+              "x-auth-token": token,
+              "x-auth-refreshToken": refreshToken,
+              sameSite: "strict",
+            });
 
             return res.status(200).send({
               message: "Login Success!",
@@ -93,4 +108,27 @@ const loggingin = async (req, res) => {
     });
 };
 
-export default loggingin;
+const logout = async (req, res) => {
+  // Get the token from the header
+  const token = req.header("x-auth-token");
+  const refreshToken = req.header("x-auth-refreshToken");
+
+  // Get token from the Cookie
+  const cookieToken = req.cookies["x-auth-token"];
+  const cookieRefreshToken = req.cookies["x-auth-refreshToken"];
+
+  if (!token && !cookieToken) {
+    return res.status(401).send({
+      message: "You are not logged in! Please login to get access.",
+    });
+  }
+
+  res.clearCookie("isLoggedin");
+  res.clearCookie("x-auth-token");
+  res.clearCookie("x-auth-refreshToken");
+  res.status(200).send({
+    message: "Logout Success!",
+  });
+};
+
+export { loggingin, logout };

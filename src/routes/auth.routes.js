@@ -1,4 +1,4 @@
-import loggingin from "../controllers/auth/login.controller.js";
+import { loggingin, logout } from "../controllers/auth/login.controller.js";
 import signup from "../controllers/auth/signup.controller.js";
 import {
   forgotPassword,
@@ -12,6 +12,7 @@ const authRouter = (app) => {
   const router = Express.Router();
 
   router.post("/login", loggingin);
+  router.post("/logout", logout);
   router.post("/signup", signup);
   router.post("/forgotPassword", forgotPassword);
   router.put("/resetPassword/:token", resetPasswordWithToken);
