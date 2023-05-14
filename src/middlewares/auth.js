@@ -14,7 +14,11 @@ import * as dotenv from "dotenv";
 const login = (req, res, next) => {
   const token = req.header("x-auth-token");
 
-  if (!token) {
+  // Get Cookies data
+  // const token = req.cookies["x-auth-token"];
+  const isLoggedin = req.cookies["isLoggedin"];
+
+  if (!token || !isLoggedin) {
     return res.status(401).send({
       message: "No token, authorization denied",
     });
