@@ -56,41 +56,15 @@ const login = (req, res, next) => {
  * @returns a function.
  */
 const admin = (req, res, next) => {
-  const token = req.header("x-auth-token");
+  const { admin, role } = req.user;
 
-  if (!token) {
-    return res.status(401).send({
-      message: "No token, authorization denied",
+  if (!admin || role != "Admin") {
+    return res.status(403).send({
+      message: "You don't have access this resource! Please login as Admin",
     });
   }
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (decoded.admin) {
-      req.user = decoded;
-      next();
-    } else {
-      return res.status(403).send({
-        message: "Require Admin Role!",
-      });
-    }
-  } catch (err) {
-    if (err.name === "TokenExpiredError") {
-      return res.status(401).send({
-        message: "Token is expired",
-      });
-    } else {
-      if (err.name === "TokenExpiredError") {
-        return res.status(401).send({
-          message: "Token is expired",
-        });
-      } else {
-        return res.status(401).send({
-          message: "Token is not valid",
-        });
-      }
-    }
-  }
+  next();
 };
 
 // Pro Membership Middleware (Done)
@@ -103,36 +77,15 @@ const admin = (req, res, next) => {
  * @returns a function.
  */
 const proMember = (req, res, next) => {
-  const token = req.header("x-auth-token");
+  const { role } = req.user;
 
-  if (!token) {
-    return res.status(401).send({
-      message: "No token, authorization denied",
+  if (!role || role != "Pro Member") {
+    return res.status(403).send({
+      message: "Access Denied! You don't have a membership",
     });
   }
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (decoded.role === "Pro Member" || decoded.admin) {
-      req.user = decoded;
-      next();
-    } else {
-      return res.status(403).send({
-        message:
-          "You are not a pro member. Please upgrade member type to pro member",
-      });
-    }
-  } catch (err) {
-    if (err.name === "TokenExpiredError") {
-      return res.status(401).send({
-        message: "Token is expired",
-      });
-    } else {
-      return res.status(401).send({
-        message: "Token is not valid",
-      });
-    }
-  }
+  next();
 };
 
 // Super Admin Middleware (Done)
@@ -144,41 +97,16 @@ const proMember = (req, res, next) => {
  * @returns a function.
  */
 const superAdmin = (req, res, next) => {
-  const token = req.header("x-auth-token");
+  const { admin, role } = req.user;
 
-  if (!token) {
-    return res.status(401).send({
-      message: "No token, authorization denied",
+  if (!admin || role != "Super Admin") {
+    return res.status(403).send({
+      message:
+        "You don't have access this resource! Please login as Super Admin",
     });
   }
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (decoded.role === "Super Admin" && decoded.admin) {
-      req.user = decoded;
-      next();
-    } else {
-      return res.status(403).send({
-        message: "Require Super Admin Role!",
-      });
-    }
-  } catch (err) {
-    if (err.name === "TokenExpiredError") {
-      return res.status(401).send({
-        message: "Token is expired",
-      });
-    } else {
-      if (err.name === "TokenExpiredError") {
-        return res.status(401).send({
-          message: "Token is expired",
-        });
-      } else {
-        return res.status(401).send({
-          message: "Token is not valid",
-        });
-      }
-    }
-  }
+  next();
 };
 
 export { login, admin, proMember, superAdmin };
