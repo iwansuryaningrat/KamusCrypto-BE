@@ -49,9 +49,16 @@ export default (mongoose) => {
         type: String,
       },
       transactionNotification: {
-        va_numbers: {
-          type: String,
-        },
+        va_numbers: [
+          {
+            va_number: {
+              type: String,
+            },
+            bank: {
+              type: String,
+            },
+          },
+        ],
         transaction_time: {
           type: String,
         },
