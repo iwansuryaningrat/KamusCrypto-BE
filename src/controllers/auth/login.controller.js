@@ -117,9 +117,16 @@ const logout = async (req, res) => {
   const cookieToken = req.cookies["x-auth-token"];
   const cookieRefreshToken = req.cookies["x-auth-refreshToken"];
 
+  const isLoggedin = req.cookies["isLoggedin"];
+
+  if (!isLoggedin)
+    return res.status(400).send({
+      message: "You have been logged out!",
+    });
+
   if (!token && !cookieToken) {
     return res.status(401).send({
-      message: "You are not logged in! Please login to get access.",
+      message: "You have been logged out!",
     });
   }
 
