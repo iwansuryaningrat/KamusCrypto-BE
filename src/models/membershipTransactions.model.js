@@ -49,6 +49,9 @@ export default (mongoose) => {
         type: String,
       },
       transactionNotification: {
+        va_numbers: {
+          type: String,
+        },
         transaction_time: {
           type: String,
         },
@@ -67,9 +70,13 @@ export default (mongoose) => {
         signature_key: {
           type: String,
         },
+        settlement_time: {
+          type: String,
+        },
         payment_type: {
           type: String,
         },
+        payment_amounts: [{ type: Number }],
         order_id: {
           type: String,
         },
