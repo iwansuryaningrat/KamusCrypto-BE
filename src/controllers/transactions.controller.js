@@ -52,40 +52,235 @@ const getAllLiveclassTransactions = async (req, res) => {
     });
 };
 
-const getTransactionById = async (req, res) => {
-  try {
-    const { transactionId } = req.params;
+const getMembershipTransactionById = async (req, res) => {
+  const { transactionId } = req.params;
 
-    const membershipTransaction = await MembershipTransactions.findById(
-      transactionId
-    );
-
-    if (membershipTransaction) {
-      return res.status(200).json({
-        message: "Transaction retrieved successfully",
-        data: membershipTransaction,
-      });
-    }
-
-    const liveclassTransaction = await LiveclassTransactions.findById(
-      transactionId
-    );
-
-    if (liveclassTransaction) {
-      return res.status(200).json({
-        message: "Transaction retrieved successfully",
-        data: liveclassTransaction,
-      });
-    }
-
-    return res.status(404).json({ message: "Transaction not found" });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
+  if (!transactionId) {
+    return res.status(400).send({ message: "Transaction ID is required" });
   }
+
+  MembershipTransactions.findById(transactionId)
+    .populate({
+      path: "transactionUser",
+      select: "name username email",
+    })
+    .then((result) => {
+      if (!result) {
+        return res.status(404).send({ message: "Transaction not found" });
+      }
+
+      const {
+        _id,
+        paymentCode,
+        transactionName,
+        transactionAmount,
+        transactionDate,
+        transactionStatus,
+        transactionUrl,
+        transactionDescription,
+        transactionUser,
+        voucherCode,
+        transactionNotification,
+      } = result;
+
+      const data = {
+        id: _id,
+        paymentCode,
+        transactionName,
+        transactionAmount,
+        transactionDate,
+        transactionStatus,
+        transactionUrl,
+        transactionDescription,
+        transactionUser,
+        voucherCode,
+        transactionNotification,
+      };
+
+      res.send({
+        message: "Transaction retrieved successfully",
+        data,
+      });
+    })
+    .catch((err) => {
+      return res
+        .status(500)
+        .send({ message: err.message || "Error retrieving data" });
+    });
+};
+
+const getLiveclassTransactionById = async (req, res) => {
+  const { transactionId } = req.params;
+
+  if (!transactionId) {
+    return res.status(400).send({ message: "Transaction ID is required" });
+  }
+
+  LiveclassTransactions.findById(transactionId)
+    .populate({
+      path: "transactionUser",
+      select: "name username email",
+    })
+    .then((result) => {
+      if (!result) {
+        return res.status(404).send({ message: "Transaction not found" });
+      }
+
+      const {
+        _id,
+        paymentCode,
+        transactionName,
+        transactionAmount,
+        transactionDate,
+        transactionStatus,
+        transactionUrl,
+        transactionDescription,
+        transactionUser,
+        voucherCode,
+        transactionNotification,
+      } = result;
+
+      const data = {
+        id: _id,
+        paymentCode,
+        transactionName,
+        transactionAmount,
+        transactionDate,
+        transactionStatus,
+        transactionUrl,
+        transactionDescription,
+        transactionUser,
+        voucherCode,
+        transactionNotification,
+      };
+
+      res.send({
+        message: "Transaction retrieved successfully",
+        data,
+      });
+    })
+    .catch((err) => {
+      return res
+        .status(500)
+        .send({ message: err.message || "Error retrieving data" });
+    });
+};
+
+const getAllLiveclassTransactionsforAdmin = async (req, res) => {
+  LiveclassTransactions.findAll()
+    .populate({
+      path: "transactionUser",
+      select: "name username email",
+    })
+    .then((result) => {
+      if (!result) {
+        return res.status(404).send({
+          message: "No Live Class Transaction was found!",
+        });
+      }
+
+      const data = result.map((item) => {
+        const {
+          _id,
+          paymentCode,
+          transactionName,
+          transactionAmount,
+          transactionDate,
+          transactionStatus,
+          transactionUrl,
+          transactionDescription,
+          transactionUser,
+          voucherCode,
+          transactionNotification,
+        } = result;
+
+        return {
+          id: _id,
+          paymentCode,
+          transactionName,
+          transactionAmount,
+          transactionDate,
+          transactionStatus,
+          transactionUrl,
+          transactionDescription,
+          transactionUser,
+          voucherCode,
+          transactionNotification,
+        };
+      });
+
+      res.status(200).send({
+        message: "Live class transactions successfully retrieved",
+        data,
+      });
+    })
+    .catch((err) => {
+      return res
+        .status(500)
+        .send({ message: err.message || "Error retrieving data" });
+    });
+};
+
+const getAllMembershipTransactionsforAdmin = async (req, res) => {
+  MembershipTransactions.findAll()
+    .populate({
+      path: "transactionUser",
+      select: "name username email",
+    })
+    .then((result) => {
+      if (!result) {
+        return res.status(404).send({
+          message: "No Live Class Transaction was found!",
+        });
+      }
+
+      const data = result.map((item) => {
+        const {
+          _id,
+          paymentCode,
+          transactionName,
+          transactionAmount,
+          transactionDate,
+          transactionStatus,
+          transactionUrl,
+          transactionDescription,
+          transactionUser,
+          voucherCode,
+          transactionNotification,
+        } = result;
+
+        return {
+          id: _id,
+          paymentCode,
+          transactionName,
+          transactionAmount,
+          transactionDate,
+          transactionStatus,
+          transactionUrl,
+          transactionDescription,
+          transactionUser,
+          voucherCode,
+          transactionNotification,
+        };
+      });
+
+      res.status(200).send({
+        message: "Live class transactions successfully retrieved",
+        data,
+      });
+    })
+    .catch((err) => {
+      return res
+        .status(500)
+        .send({ message: err.message || "Error retrieving data" });
+    });
 };
 
 export {
-  getTransactionById,
   getAllMembershipTransactions,
   getAllLiveclassTransactions,
+  getMembershipTransactionById,
+  getLiveclassTransactionById,
+  getAllMembershipTransactionsforAdmin,
+  getAllLiveclassTransactionsforAdmin,
 };
